@@ -1,16 +1,65 @@
 import React, { Component } from 'react';
-//import Image from 'react-native';
 import logo from './logo.svg';
-//import rook from './bRook.png'
 import './App.css';
+import Draggable from 'react-draggable';
 
-function Square(props){
-  return (
-    <div className={props.color + "Square"} onClick={() => props.onClick()}>
-      <img src={props.picture !== undefined ? require(props.picture) : ''} />
-    </div>
-  )
+
+function Square (props) {
+  if (props.picture !== undefined) {
+      return (
+      <div className={props.color + "Square"}>
+        <Piece picture={props.picture} />
+      </div>
+    );
+  } else {
+    return (
+      <div className={props.color + "Square"}></div>
+    );
+  }
+  
+
+  
+  
 }
+
+class Piece extends React.Component{
+  render(){
+    return (
+      <Draggable
+        axis="both"
+        handle=".piecePicture"
+        defaultPosition={{x: 0, y: 0}}
+        position={null}
+        grid={[1, 1]}
+        bounds=".chessBoard"
+        zIndex={100}
+        onStart={this.handleStart}
+        onDrag={this.handleDrag}
+        onStop={this.handleStop}>
+      <div className="piecePicture" style={{backgroundImage:"url(" + require(this.props.picture) + ")"}}/>
+      </Draggable>      
+    )
+  }
+}
+
+// function Square(props){
+//   return (
+//     <div className={props.color + "Square"} onClick={() => props.onClick()}>
+//       <Draggable
+//         axis="x"
+//         handle=".piecePicture"
+//         defaultPosition={{x: 0, y: 0}}
+//         position={null}
+//         grid={[25, 25]}
+//         zIndex={100}
+//         onStart={this.handleStart}
+//         onDrag={this.handleDrag}
+//         onStop={this.handleStop}>
+//       <img className="piecePicture" src={props.picture !== undefined ? require(props.picture) : ''} />
+//       </Draggable>
+//     </div>
+//   )
+// }
 
 class Board extends Component {
 
@@ -66,6 +115,12 @@ class Game extends Component {
       },
       whiteIsNext: true,
     };
+  }
+
+  handleClick(square) {
+    if(square in position) {
+      
+    }
   }
 
   render() {

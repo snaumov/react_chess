@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Draggable from 'react-draggable';
-import { CalculateTargetSquare } from './helpers.js'
+import { CalculateTargetSquare, CalculateAvailableMovesForPiece } from './helpers.js'
 
 class Piece extends React.Component{
   constructor() {
@@ -19,10 +19,28 @@ class Piece extends React.Component{
   //   console.log(this.state)
   // }
 
+  onControlledDragStart(e, position) {
+    this.props.onClick(this.props.coordinate);
+  }
+
   onControlledDragStop(e, position) {
+    console.log(this.props.availableMoves);
     const {x, y} = position;
-    this.setState({controlledPosition: {x, y}});
-    this.props.onClick(this.props.coordinate, CalculateTargetSquare(this.props.coordinate, this.state.controlledPosition['x'], this.state.controlledPosition['y']));
+    var targetSquare = CalculateTargetSquare(this.props.coordinate, x, y);
+    if(this.props.availableMoves.includes(targetSquare)){
+      this.props.onMouseUp(targetSquare);
+    }
+    
+  }
+
+  PieceCanMove(){
+    if(this.props.whiteIsNext && this.props.pieceColor === 'w'){
+      return true;
+    } else if (!this.props.whiteIsNext && this.props.pieceColor === 'b') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   render(){
@@ -31,11 +49,12 @@ class Piece extends React.Component{
         axis="both"
         handle=".piecePicture"
         defaultPosition={{x: 0, y: 0}}
-        position={this.state.controlledPosition}
+        position={{x: 0, y: 0}}
         grid={[1, 1]}
         bounds=".chessBoard"
         zIndex={100}
-        onStart={this.handleStart}    //{this.onControlledStart.bind(this)}
+        disabled={!this.PieceCanMove()}
+        onStart={this.onControlledDragStart.bind(this)}
         onDrag={this.handleDrag}   //{this.onControlledDrag.bind(this)}
         onStop={this.onControlledDragStop.bind(this)}>
       <div className="piecePicture" style={{backgroundImage:"url(" + require(this.props.picture) + ")"}}/>
@@ -48,7 +67,7 @@ function Square (props) {
   if (props.picture !== undefined) {
       return (
       <div className={props.color + "Square"}>
-        <Piece coordinate={props.coordinate} picture={props.picture} onClick={props.onClick}/>
+        <Piece coordinate={props.coordinate} picture={props.picture} onClick={props.onClick} onMouseUp={props.onMouseUp} pieceColor={props.picture[9]} whiteIsNext={props.whiteIsNext} availableMoves={props.availableMoves}/>
       </div>
     );
   } else {
@@ -70,7 +89,7 @@ class Board extends Component {
       'bKnight': './static/bKnight.png',
       'wRook': './static/wRook.png',
     }
-    return <Square coordinate={coordinate} picture={piecesPictures[piece]} color={color} onClick={this.props.onClick}/>
+    return <Square coordinate={coordinate} picture={piecesPictures[piece]} color={color} onClick={this.props.onClick} onMouseUp={this.props.onMouseUp} whiteIsNext={this.props.whiteIsNext} availableMoves={this.props.availableMoves}/>
   }
 
   clickHandler(value){
@@ -91,7 +110,7 @@ class Board extends Component {
     </div>
     <div className="board-row4">{this.renderSquare(1, 'white')}{this.renderSquare(2, 'black')}{this.renderSquare(3, 'white')}{this.renderSquare(4, 'black')}{this.renderSquare(5, 'white')}{this.renderSquare(6, 'black')}{this.renderSquare(7, 'white')}{this.renderSquare(8, 'black')}
     </div>
-    <div className="board-row3">{this.renderSquare(1, 'black')}{this.renderSquare(2, 'white')}{this.renderSquare(3, 'black')}{this.renderSquare(4, 'white')}{this.renderSquare(5, 'black')}{this.renderSquare(6, 'white')}{this.renderSquare(7, 'black')}{this.renderSquare(8, 'white')}
+    <div className="board-row3">{this.renderSquare(this.props.position['a3'], 'black', 'a3')}{this.renderSquare(2, 'white')}{this.renderSquare(3, 'black')}{this.renderSquare(4, 'white')}{this.renderSquare(5, 'black')}{this.renderSquare(6, 'white')}{this.renderSquare(7, 'black')}{this.renderSquare(8, 'white')}
     </div>
     <div className="board-row2">{this.renderSquare(1, 'white')}{this.renderSquare(2, 'black')}{this.renderSquare(3, 'white')}{this.renderSquare(4, 'black')}{this.renderSquare(5, 'white')}{this.renderSquare(6, 'black')}{this.renderSquare(7, 'white')}{this.renderSquare(8, 'black')}
     </div>
@@ -107,7 +126,7 @@ class Game extends Component {
     super();
     this.state = {
       position: {
-        a1: 'wRook',
+        a3: 'wRook',
         b1: 'wKnight',
         c1: 'wBishop',
         d1: 'wQueen',
@@ -121,17 +140,41 @@ class Game extends Component {
         b8: 'bKnight',
       },
       whiteIsNext: true,
+      availableMoves:[],
     };
+    
+    this.startSquare = '';
   }
 
-  clickHandler(startPosition, endPosition) {
-    console.log(startPosition, endPosition);
+  updatePosition(startSquare, targetSquare){
+    
+    var position = this.state.position;
+    var pieceToMove = position[startSquare];
+    position[startSquare] = undefined;
+    position[targetSquare] = pieceToMove;
+    console.log(position);
+    return position;
+  }
+
+  onMouseDown(startSquare){
+    console.log(startSquare);
+    this.setState({availableMoves: CalculateAvailableMovesForPiece(this.state.position, startSquare)})
+    
+    this.startSquare = startSquare;
+  }
+
+  onMouseUp(endSquare) {
+    console.log(endSquare);
+    this.setState({
+       position: this.updatePosition(this.startSquare, endSquare),
+       whiteIsNext: !this.state.whiteIsNext,
+    });
   }
 
   render() {
     return (
       <div className="chessBoard">
-        <Board position={this.state.position} onClick={this.clickHandler}/>
+        <Board position={this.state.position} whiteIsNext={this.state.whiteIsNext} onClick={this.onMouseDown.bind(this)} availableMoves={this.state.availableMoves} onMouseUp={this.onMouseUp.bind(this)}/>
       </div>
     )
   }

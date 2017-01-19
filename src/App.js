@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Draggable from 'react-draggable';
 import { CalculateTargetSquare, CalculateAvailableMovesForPiece } from './helpers.js'
+import Chess from 'chess.js';
 
 class Piece extends React.Component{
   constructor() {
@@ -24,10 +25,10 @@ class Piece extends React.Component{
   }
 
   onControlledDragStop(e, position) {
-    console.log(this.props.availableMoves);
+    console.log(this.props.availableMoves.map((move)=>{move.slice(-2)}));
     const {x, y} = position;
     var targetSquare = CalculateTargetSquare(this.props.coordinate, x, y);
-    if(this.props.availableMoves.includes(targetSquare)){
+    if(this.props.availableMoves.map((move) => move.slice(-2)).includes(targetSquare)){
       this.props.onMouseUp(targetSquare);
     }
     
@@ -51,7 +52,7 @@ class Piece extends React.Component{
         defaultPosition={{x: 0, y: 0}}
         position={{x: 0, y: 0}}
         grid={[1, 1]}
-        bounds=".chessBoard"
+        //bounds=".chessBoard"
         zIndex={100}
         disabled={!this.PieceCanMove()}
         onStart={this.onControlledDragStart.bind(this)}
@@ -81,40 +82,43 @@ function Square (props) {
 class Board extends Component {
 
   renderSquare(piece, color, coordinate){
-    if (coordinate === undefined){  //to delete
-      coordinate = 'a1'
-    }
+
     const piecesPictures = {
       'bRook': './static/bRook.png',
       'bKnight': './static/bKnight.png',
+      'bPawn': './static/bPawn.png',
+      'bBishop': './static/bBishop.png',
+      'bKing': './static/bKing.png',
+      'bQueen': './static/bQueen.png',
+      'bKnight': './static/bKnight.png',
       'wRook': './static/wRook.png',
+      'wPawn': './static/wPawn.png',
+      'wBishop': './static/wBishop.png',
+      'wKing': './static/wKing.png',
+      'wQueen': './static/wQueen.png',
+      'wKnight': './static/wKnight.png'
     }
     return <Square coordinate={coordinate} picture={piecesPictures[piece]} color={color} onClick={this.props.onClick} onMouseUp={this.props.onMouseUp} whiteIsNext={this.props.whiteIsNext} availableMoves={this.props.availableMoves}/>
-  }
-
-  clickHandler(value){
-    if(value > 140){}
-    console.log("im here", value);
   }
 
   render() {
     return (
   <div>
-    <div className="board-row8">{this.renderSquare(this.props.position['a8'], 'white', 'a8')}{this.renderSquare(this.props.position['b8'], 'black', 'b8')}{this.renderSquare(3, 'white', 'c8')}{this.renderSquare(4, 'black')}{this.renderSquare(5, 'white')}{this.renderSquare(6, 'black')}{this.renderSquare(7, 'white')}{this.renderSquare(8, 'black')}
+    <div className="board-row8">{this.renderSquare(this.props.position['a8'], 'white', 'a8')}{this.renderSquare(this.props.position['b8'], 'black', 'b8')}{this.renderSquare(this.props.position['c8'], 'white', 'c8')}{this.renderSquare(this.props.position['d8'], 'black', 'd8')}{this.renderSquare(this.props.position['e8'], 'white', 'e8')}{this.renderSquare(this.props.position['f8'], 'black', 'f8')}{this.renderSquare(this.props.position['g8'], 'white', 'g8')}{this.renderSquare(this.props.position['h8'], 'black', 'h8')}
     </div>
-    <div className="board-row7">{this.renderSquare(1, 'black')}{this.renderSquare(2, 'white')}{this.renderSquare(3, 'black')}{this.renderSquare(4, 'white')}{this.renderSquare(5, 'black')}{this.renderSquare(6, 'white')}{this.renderSquare(7, 'black')}{this.renderSquare(8, 'white')}
+    <div className="board-row7">{this.renderSquare(this.props.position['a7'], 'black', 'a7')}{this.renderSquare(this.props.position['b7'], 'white', 'b7')}{this.renderSquare(this.props.position['c7'], 'black', 'c7')}{this.renderSquare(this.props.position['d7'], 'white', 'd7')}{this.renderSquare(this.props.position['e7'], 'black', 'e7')}{this.renderSquare(this.props.position['f7'], 'white', 'f7')}{this.renderSquare(this.props.position['g7'], 'black', 'g7')}{this.renderSquare(this.props.position['h7'], 'white', 'h7')}
     </div>
-    <div className="board-row6">{this.renderSquare(1, 'white')}{this.renderSquare(2, 'black')}{this.renderSquare(3, 'white')}{this.renderSquare(4, 'black')}{this.renderSquare(5, 'white')}{this.renderSquare(6, 'black')}{this.renderSquare(7, 'white')}{this.renderSquare(8, 'black')}
+    <div className="board-row6">{this.renderSquare(this.props.position['a6'], 'white', 'a6')}{this.renderSquare(this.props.position['b6'], 'black', 'b6')}{this.renderSquare(this.props.position['c6'], 'white', 'c6')}{this.renderSquare(this.props.position['d6'], 'black', 'd6')}{this.renderSquare(this.props.position['e6'], 'white', 'e6')}{this.renderSquare(this.props.position['f6'], 'black', 'f6')}{this.renderSquare(this.props.position['g6'], 'white', 'g6')}{this.renderSquare(this.props.position['h6'], 'black', 'h6')}
     </div>
-    <div className="board-row5">{this.renderSquare(1, 'black')}{this.renderSquare(2, 'white')}{this.renderSquare(3, 'black')}{this.renderSquare(4, 'white')}{this.renderSquare(5, 'black')}{this.renderSquare(6, 'white')}{this.renderSquare(7, 'black')}{this.renderSquare(8, 'white')}
+    <div className="board-row5">{this.renderSquare(this.props.position['a5'], 'black', 'a5')}{this.renderSquare(this.props.position['b5'], 'white', 'b5')}{this.renderSquare(this.props.position['c5'], 'black', 'c5')}{this.renderSquare(this.props.position['d5'], 'white', 'd5')}{this.renderSquare(this.props.position['e5'], 'black', 'e5')}{this.renderSquare(this.props.position['f5'], 'white', 'f5')}{this.renderSquare(this.props.position['g5'], 'black', 'g5')}{this.renderSquare(this.props.position['h5'], 'white', 'h5')}
     </div>
-    <div className="board-row4">{this.renderSquare(1, 'white')}{this.renderSquare(2, 'black')}{this.renderSquare(3, 'white')}{this.renderSquare(4, 'black')}{this.renderSquare(5, 'white')}{this.renderSquare(6, 'black')}{this.renderSquare(7, 'white')}{this.renderSquare(8, 'black')}
+    <div className="board-row4">{this.renderSquare(this.props.position['a4'], 'white', 'a4')}{this.renderSquare(this.props.position['b4'], 'black', 'b4')}{this.renderSquare(this.props.position['c4'], 'white', 'c4')}{this.renderSquare(this.props.position['d4'], 'black', 'd4')}{this.renderSquare(this.props.position['e4'], 'white', 'e4')}{this.renderSquare(this.props.position['f4'], 'black', 'f4')}{this.renderSquare(this.props.position['g4'], 'white', 'g4')}{this.renderSquare(this.props.position['h4'], 'black', 'h4')}
     </div>
-    <div className="board-row3">{this.renderSquare(this.props.position['a3'], 'black', 'a3')}{this.renderSquare(2, 'white')}{this.renderSquare(3, 'black')}{this.renderSquare(4, 'white')}{this.renderSquare(5, 'black')}{this.renderSquare(6, 'white')}{this.renderSquare(7, 'black')}{this.renderSquare(8, 'white')}
+    <div className="board-row3">{this.renderSquare(this.props.position['a3'], 'black', 'a3')}{this.renderSquare(this.props.position['b3'], 'white', 'b3')}{this.renderSquare(this.props.position['c3'], 'black', 'c3')}{this.renderSquare(this.props.position['d3'], 'white', 'd3')}{this.renderSquare(this.props.position['e3'], 'black', 'e3')}{this.renderSquare(this.props.position['f3'], 'white', 'f3')}{this.renderSquare(this.props.position['g3'], 'black', 'g3')}{this.renderSquare(this.props.position['h3'], 'white', 'h3')}
     </div>
-    <div className="board-row2">{this.renderSquare(1, 'white')}{this.renderSquare(2, 'black')}{this.renderSquare(3, 'white')}{this.renderSquare(4, 'black')}{this.renderSquare(5, 'white')}{this.renderSquare(6, 'black')}{this.renderSquare(7, 'white')}{this.renderSquare(8, 'black')}
+    <div className="board-row2">{this.renderSquare(this.props.position['a2'], 'white', 'a2')}{this.renderSquare(this.props.position['b2'], 'black', 'b2')}{this.renderSquare(this.props.position['c2'], 'white', 'c2')}{this.renderSquare(this.props.position['d2'], 'black', 'd2')}{this.renderSquare(this.props.position['e2'], 'white', 'e2')}{this.renderSquare(this.props.position['f2'], 'black', 'f2')}{this.renderSquare(this.props.position['g2'], 'white', 'g2')}{this.renderSquare(this.props.position['h2'], 'black', 'h2')}
     </div>
-    <div className="board-row1">{this.renderSquare(this.props.position['a1'], 'black', 'a1')}{this.renderSquare(2, 'white')}{this.renderSquare(3, 'black')}{this.renderSquare(4, 'white')}{this.renderSquare(5, 'black')}{this.renderSquare(6, 'white')}{this.renderSquare(7, 'black')}{this.renderSquare(8, 'white')}
+    <div className="board-row1">{this.renderSquare(this.props.position['a1'], 'black', 'a1')}{this.renderSquare(this.props.position['b1'], 'white', 'b1')}{this.renderSquare(this.props.position['c1'], 'black', 'c1')}{this.renderSquare(this.props.position['d1'], 'white', 'd1')}{this.renderSquare(this.props.position['e1'], 'black', 'e1')}{this.renderSquare(this.props.position['f1'], 'white', 'f1')}{this.renderSquare(this.props.position['g1'], 'black', 'g1')}{this.renderSquare(this.props.position['h1'], 'white', 'h1')}
     </div>
   </div>
     )
@@ -126,7 +130,7 @@ class Game extends Component {
     super();
     this.state = {
       position: {
-        a3: 'wRook',
+        a1: 'wRook',
         b1: 'wKnight',
         c1: 'wBishop',
         d1: 'wQueen',
@@ -136,12 +140,36 @@ class Game extends Component {
         h1: 'wRook',
         a2: 'wPawn',
         b2: 'wPawn',
+        c2: 'wPawn',
+        d2: 'wPawn',
+        e2: 'wPawn',
+        f2: 'wPawn',
+        g2: 'wPawn',
+        h2: 'wPawn',
+        b2: 'wPawn',
         a8: 'bRook',
         b8: 'bKnight',
+        c8: 'bBishop',
+        d8: 'bQueen',
+        e8: 'bKing',
+        f8: 'bBishop',
+        g8: 'bKnight',
+        h8: 'bRook',
+        a7: 'bPawn',
+        b7: 'bPawn',
+        c7: 'bPawn',
+        d7: 'bPawn',
+        e7: 'bPawn',
+        f7: 'bPawn',
+        g7: 'bPawn',
+        h7: 'bPawn',
+        
       },
       whiteIsNext: true,
       availableMoves:[],
     };
+
+    this.chess = new Chess();
     
     this.startSquare = '';
   }
@@ -158,7 +186,7 @@ class Game extends Component {
 
   onMouseDown(startSquare){
     console.log(startSquare);
-    this.setState({availableMoves: CalculateAvailableMovesForPiece(this.state.position, startSquare)})
+    this.setState({availableMoves: this.chess.moves({square: startSquare})})
     
     this.startSquare = startSquare;
   }
@@ -169,6 +197,7 @@ class Game extends Component {
        position: this.updatePosition(this.startSquare, endSquare),
        whiteIsNext: !this.state.whiteIsNext,
     });
+    this.chess.move({from: this.startSquare, to: endSquare});
   }
 
   render() {

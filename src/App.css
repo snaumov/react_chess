@@ -7,11 +7,13 @@
   height: 700px;
   border: 1px solid grey;
   margin: auto;
+  display: flex;
+  justify-content: row;
 }
 
 .chessBoard {
-  width: 700px;
-  height: 700px;
+  width: 512px;
+  height: 512px;
   padding: 70px 0 0 100px;
 }
 
@@ -35,4 +37,35 @@ div[class^="board-row"] {
 .piecePicture {
   width: 60px;
   height: 60px;
+}
+
+.move {
+  width: 94px;
+  height: 40px;
+  display: inline-block;
+}
+
+.movesList {
+  width: 256px;
+  height: 600px;
+  border: 1px solid black;
+}
+
+.movesHeader {
+  width: auto;
+  height: 50px;
+  border-bottom: 1px solid grey;
+}
+
+.indexSquare {
+  width: 64px;
+  height: auto;
+  border-right: 1px solid grey;
+}
+
+.moveWithIndex {
+  width: 158px;
+  border-right: 1px solid grey;
+  display: inline-flex;
+  flex-flow: row;
 }

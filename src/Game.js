@@ -93,24 +93,14 @@ class Game extends Component {
 
   render() {
     return (
-      <div className="chessBoard">
-        <Board position={this.state.position} whiteIsNext={this.state.whiteIsNext} onClick={this.onMouseDown.bind(this)} availableMoves={this.state.availableMoves} onMouseUp={this.onMouseUp.bind(this)}/>
+      <div className="gameContainer">
+        <div className="chessBoard">
+          <Board position={this.state.position} whiteIsNext={this.state.whiteIsNext} onClick={this.onMouseDown.bind(this)} availableMoves={this.state.availableMoves} onMouseUp={this.onMouseUp.bind(this)}/>
+        </div>
         <MovesList history={this.state.history} onClick={this.jumpTo.bind(this)}/>
       </div>
     )
   }
 }
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="gameContainer">
-          <Game />
-        </div>
-      </div>
-    );
-  }
-}
-
-export default App;
+export default Game;

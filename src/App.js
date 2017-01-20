@@ -56,7 +56,7 @@ class Game extends Component {
 
   updatePosition(startSquare, targetSquare){
     
-    var position = this.state.position;
+    var position = Object.assign({}, this.state.position);
     var pieceToMove = position[startSquare];
     position[startSquare] = undefined;
     position[targetSquare] = pieceToMove;
@@ -72,11 +72,12 @@ class Game extends Component {
 
   onMouseUp(endSquare) {
     console.log(endSquare);
+    var newPosition = this.updatePosition(this.startSquare, endSquare);
     this.setState({
-      position: this.updatePosition(this.startSquare, endSquare),
+      position: newPosition,
       history: this.state.history.concat({
         endSquare: endSquare, 
-        position:this.state.position
+        position: newPosition
       }),
       whiteIsNext: !this.state.whiteIsNext,
     });

@@ -4,6 +4,7 @@ import Draggable from 'react-draggable';
 import Chess from 'chess.js';
 import Board from './chessBoard.js'
 import MovesList from './movesList.js'
+import GetMoveFromServer from './engine.js'
 
 class Game extends Component {
   constructor() {
@@ -47,6 +48,7 @@ class Game extends Component {
       whiteIsNext: true,
       history: [],
       moveNumber: 0,
+      computerMove: '',
     };
 
     this.chess = new Chess();
@@ -81,8 +83,21 @@ class Game extends Component {
       }),
       whiteIsNext: !this.state.whiteIsNext,
     });
+    // var fen = this.chess.fen();
     this.chess.move({from: this.startSquare, to: endSquare});
+    // GetMoveFromServer(fen, this.startSquare + endSquare).then((data) => {
+    //   if (!this.state.whiteIsNext) {
+    //     this.EngineMakesMove(data.slice(0, 2), data.slice(2))
+    //   }
+    //});
+      
+    
   }
+
+  // EngineMakesMove(startSqure, endSquare){
+  //   this.onMouseDown(startSqure);
+  //   this.onMouseUp(endSquare);
+  // }
 
   jumpTo(move) {
     console.log(move);
@@ -90,6 +105,7 @@ class Game extends Component {
       position: this.state.history[move]['position'],
     })
   }
+
 
   render() {
     return (
@@ -103,4 +119,35 @@ class Game extends Component {
   }
 }
 
-export default Game;
+class GameWithEngine extends Game {
+  constructor() {
+    super();
+  }
+
+  onMouseUp(endSquare) {
+  console.log(endSquare);
+  var newPosition = this.updatePosition(this.startSquare, endSquare);
+  this.setState({
+    position: newPosition,
+    history: this.state.history.concat({
+      endSquare: endSquare, 
+      position: newPosition
+    }),
+    whiteIsNext: !this.state.whiteIsNext,
+  });
+  var fen = this.chess.fen();
+  this.chess.move({from: this.startSquare, to: endSquare});
+  GetMoveFromServer(fen, this.startSquare + endSquare).then((data) => {
+    if (!this.state.whiteIsNext) {
+      this.EngineMakesMove(data.slice(0, 2), data.slice(2))
+    }
+  });
+  }
+
+  EngineMakesMove(startSqure, endSquare){
+    this.onMouseDown(startSqure);
+    this.onMouseUp(endSquare);
+  }
+}
+
+export { Game, GameWithEngine };

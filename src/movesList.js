@@ -24,7 +24,7 @@ class MovesList extends Component {
             if(moveNumber % 2 === 0){
                 return (
                     <div className="moveWithIndex">
-                        <IndexSquare index={moveNumber} />
+                        <IndexSquare index={moveNumber/2 + 1} />
                         <MoveSquare onClick={() => this.clickHandler(moveNumber)} endSquare={positionState['endSquare']} />
                     </div>
 

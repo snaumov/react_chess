@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router';
 
 class NewGamePanel extends React.Component {
     constructor() {
@@ -9,10 +10,24 @@ class NewGamePanel extends React.Component {
     render() {
         return (
             <div className="NewGamePanel">
-                <button className="newGameButton">New Game</button>
+                <Link to="/newgame" className="newGameButton">New Game</Link>
             </div>
         )
     }
 }
 
-export { NewGamePanel };
+class NewGamePanelInGameView extends NewGamePanel {
+    constructor() {
+        super();
+    }
+
+    render() {
+        return (
+            <div className="NewGamePanel">
+                <button className="newGameButton">Resign</button>
+            </div>
+        )
+    }
+}
+
+export { NewGamePanel, NewGamePanelInGameView };

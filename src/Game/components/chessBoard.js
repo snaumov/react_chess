@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import './App.css';
 import Draggable from 'react-draggable';
-import { CalculateTargetSquare } from './helpers.js'
+import { CalculateTargetSquare } from '../../Misc/helpers.js'
 
 class Piece extends React.Component{
 
@@ -81,17 +80,18 @@ class Board extends Component {
       'bBishop': './static/bBishop.png',
       'bKing': './static/bKing.png',
       'bQueen': './static/bQueen.png',
-      'wRook': './static/wRook.png',
+      'rw': './static/wRook.png',
       'wPawn': './static/wPawn.png',
       'wBishop': './static/wBishop.png',
       'wKing': './static/wKing.png',
       'wQueen': './static/wQueen.png',
       'wKnight': './static/wKnight.png'
     }
-    return <Square coordinate={coordinate} picture={piecesPictures[piece]} color={color} onClick={this.props.onClick} onMouseUp={this.props.onMouseUp} whiteIsNext={this.props.whiteIsNext} availableMoves={this.props.availableMoves}/>
+    return <Square coordinate={coordinate} picture={piecesPictures[piece['type'] + piece['color']]} color={color} onClick={this.props.onClick} onMouseUp={this.props.onMouseUp} whiteIsNext={this.props.whiteIsNext} availableMoves={this.props.availableMoves}/>
   }
 
   render() {
+    console.log(this.props.position.get('a1'))
     return (
   <div>
     <div className="board-row8">{this.renderSquare(this.props.position['a8'], 'white', 'a8')}{this.renderSquare(this.props.position['b8'], 'black', 'b8')}{this.renderSquare(this.props.position['c8'], 'white', 'c8')}{this.renderSquare(this.props.position['d8'], 'black', 'd8')}{this.renderSquare(this.props.position['e8'], 'white', 'e8')}{this.renderSquare(this.props.position['f8'], 'black', 'f8')}{this.renderSquare(this.props.position['g8'], 'white', 'g8')}{this.renderSquare(this.props.position['h8'], 'black', 'h8')}
@@ -108,7 +108,7 @@ class Board extends Component {
     </div>
     <div className="board-row2">{this.renderSquare(this.props.position['a2'], 'white', 'a2')}{this.renderSquare(this.props.position['b2'], 'black', 'b2')}{this.renderSquare(this.props.position['c2'], 'white', 'c2')}{this.renderSquare(this.props.position['d2'], 'black', 'd2')}{this.renderSquare(this.props.position['e2'], 'white', 'e2')}{this.renderSquare(this.props.position['f2'], 'black', 'f2')}{this.renderSquare(this.props.position['g2'], 'white', 'g2')}{this.renderSquare(this.props.position['h2'], 'black', 'h2')}
     </div>
-    <div className="board-row1">{this.renderSquare(this.props.position['a1'], 'black', 'a1')}{this.renderSquare(this.props.position['b1'], 'white', 'b1')}{this.renderSquare(this.props.position['c1'], 'black', 'c1')}{this.renderSquare(this.props.position['d1'], 'white', 'd1')}{this.renderSquare(this.props.position['e1'], 'black', 'e1')}{this.renderSquare(this.props.position['f1'], 'white', 'f1')}{this.renderSquare(this.props.position['g1'], 'black', 'g1')}{this.renderSquare(this.props.position['h1'], 'white', 'h1')}
+    <div className="board-row1">{this.renderSquare(this.props.position.get('a1'), 'black', 'a1')}{this.renderSquare(this.props.position['b1'], 'white', 'b1')}{this.renderSquare(this.props.position['c1'], 'black', 'c1')}{this.renderSquare(this.props.position['d1'], 'white', 'd1')}{this.renderSquare(this.props.position['e1'], 'black', 'e1')}{this.renderSquare(this.props.position['f1'], 'white', 'f1')}{this.renderSquare(this.props.position['g1'], 'black', 'g1')}{this.renderSquare(this.props.position['h1'], 'white', 'h1')}
     </div>
   </div>
     )
@@ -121,8 +121,6 @@ Board.propTypes = {
   position: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
   onMouseUp: PropTypes.func.isRequired,
-  whiteIsNext: PropTypes.bool.isRequired,
-  availableMoves: PropTypes.array.isRequired
 }
 
 module.exports = Board

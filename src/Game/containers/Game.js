@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { updateStartSquare, makeMove, jumpTo } from '../actions'
 import Chess from 'chess.js';
-import Board from '.components/chessBoard.js'
-import MovesList from '.components/movesList.js'
-import NewGamePopup from '.components/newGamePopup'
-import GetMoveFromServer from './engine.js'
+import Board from '../components/chessBoard.js'
+import MovesList from '../components/movesList.js'
+import NewGamePopup from '../components/newGamePopup'
+import GetMoveFromServer from '../../Engine/engine.js'
 
-class Game extends Component {
+class GameComponent extends Component {
   constructor(props) {
     super(props)
+    console.log(props)
     this.onMouseDown = this.onMouseDown.bind(this)
     this.onMouseUp = this.onMouseUp.bind(this)
     this.jumpTo = this.jumpTo.bind(this)
@@ -33,6 +34,7 @@ class Game extends Component {
 
   render() {
     const { position, whiteIsNext, availableMoves, history } = this.props
+    console.log(position.get('a1'))
     return (
       <div className="gameContainer">
         <div className="chessBoard">
@@ -44,7 +46,7 @@ class Game extends Component {
   }
 }
 
-class GameWithEngine extends Game {
+class GameWithEngine extends GameComponent {
   constructor() {
     super();
   }
@@ -75,7 +77,7 @@ class GameWithEngine extends Game {
   }
 }
 
-class GameNewGameView extends Game {
+class GameNewGameView extends GameComponent {
   constructor() {
     super();
   }
@@ -96,10 +98,10 @@ class GameNewGameView extends Game {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
     position: state.position,
-    whiteIsNext: state.whiteIsNext,
-    availableMoves: state.availableMoves,
+    history: state.history
   }
 }
 
@@ -109,6 +111,6 @@ const mapStateToProps = (state) => {
 //   }
 // }
 
-const Game = connect(mapStateToProps)(Game)
+const Game = connect(mapStateToProps)(GameComponent)
 
 export { Game, GameWithEngine, GameNewGameView };

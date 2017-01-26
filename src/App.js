@@ -12,7 +12,7 @@ class AppMainView extends React.Component {
                 <div className="newGamePanelWrapper">
                     <NewGamePanel />
                 </div>
-                <Game />
+                <Game store={this.props.store}/>
             </div>
         )
     }

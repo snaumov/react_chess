@@ -1,27 +1,24 @@
 import { combineReducers } from 'redux'
-import { MAKE_MOVE, UPDATE_START_SQUARE } from './actions'
+import { MAKE_MOVE, UPDATE_START_SQUARE, JUMP_TO } from '../actions'
 import Chess from 'chess.js'
 
 const initialState = {
-    position: new Chess(),
-    history: [],
+    chess: new Chess(),
+    position: chess.board(),
     startSquare: '',
-    availableMoves: []
-
 }
 
 
-function makeMove(state=initialState, action) {
+function position(state=initialState, action) {
     switch(action.type) {
         case UPDATE_START_SQUARE:
             return Object.assign({}, state, {
                 startSquare: action.startSquare,
-                availableMoves: position.moves(action.startSquare)
             })
         case MAKE_MOVE:
             return Object.assign({}, state, {
-                    history: [...history, position],
-                    position: position.move({from: state.startSquare, to: action.endSquare})
+                    history: [...history, state.position],
+                    position: state.position.move({from: state.startSquare, to: action.endSquare})
             })
             
         default:
@@ -29,18 +26,23 @@ function makeMove(state=initialState, action) {
     }
 }
 
-function jumpTo(state, action) {
+function history(state=[], action) {
     switch(action.type) {
         case JUMP_TO:
             return Object.assign({}, state, {
                 position: history[action.moveNumber]
             })
+
+        default:
+            return state
     }
+
+
 }
 
 const rootReducer = combineReducers({
-    makeMove,
-    jumpTo
+    position,
+    history
 })
 
 export default rootReducer

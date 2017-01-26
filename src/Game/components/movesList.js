@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 
 function MoveSquare(props){
     return (

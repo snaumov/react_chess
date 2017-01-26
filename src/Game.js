@@ -4,6 +4,7 @@ import Draggable from 'react-draggable';
 import Chess from 'chess.js';
 import Board from './chessBoard.js'
 import MovesList from './movesList.js'
+import NewGamePopup from './newGamePopup'
 import GetMoveFromServer from './engine.js'
 
 class Game extends Component {
@@ -150,4 +151,23 @@ class GameWithEngine extends Game {
   }
 }
 
-export { Game, GameWithEngine };
+class GameNewGameView extends Game {
+  constructor() {
+    super();
+  }
+
+  render() {
+    return (
+      <div className="gameContainer">
+        <div className="chessBoard">
+          <Board position={this.state.position} whiteIsNext={this.state.whiteIsNext} onClick={this.onMouseDown.bind(this)} availableMoves={this.state.availableMoves} onMouseUp={this.onMouseUp.bind(this)}/>
+        </div>
+        <NewGamePopup />
+        <MovesList history={this.state.history} onClick={this.jumpTo.bind(this)}/>
+      </div>
+    )
+  }
+
+}
+
+export { Game, GameWithEngine, GameNewGameView };

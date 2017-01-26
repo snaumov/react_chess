@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import Draggable from 'react-draggable';
 import Chess from 'chess.js';
 import Board from './chessBoard.js'
 import MovesList from './movesList.js'

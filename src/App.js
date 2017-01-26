@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
-import { Game, GameWithEngine, GameNewGameView } from './Game';
+import { Game, GameWithEngine, GameNewGameView } from './Game/containers/Game';
 import { NewGamePanel, NewGamePanelInGameView } from './newGamePanel';
 import './App.sass';
 

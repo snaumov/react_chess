@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import './App.css';
 import Draggable from 'react-draggable';
 import { CalculateTargetSquare } from './helpers.js'
@@ -113,6 +113,16 @@ class Board extends Component {
   </div>
     )
   }
+
+
+}
+
+Board.propTypes = {
+  position: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onMouseUp: PropTypes.func.isRequired,
+  whiteIsNext: PropTypes.bool.isRequired,
+  availableMoves: PropTypes.array.isRequired
 }
 
 module.exports = Board

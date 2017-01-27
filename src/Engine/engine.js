@@ -18,7 +18,6 @@ function GetMoveFromServer(fen, move) {
             return response.json();
         })
         .then(function(data) {
-            console.log(data)
             return data['turn'].bestMove;
         })
     

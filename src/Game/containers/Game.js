@@ -19,22 +19,21 @@ class GameComponent extends Component {
   onMouseDown(startSquare){
     console.log(startSquare);
     //this.setState({availableMoves: this.chess.moves({square: startSquare})})
-    this.props.dispatch(updateStartSquare)
+    this.props.dispatch(updateStartSquare(startSquare))
   }
 
   onMouseUp(endSquare) {
     console.log(endSquare);
-    this.props.dispatch(makeMove)
+    this.props.dispatch(makeMove(endSquare))
   }
 
   jumpTo(move) {
-    this.props.dispatch(jumpTo)
+    this.props.dispatch(jumpTo(move))
   }
 
 
   render() {
-    const { position, whiteIsNext, availableMoves, history } = this.props
-    console.log(position.get('a1'))
+    const { position, whiteIsNext, availableMoves, history } = this.props.position
     return (
       <div className="gameContainer">
         <div className="chessBoard">
@@ -46,51 +45,20 @@ class GameComponent extends Component {
   }
 }
 
-class GameWithEngine extends GameComponent {
-  constructor() {
-    super();
-  }
-
-  onMouseUp(endSquare) {
-  console.log(endSquare);
-  var newPosition = this.updatePosition(this.startSquare, endSquare);
-  this.setState({
-    position: newPosition,
-    history: this.state.history.concat({
-      endSquare: endSquare, 
-      position: newPosition
-    }),
-    whiteIsNext: !this.state.whiteIsNext,
-  });
-  var fen = this.chess.fen();
-  this.chess.move({from: this.startSquare, to: endSquare});
-  GetMoveFromServer(fen, this.startSquare + endSquare).then((data) => {
-    if (!this.state.whiteIsNext) {
-      this.EngineMakesMove(data.slice(0, 2), data.slice(2))
-    }
-  });
-  }
-
-  EngineMakesMove(startSquare, endSquare){
-    this.onMouseDown(startSquare);
-    this.onMouseUp(endSquare);
-  }
-}
-
-class GameNewGameView extends GameComponent {
-  constructor() {
-    super();
+class GameNewGameViewComponent extends GameComponent {
+  constructor(props) {
+    super(props);
   }
 
   render() {
-
+    const { position, whiteIsNext, availableMoves, history } = this.props.position
     return (
       <div className="gameContainer">
         <div className="chessBoard">
-          <Board position={this.state.position} whiteIsNext={this.state.whiteIsNext} onClick={this.onMouseDown.bind(this)} availableMoves={this.state.availableMoves} onMouseUp={this.onMouseUp.bind(this)}/>
+          <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)}/>
         </div>
         <NewGamePopup />
-        <MovesList history={this.state.history} onClick={this.jumpTo.bind(this)}/>
+        <MovesList history={history} onClick={this.jumpTo}/>
       </div>
     )
   }
@@ -112,5 +80,6 @@ const mapStateToProps = (state) => {
 // }
 
 const Game = connect(mapStateToProps)(GameComponent)
+const GameNewGameView = connect(mapStateToProps)(GameNewGameViewComponent)
 
-export { Game, GameWithEngine, GameNewGameView };
+export { GameComponent, Game, GameNewGameView };

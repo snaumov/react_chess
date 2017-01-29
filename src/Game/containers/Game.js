@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { updateStartSquare, makeMove, jumpTo } from '../actions'
+import { updateStartSquare, makeMove, jumpTo, startNewGame } from '../actions'
 import Chess from 'chess.js';
 import Board from '../components/chessBoard.js'
 import MovesList from '../components/movesList.js'
@@ -33,11 +33,11 @@ class GameComponent extends Component {
 
 
   render() {
-    const { position, whiteIsNext, availableMoves, history } = this.props.position
+    const { position, whiteIsNext, availableMoves, history, whiteAtBottom } = this.props.position
     return (
       <div className="gameContainer">
         <div className="chessBoard">
-          <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)}/>
+          <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)} whiteAtBottom={whiteAtBottom}/>
         </div>
         <MovesList history={history} onClick={this.jumpTo}/>
       </div>
@@ -48,21 +48,25 @@ class GameComponent extends Component {
 class GameNewGameViewComponent extends GameComponent {
   constructor(props) {
     super(props);
+    this.onClickNewGame = this.onClickNewGame.bind(this)
+  }
+
+  onClickNewGame(color){
+      this.props.dispatch(startNewGame(color))
   }
 
   render() {
-    const { position, whiteIsNext, availableMoves, history } = this.props.position
+    const { position, whiteIsNext, availableMoves, history, whiteAtBottom } = this.props.position
     return (
       <div className="gameContainer">
         <div className="chessBoard">
-          <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)}/>
+          <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)} whiteAtBottom={whiteAtBottom}/>
         </div>
-        <NewGamePopup />
+        <NewGamePopup onClick={this.onClickNewGame}/>
         <MovesList history={history} onClick={this.jumpTo}/>
       </div>
     )
   }
-
 }
 
 const mapStateToProps = (state) => {
@@ -72,7 +76,6 @@ const mapStateToProps = (state) => {
     history: state.history
   }
 }
-
 // const mapDispatchToProps = (dispatch) => {
 //   return {
 

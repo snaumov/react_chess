@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { MAKE_MOVE, UPDATE_START_SQUARE, JUMP_TO } from '../actions'
+import { MAKE_MOVE, UPDATE_START_SQUARE, JUMP_TO, START_NEW_GAME } from '../actions'
 import Chess from 'chess.js'
 
 const initialState = {
@@ -44,11 +44,16 @@ const initialState = {
     history: [],
     availableMoves: [],
     fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+    whiteAtBottom: true,
 }
 
 
 function position(state=initialState, action) {
     switch(action.type) {
+        case START_NEW_GAME:
+            return Object.assign({}, state, {
+                whiteAtBottom: action.color === "white" ? true : false
+            })
         case UPDATE_START_SQUARE:
             return Object.assign({}, state, {
                 startSquare: action.startSquare,

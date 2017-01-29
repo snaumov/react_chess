@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 
 
 class NewGamePopup extends React.Component {
+
     render() {
         return(
             <div className="NewGamePopup">
@@ -13,9 +14,9 @@ class NewGamePopup extends React.Component {
                     <option value="human">Human</option>
                 </select>
                 <div className="SidePicker">
-                    <Link to="/game" className="black"></Link>
-                    <span className="random" style={{backgroundImage:"url(" + require('./static/wbK.svg')}}></span>
-                    <span className="white" style={{backgroundImage:"url(" + require('./static/wK.svg')}}></span>
+                    <Link to="/game" className="black" onClick={() => this.props.onClick('black')}></Link>
+                    <Link to="/game" className="random" onClick={() => this.props.onClick(() => ['black', 'white'][Math.floor(Math.random() * 2)])}></Link>
+                    <Link to="/game" className="white" onClick={() => this.props.onClick('white')}></Link>
                 </div>
             </div>
         )

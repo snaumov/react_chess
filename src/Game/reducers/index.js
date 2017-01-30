@@ -56,11 +56,12 @@ const initialUIState = {
 function position(state=initialState, action) {
     switch(action.type) {
         case START_NEW_GAME:
-            console.log(action.color);
             return Object.assign({}, initialState, {
+                chess: new Chess(),
                 whiteAtBottom: action.color === "white" ? true : false
             })
         case UPDATE_START_SQUARE:
+            console.log(state);
             return Object.assign({}, state, {
                 startSquare: action.startSquare,
                 availableMoves: [].concat(state.chess.moves({square: action.startSquare}))
@@ -70,6 +71,29 @@ function position(state=initialState, action) {
             var pieceToMove = newPosition[state.startSquare];
             newPosition[state.startSquare] = undefined;
             newPosition[action.targetSquare] = pieceToMove;
+
+            //castling
+            if(action.isCastling){
+                console.log('castling!')
+                switch(action.targetSquare) {
+                    case 'g1':
+                        newPosition['h1'] = undefined;
+                        newPosition['f1'] = 'wRook';
+                        break;
+                    case 'c1':
+                        newPosition['a1'] = undefined;
+                        newPosition['d1'] = 'wRook';
+                        break;
+                    case 'g8':
+                        newPosition['h8'] = undefined;
+                        newPosition['f8'] = 'bRook';
+                        break;
+                    case 'c8':
+                        newPosition['a8'] = undefined;
+                        newPosition['d8'] = 'bRook';
+                        break;
+                }
+            }
             
             var newChess = Object.assign({}, state.chess);
             var newFen = newChess.fen();
@@ -98,13 +122,13 @@ function position(state=initialState, action) {
 
 function ui(state=initialUIState, action) {
     switch(action.type){
-        case(RESET_UI):
+        case RESET_UI:
             return Object.assign({}, state, initialUIState)
-        case(SHOW_RESIGN_PANEL):
+        case SHOW_RESIGN_PANEL:
             return Object.assign({}, state, {
                 showResignPanel: true,
             })
-        case(HIDE_RESIGN_PANEL):
+        case HIDE_RESIGN_PANEL:
             return Object.assign({}, state, {
                 showResignPanel: false,
             })

@@ -26,11 +26,12 @@ export function updateStartSquare(square) {
     }
 }
 
-export function makeMove(targetSquare) {
+export function makeMove(targetSquare, isCastling=false) {
     return {
         type: MAKE_MOVE,
         targetSquare,
-        targetSquare: targetSquare
+        targetSquare: targetSquare,
+        isCastling: isCastling
     }
 }
 
@@ -62,6 +63,12 @@ export function engineMakesMove(fen, humanMove) {
 }
 
 //UI
+export function resetUI() {
+    return {
+        type: RESET_UI,
+    }
+}
+
 export function showResignPanel() {
     return {
         type: SHOW_RESIGN_PANEL,

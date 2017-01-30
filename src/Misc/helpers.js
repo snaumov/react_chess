@@ -10,7 +10,18 @@ export function CalculateTargetSquareBlackAtBottom(initialSquare, xOffset, yOffs
     return letters[letters.indexOf(initialSquare[0]) + (Math.round(xOffset / 64))] + numbers[numbers.indexOf(initialSquare[1]) - (Math.round(yOffset / 64))]
 }
 
-export function CalculateAvailableMovesForPiece(position, initialSquare) {
-    return(['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7'])
+export function IsEligibleMove(availableMoves=[], targetSquare) {
+    console.log(availableMoves);
+    if(availableMoves.map((move) => {if (move.slice(-1) === '+') {return move.slice(-3, -1)} else return move.slice(-2)}).includes(targetSquare)) {
+        return {isEligible: true, isCastling: false}
+    } else if (availableMoves.includes("O-O-O") && (targetSquare === "c1" || targetSquare === "c8")) {
+        var isCastling = true
+        return {isEligible: true, isCastling: true}
+    } else if (availableMoves.includes("O-O") && (targetSquare === "g1" || targetSquare === "g8")) {
+        var isCastling = true
+        return {isEligible: true, isCastling: true}
+    } else {
+        return {isEligible: false, isCastling: false}
+    }
 }
 

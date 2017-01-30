@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Draggable from 'react-draggable';
-import { CalculateTargetSquare, CalculateTargetSquareBlackAtBottom } from '../../Misc/helpers.js'
+import { CalculateTargetSquare, CalculateTargetSquareBlackAtBottom, IsEligibleMove } from '../../Misc/helpers.js'
 
 class Piece extends React.Component{
 
@@ -18,8 +18,9 @@ class Piece extends React.Component{
     console.log(this.props.availableMoves.map((move) => {if (move.slice(-1) === '+') {return move.slice(-3, -1)} else return move.slice(-2)}));
     const {x, y} = position;
     var targetSquare = this.props.whiteAtBottom ? CalculateTargetSquare(this.props.coordinate, x, y) : CalculateTargetSquareBlackAtBottom(this.props.coordinate, x, y);
-    if(this.props.availableMoves.map((move) => {if (move.slice(-1) === '+') {return move.slice(-3, -1)} else return move.slice(-2)}).includes(targetSquare)){
-      this.props.onMouseUp(targetSquare);
+    var isEligbleMoveOutput = IsEligibleMove(this.props.availableMoves, targetSquare)
+    if (isEligbleMoveOutput.isEligible) {
+      this.props.onMouseUp(targetSquare, isEligbleMoveOutput.isCastling);
     }
     
   }

@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { showResignPanel, hideResignPanel, resign, startNewGame } from '../actions'
 
 function ResignPanel(props) {
-    console.log(props);
     return (
         <div className="resignPanel">
             {!props.resigned ? 

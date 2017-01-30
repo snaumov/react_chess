@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { updateStartSquare, makeMove, jumpTo, startNewGame } from '../actions'
+import { updateStartSquare, makeMove, jumpTo, startNewGame, resetUI } from '../actions'
 import Chess from 'chess.js';
 import Board from '../components/chessBoard.js'
 import MovesList from '../components/movesList.js'
@@ -22,9 +22,9 @@ class GameComponent extends Component {
     this.props.dispatch(updateStartSquare(startSquare))
   }
 
-  onMouseUp(endSquare) {
-    console.log(endSquare);
-    this.props.dispatch(makeMove(endSquare))
+  onMouseUp(endSquare, isCastling) {
+    console.log(endSquare, isCastling);
+    this.props.dispatch(makeMove(endSquare, isCastling))
   }
 
   jumpTo(move) {
@@ -53,6 +53,7 @@ class GameNewGameViewComponent extends GameComponent {
 
   onClickNewGame(color){
       this.props.dispatch(startNewGame(color))
+      this.props.dispatch(resetUI());
   }
 
   render() {

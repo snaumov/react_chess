@@ -15,19 +15,19 @@ class Piece extends React.Component{
   }
 
   onControlledDragStop(e, position) {
-    console.log(this.props.availableMoves.map((move) => move.slice(-2)));
+    console.log(this.props.availableMoves.map((move) => {if (move.slice(-1) === '+') {return move.slice(-3, -1)} else return move.slice(-2)}));
     const {x, y} = position;
     var targetSquare = this.props.whiteAtBottom ? CalculateTargetSquare(this.props.coordinate, x, y) : CalculateTargetSquareBlackAtBottom(this.props.coordinate, x, y);
-    if(this.props.availableMoves.map((move) => move.slice(-2)).includes(targetSquare)){
+    if(this.props.availableMoves.map((move) => {if (move.slice(-1) === '+') {return move.slice(-3, -1)} else return move.slice(-2)}).includes(targetSquare)){
       this.props.onMouseUp(targetSquare);
     }
     
   }
 
   PieceCanMove(){
-    if(this.props.whiteIsNext && this.props.pieceColor === 'w'){
+    if(!this.props.resigned && this.props.whiteAtBottom && this.props.pieceColor === 'w'){
       return true;
-    } else if (!this.props.whiteIsNext && this.props.pieceColor === 'b') {
+    } else if (!this.props.resigned && !this.props.whiteAtBottom && this.props.pieceColor === 'b') {
       return true;
     } else {
       return false;
@@ -58,7 +58,7 @@ function Square (props) {
   if (props.picture !== undefined) {
       return (
       <div className={props.color + "Square"}>
-        <Piece coordinate={props.coordinate} picture={props.picture} onClick={props.onClick} onMouseUp={props.onMouseUp} pieceColor={props.picture[9]} whiteIsNext={props.whiteIsNext} availableMoves={props.availableMoves} whiteAtBottom={props.whiteAtBottom}/>
+        <Piece coordinate={props.coordinate} picture={props.picture} onClick={props.onClick} onMouseUp={props.onMouseUp} pieceColor={props.picture[9]} whiteIsNext={props.whiteIsNext} availableMoves={props.availableMoves} whiteAtBottom={props.whiteAtBottom} resigned={props.resigned}/>
       </div>
     );
   } else {
@@ -73,7 +73,7 @@ class WhiteAtBottomBoard extends Component {
   renderSquare(piece, color, coordinate){
 
     const piecesPictures = this.props.piecesPictures;
-    return <Square coordinate={coordinate} picture={piecesPictures[piece]} color={color} onClick={this.props.onClick} onMouseUp={this.props.onMouseUp} whiteIsNext={this.props.whiteIsNext} availableMoves={this.props.availableMoves} whiteAtBottom={true}/>
+    return <Square coordinate={coordinate} picture={piecesPictures[piece]} color={color} onClick={this.props.onClick} onMouseUp={this.props.onMouseUp} whiteIsNext={this.props.whiteIsNext} availableMoves={this.props.availableMoves} whiteAtBottom={true} resigned={this.props.resigned}/>
   }
 
   render() {
@@ -105,7 +105,7 @@ class WhiteAtBottomBoard extends Component {
 class BlackAtBottomBoard extends Component {
   renderSquare(piece, color, coordinate){
     const piecesPictures = this.props.piecesPictures;
-    return <Square coordinate={coordinate} picture={piecesPictures[piece]} color={color} onClick={this.props.onClick} onMouseUp={this.props.onMouseUp} whiteIsNext={this.props.whiteIsNext} availableMoves={this.props.availableMoves} whiteAtBottom={false}/>
+    return <Square coordinate={coordinate} picture={piecesPictures[piece]} color={color} onClick={this.props.onClick} onMouseUp={this.props.onMouseUp} whiteIsNext={this.props.whiteIsNext} availableMoves={this.props.availableMoves} whiteAtBottom={false} resigned={this.props.resigned}/>
   }
 
   render() {
@@ -169,8 +169,8 @@ class Board extends Component {
 
   render() {
     return (
-      this.props.whiteAtBottom ? <WhiteAtBottomBoard piecesPictures={this.piecesPictures} position={this.props.position} onClick={this.props.onClick} onMouseUp={this.props.onMouseUp} whiteIsNext={this.props.whiteIsNext} availableMoves={this.props.availableMoves}/> 
-      : <BlackAtBottomBoard piecesPictures={this.piecesPictures} position={this.props.position} onClick={this.props.onClick} onMouseUp={this.props.onMouseUp} whiteIsNext={this.props.whiteIsNext} availableMoves={this.props.availableMoves}/>
+      this.props.whiteAtBottom ? <WhiteAtBottomBoard piecesPictures={this.piecesPictures} position={this.props.position} onClick={this.props.onClick} onMouseUp={this.props.onMouseUp} whiteIsNext={this.props.whiteIsNext} availableMoves={this.props.availableMoves} resigned={this.props.resigned}/> 
+      : <BlackAtBottomBoard piecesPictures={this.piecesPictures} position={this.props.position} onClick={this.props.onClick} onMouseUp={this.props.onMouseUp} whiteIsNext={this.props.whiteIsNext} availableMoves={this.props.availableMoves} resigned={this.props.resigned}/>
     )
   }
 

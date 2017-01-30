@@ -33,11 +33,11 @@ class GameComponent extends Component {
 
 
   render() {
-    const { position, whiteIsNext, availableMoves, history, whiteAtBottom } = this.props.position
+    const { position, whiteIsNext, availableMoves, history, whiteAtBottom, resigned } = this.props.position
     return (
       <div className="gameContainer">
         <div className="chessBoard">
-          <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)} whiteAtBottom={whiteAtBottom}/>
+          <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)} whiteAtBottom={whiteAtBottom} resigned={resigned}/>
         </div>
         <MovesList history={history} onClick={this.jumpTo}/>
       </div>
@@ -56,11 +56,11 @@ class GameNewGameViewComponent extends GameComponent {
   }
 
   render() {
-    const { position, whiteIsNext, availableMoves, history, whiteAtBottom } = this.props.position
+    const { position, whiteIsNext, availableMoves, history, whiteAtBottom, resigned } = this.props.position
     return (
       <div className="gameContainer">
         <div className="chessBoard">
-          <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)} whiteAtBottom={whiteAtBottom}/>
+          <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)} whiteAtBottom={whiteAtBottom} resigned={resigned}/>
         </div>
         <NewGamePopup onClick={this.onClickNewGame}/>
         <MovesList history={history} onClick={this.jumpTo}/>

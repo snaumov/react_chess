@@ -3,8 +3,12 @@ import { GameComponent } from './Game'
 import { makeMove, engineMakesMove } from '../actions'
 
 class GameWithEngineComponent extends GameComponent {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    console.log(this.props)
+    if (!this.props.position.whiteAtBottom){
+        this.props.dispatch((engineMakesMove(this.props.position.fen, '')))
+    }
   }
 
   onMouseUp(endSquare) {
@@ -14,16 +18,13 @@ class GameWithEngineComponent extends GameComponent {
 
   }
 
-//   EngineMakesMove(startSquare, endSquare){
-//     this.onMouseDown(startSquare);
-//     this.onMouseUp(endSquare);
-//   }
 }
 
 const mapStateToProps = (state) => {
   return {
     position: state.position,
-    history: state.history
+    history: state.history,
+    ui: state.ui
   }
 }
 

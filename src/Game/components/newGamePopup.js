@@ -24,5 +24,3 @@ class NewGamePopup extends React.Component {
 }
 
 export default NewGamePopup;
-
-//style={{backgroundImage:"url(" + require('./static/bK.svg')}}

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 import { Game, GameNewGameView } from './Game/containers/Game';
 import GameWithEngine from './Game/containers/GameWithEngine'
-import { NewGamePanel, NewGamePanelInGameView } from './newGamePanel';
+import { NewGamePanel, NewGamePanelInGameView } from './Game/components/newGamePanel';
 import './App.sass';
 
 class AppMainView extends React.Component {
@@ -13,7 +13,7 @@ class AppMainView extends React.Component {
                 <div className="newGamePanelWrapper">
                     <NewGamePanel />
                 </div>
-                <GameWithEngine store={this.props.store}/>
+                <Game store={this.props.store}/>
             </div>
         )
     }
@@ -24,10 +24,10 @@ class AppInGameView extends React.Component {
         return (
             <div className="App">
                 <div className="newGamePanelWrapper">
-                    <NewGamePanelInGameView />
+                    <NewGamePanelInGameView store={this.props.store}/>
                 </div>
                 <div className="gameContainer">
-                    <Game />
+                    <GameWithEngine store={this.props.store} />
                 </div>
             </div>
         )
@@ -39,9 +39,9 @@ class AppNewGameView extends React.Component {
         return (
             <div className="App">
                 <div className="newGamePanelWrapper">
-                    <NewGamePanel />
+                    <NewGamePanel store={this.props.store}/>
                 </div>
-                <GameNewGameView />
+                <GameNewGameView store={this.props.store}/>
             </div>
         )
     }

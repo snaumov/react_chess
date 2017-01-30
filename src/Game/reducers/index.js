@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { MAKE_MOVE, UPDATE_START_SQUARE, JUMP_TO, START_NEW_GAME } from '../actions'
+import { MAKE_MOVE, UPDATE_START_SQUARE, JUMP_TO, START_NEW_GAME, SHOW_RESIGN_PANEL, HIDE_RESIGN_PANEL, RESIGN, RESET_UI } from '../actions'
 import Chess from 'chess.js'
 
 const initialState = {
@@ -45,13 +45,19 @@ const initialState = {
     availableMoves: [],
     fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
     whiteAtBottom: true,
+    resigned: false,
+}
+
+const initialUIState = {
+    showResignPanel: false,
 }
 
 
 function position(state=initialState, action) {
     switch(action.type) {
         case START_NEW_GAME:
-            return Object.assign({}, state, {
+            console.log(action.color);
+            return Object.assign({}, initialState, {
                 whiteAtBottom: action.color === "white" ? true : false
             })
         case UPDATE_START_SQUARE:
@@ -75,6 +81,10 @@ function position(state=initialState, action) {
                     chess: newChess,
                     fen: newFen,
             })
+        case RESIGN:
+            return Object.assign({}, state, {
+                resigned: true,
+            })            
         case JUMP_TO:
             console.log(state.history[action.moveNumber], action.moveNumber)
             return Object.assign({}, state, {
@@ -86,9 +96,26 @@ function position(state=initialState, action) {
     }
 }
 
+function ui(state=initialUIState, action) {
+    switch(action.type){
+        case(RESET_UI):
+            return Object.assign({}, state, initialUIState)
+        case(SHOW_RESIGN_PANEL):
+            return Object.assign({}, state, {
+                showResignPanel: true,
+            })
+        case(HIDE_RESIGN_PANEL):
+            return Object.assign({}, state, {
+                showResignPanel: false,
+            })
+        default: 
+            return state
+    }
+}
+
 const rootReducer = combineReducers({
     position,
-    history
+    ui
 })
 
 export default rootReducer

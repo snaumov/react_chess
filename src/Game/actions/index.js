@@ -9,6 +9,7 @@ export const SHOW_RESIGN_PANEL = 'SHOW_RESIGN_PANEL'
 export const HIDE_RESIGN_PANEL = 'HIDE_RESIGN_PANEL'
 export const RESIGN = 'RESIGN'
 export const RESET_UI = 'RESET_UI'
+export const CHANGE_POPUP_LINK = 'CHANGE_POPUP_LINK'
 
 
 // export function onMouseDownGetAvailableMoves(startSquare) {
@@ -84,6 +85,13 @@ export function hideResignPanel() {
 export function resign() {
     return {
         type: RESIGN,
+    }
+}
+
+export function changePopupLinksTo(link) {
+    return {
+        type: CHANGE_POPUP_LINK,
+        link: link,
     }
 }
 

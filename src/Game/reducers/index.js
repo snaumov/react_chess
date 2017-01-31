@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { MAKE_MOVE, UPDATE_START_SQUARE, JUMP_TO, START_NEW_GAME, SHOW_RESIGN_PANEL, HIDE_RESIGN_PANEL, RESIGN, RESET_UI } from '../actions'
+import { MAKE_MOVE, UPDATE_START_SQUARE, JUMP_TO, START_NEW_GAME, SHOW_RESIGN_PANEL, HIDE_RESIGN_PANEL, RESIGN, RESET_UI, CHANGE_POPUP_LINK } from '../actions'
 import Chess from 'chess.js'
 
 const initialState = {
@@ -46,10 +46,13 @@ const initialState = {
     fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
     whiteAtBottom: true,
     resigned: false,
+    checkMate: false,
 }
 
 const initialUIState = {
     showResignPanel: false,
+    newGamePopupLinksTo: 'engine',
+    analysisMode: false,
 }
 
 
@@ -67,43 +70,48 @@ function position(state=initialState, action) {
                 availableMoves: [].concat(state.chess.moves({square: action.startSquare}))
             })
         case MAKE_MOVE:
+            //first, check if the side to move has been checkmated
+            if (state.chess.in_checkmate()){
+                return Object.assign({}, state, {
+                    resigned: true,
+                })
+            }
+
             var newPosition = Object.assign({}, state.position);
             var pieceToMove = newPosition[state.startSquare];
             newPosition[state.startSquare] = undefined;
             newPosition[action.targetSquare] = pieceToMove;
 
             //castling
-            if(action.isCastling){
-                console.log('castling!')
-                switch(action.targetSquare) {
-                    case 'g1':
-                        newPosition['h1'] = undefined;
-                        newPosition['f1'] = 'wRook';
-                        break;
-                    case 'c1':
-                        newPosition['a1'] = undefined;
-                        newPosition['d1'] = 'wRook';
-                        break;
-                    case 'g8':
-                        newPosition['h8'] = undefined;
-                        newPosition['f8'] = 'bRook';
-                        break;
-                    case 'c8':
-                        newPosition['a8'] = undefined;
-                        newPosition['d8'] = 'bRook';
-                        break;
+            if (pieceToMove === 'wKing' && state.startSquare === 'e1'){
+                if(action.targetSquare === 'g1') {
+                    newPosition['h1'] = undefined;
+                    newPosition['f1'] = 'wRook';                  
+                } else if (action.targetSquare === 'c1') {
+                    newPosition['a1'] = undefined;
+                    newPosition['d1'] = 'wRook';
                 }
+            } else if (pieceToMove === 'bKing' && state.startSquare === 'e8') {
+                if(action.targetSquare === 'g8') {
+                    newPosition['h8'] = undefined;
+                    newPosition['f8'] = 'bRook';                  
+                } else if (action.targetSquare === 'c8') {
+                    newPosition['a8'] = undefined;
+                    newPosition['d8'] = 'bRook';
+                }            
             }
             
             var newChess = Object.assign({}, state.chess);
             var newFen = newChess.fen();
             newChess.move({from: state.startSquare, to: action.targetSquare});
+
             return Object.assign({}, state, {
                     position: newPosition,    
                     whiteIsNext: !state.whiteIsNext,
                     history: [...state.history, {endSquare: action.targetSquare, position: newPosition}],
                     chess: newChess,
                     fen: newFen,
+                    checkMate: newChess.in_checkmate(),
             })
         case RESIGN:
             return Object.assign({}, state, {
@@ -131,6 +139,10 @@ function ui(state=initialUIState, action) {
         case HIDE_RESIGN_PANEL:
             return Object.assign({}, state, {
                 showResignPanel: false,
+            })
+        case CHANGE_POPUP_LINK:
+            return Object.assign({}, state, {
+                newGamePopupLinksTo: action.link,
             })
         default: 
             return state

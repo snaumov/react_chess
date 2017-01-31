@@ -11,9 +11,9 @@ class GameWithEngineComponent extends GameComponent {
     }
   }
 
-  onMouseUp(endSquare, isCastling) {
-    console.log(endSquare, isCastling);
-    this.props.dispatch(makeMove(endSquare, isCastling));
+  onMouseUp(endSquare) {
+    console.log(endSquare);
+    this.props.dispatch(makeMove(endSquare));
     this.props.dispatch(engineMakesMove(this.props.position.fen, this.props.position.startSquare + endSquare))
 
   }

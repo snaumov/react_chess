@@ -12,16 +12,14 @@ export function CalculateTargetSquareBlackAtBottom(initialSquare, xOffset, yOffs
 
 export function IsEligibleMove(availableMoves=[], targetSquare) {
     console.log(availableMoves);
-    if(availableMoves.map((move) => {if (move.slice(-1) === '+') {return move.slice(-3, -1)} else return move.slice(-2)}).includes(targetSquare)) {
-        return {isEligible: true, isCastling: false}
+    if(availableMoves.map((move) => {if (move.slice(-1) === '+' || move.slice(-1) === '#') {return move.slice(-3, -1)} else return move.slice(-2)}).includes(targetSquare)) {
+        return true
     } else if (availableMoves.includes("O-O-O") && (targetSquare === "c1" || targetSquare === "c8")) {
-        var isCastling = true
-        return {isEligible: true, isCastling: true}
+        return true
     } else if (availableMoves.includes("O-O") && (targetSquare === "g1" || targetSquare === "g8")) {
-        var isCastling = true
-        return {isEligible: true, isCastling: true}
+        return true
     } else {
-        return {isEligible: false, isCastling: false}
+        return false
     }
 }
 

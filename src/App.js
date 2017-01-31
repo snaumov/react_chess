@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 import { Game, GameNewGameView } from './Game/containers/Game';
-import GameWithEngine from './Game/containers/GameWithEngine'
+import GameWithEngine from './Game/containers/GameWithEngine';
+import GameAnalysis from './Game/containers/GameAnalysis';
 import { NewGamePanel, NewGamePanelInGameView } from './Game/components/newGamePanel';
 import './App.sass';
 
@@ -28,6 +29,21 @@ class AppInGameView extends React.Component {
                 </div>
                 <div className="gameContainer">
                     <GameWithEngine store={this.props.store} />
+                </div>
+            </div>
+        )
+    }
+}
+
+class AppAnalysisView extends React.Component {
+    render() {
+        return (
+            <div className="App">
+                <div className="newGamePanelWrapper">
+                    <NewGamePanelInGameView store={this.props.store}/>
+                </div>
+                <div className="gameContainer">
+                    <GameAnalysis store={this.props.store} />
                 </div>
             </div>
         )
@@ -61,7 +77,8 @@ class App extends React.Component {
             <Router history = {hashHistory}>
                 <Route path="/" component={AppMainView} />
                 <Route path="/newgame" component={AppNewGameView} />
-                <Route path="/game" component={AppInGameView} />
+                <Route path="/engine" component={AppInGameView} />
+                <Route path="/analysis" component={AppAnalysisView} />
                 <Route path="/test" component={TestView} />
             </Router>
         )

@@ -138,18 +138,18 @@ class BlackAtBottomBoard extends Component {
 class Board extends Component {
 
   piecesPictures = {
-    'bRook': './static/bRook.png',
-    'bKnight': './static/bKnight.png',
-    'bPawn': './static/bPawn.png',
-    'bBishop': './static/bBishop.png',
-    'bKing': './static/bKing.png',
-    'bQueen': './static/bQueen.png',
-    'wRook': './static/wRook.png',
-    'wPawn': './static/wPawn.png',
-    'wBishop': './static/wBishop.png',
-    'wKing': './static/wKing.png',
-    'wQueen': './static/wQueen.png',
-    'wKnight': './static/wKnight.png'
+    'bRook': './media/bRook.png',
+    'bKnight': './media/bKnight.png',
+    'bPawn': './media/bPawn.png',
+    'bBishop': './media/bBishop.png',
+    'bKing': './media/bKing.png',
+    'bQueen': './media/bQueen.png',
+    'wRook': './media/wRook.png',
+    'wPawn': './media/wPawn.png',
+    'wBishop': './media/wBishop.png',
+    'wKing': './media/wKing.png',
+    'wQueen': './media/wQueen.png',
+    'wKnight': './media/wKnight.png'
   }
 
   render() {

@@ -5,8 +5,7 @@ import { Provider } from 'react-redux'
 //import rootReducer from './Game/reducers/reducers.js'
 import configureStore from './Game/configureStore'
 import App from './App';
-
-import './index.css';
+import './index.css'
 
 let store = configureStore()
 

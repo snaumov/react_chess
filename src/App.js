@@ -5,16 +5,17 @@ import { Game, GameNewGameView } from './Game/containers/Game';
 import GameWithEngine from './Game/containers/GameWithEngine';
 import GameAnalysis from './Game/containers/GameAnalysis';
 import { NewGamePanel, NewGamePanelInGameView } from './Game/components/newGamePanel';
+import Header from './UI/components/header'
 import './App.sass';
 
 class AppMainView extends React.Component {
     render() {
         return (
-            <div className="App">
+            <div className="middleRow">
                 <div className="newGamePanelWrapper">
                     <NewGamePanel />
                 </div>
-                <Game store={this.props.store}/>
+                <Game />
             </div>
         )
     }
@@ -23,12 +24,12 @@ class AppMainView extends React.Component {
 class AppInGameView extends React.Component {
     render() {
         return (
-            <div className="App">
+            <div className="middleRow">
                 <div className="newGamePanelWrapper">
-                    <NewGamePanelInGameView store={this.props.store}/>
+                    <NewGamePanelInGameView />
                 </div>
                 <div className="gameContainer">
-                    <GameWithEngine store={this.props.store} />
+                    <GameWithEngine />
                 </div>
             </div>
         )
@@ -38,12 +39,12 @@ class AppInGameView extends React.Component {
 class AppAnalysisView extends React.Component {
     render() {
         return (
-            <div className="App">
+            <div className="middleRow">
                 <div className="newGamePanelWrapper">
-                    <NewGamePanelInGameView store={this.props.store}/>
+                    <NewGamePanelInGameView />
                 </div>
                 <div className="gameContainer">
-                    <GameAnalysis store={this.props.store} />
+                    <GameAnalysis />
                 </div>
             </div>
         )
@@ -53,20 +54,12 @@ class AppAnalysisView extends React.Component {
 class AppNewGameView extends React.Component {
     render() {
         return (
-            <div className="App">
+            <div className="middleRow">
                 <div className="newGamePanelWrapper">
-                    <NewGamePanel store={this.props.store}/>
+                    <NewGamePanel />
                 </div>
-                <GameNewGameView store={this.props.store}/>
+                <GameNewGameView />
             </div>
-        )
-    }
-}
-
-class TestView extends React.Component {
-    render() {
-        return (
-            <div>Test</div>
         )
     }
 }
@@ -74,13 +67,15 @@ class TestView extends React.Component {
 class App extends React.Component {
     render() {
         return (
-            <Router history = {hashHistory}>
-                <Route path="/" component={AppMainView} />
-                <Route path="/newgame" component={AppNewGameView} />
-                <Route path="/engine" component={AppInGameView} />
-                <Route path="/analysis" component={AppAnalysisView} />
-                <Route path="/test" component={TestView} />
-            </Router>
+            <div className="App">
+                <Header />
+                <Router history = {hashHistory}>
+                    <Route path="/" component={AppMainView} />
+                    <Route path="/newgame" component={AppNewGameView} />
+                    <Route path="/engine" component={AppInGameView} />
+                    <Route path="/analysis" component={AppAnalysisView} />
+                </Router>
+            </div>
         )
     };
 }

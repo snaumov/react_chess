@@ -4,6 +4,14 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux'
 import { showResignPanel, hideResignPanel, resign, startNewGame } from '../actions'
 
+function CheckMatePanel (props) {
+    return (
+        <div className="checkMatePanel">
+            <p>CheckMate!</p>
+        </div>
+    )
+}
+
 function ResignPanel(props) {
     return (
         <div className="resignPanel">
@@ -58,7 +66,7 @@ class NewGamePanelInGameViewComponent extends NewGamePanelComponent {
     render() {
         return (
             <div className="NewGamePanel">
-                {!this.props.position.resigned ?
+                {(!this.props.position.checkMate && !this.props.position.resigned) ?
                 (
                     <button className="newGameButton" onClick={() => this.props.dispatch(showResignPanel())}>Resign</button>
                 ) : 
@@ -66,6 +74,7 @@ class NewGamePanelInGameViewComponent extends NewGamePanelComponent {
                     <Link to="/newgame" className="newGameButton">New Game</Link>
                 )
                 }
+                {this.props.position.checkMate ? <CheckMatePanel /> : undefined }
                 {this.props.ui.showResignPanel ? <ResignPanel onResignClick={this.onResignClick.bind(this)} onCancelResignClick={this.onCancelResignClick.bind(this)} whiteAtBottom={this.props.position.whiteAtBottom} resigned={this.props.position.resigned}/> : undefined}
             </div>
         )

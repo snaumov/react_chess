@@ -1,8 +1,28 @@
 .App
   text-align: center
+
+.header
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  width: 70%
+  margin: auto
+
+  .logo
+    display: flex
+    justify-content: row
+
+  img 
+    width: 58px
+    height: 73px
+    
+  .headerControlElements
+    display: flex
+    flex-direction: row
+
+.middleRow
   display: flex
   justify-content: row
-
 //gameContainer
 .gameContainer
   width: 900px
@@ -90,13 +110,13 @@ div[class^="board-row"]
 
   .black
     background-position: -2px -3px
-    background-image: url('./Game/components/static/bK.svg')
+    background-image: url('./Game/components/media/bK.svg')
   .random
     background-position: 2px 2px
-    background-image: url('./Game/components/static/wbK.svg')
+    background-image: url('./Game/components/media/wbK.svg')
   .white
     background-position: -1px -3px
-    background-image: url('./Game/components/static/wK.svg')
+    background-image: url('./Game/components/media/wK.svg')
 
 //newGamePanel
 .newGameButton

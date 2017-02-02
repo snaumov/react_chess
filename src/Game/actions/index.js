@@ -5,11 +5,7 @@ export const UPDATE_START_SQUARE = 'UPDATE_START_SQUARE'
 export const MAKE_MOVE = 'MAKE_MOVE'
 export const JUMP_TO = 'JUMP_TO'
 export const START_NEW_GAME = 'START_NEW_GAME'
-export const SHOW_RESIGN_PANEL = 'SHOW_RESIGN_PANEL'
-export const HIDE_RESIGN_PANEL = 'HIDE_RESIGN_PANEL'
 export const RESIGN = 'RESIGN'
-export const RESET_UI = 'RESET_UI'
-export const CHANGE_POPUP_LINK = 'CHANGE_POPUP_LINK'
 
 
 // export function onMouseDownGetAvailableMoves(startSquare) {
@@ -63,35 +59,11 @@ export function engineMakesMove(fen, humanMove) {
 
 }
 
-//UI
-export function resetUI() {
-    return {
-        type: RESET_UI,
-    }
-}
-
-export function showResignPanel() {
-    return {
-        type: SHOW_RESIGN_PANEL,
-    }
-}
-
-export function hideResignPanel() {
-    return {
-        type: HIDE_RESIGN_PANEL,
-    }
-}
-
 export function resign() {
     return {
         type: RESIGN,
     }
 }
 
-export function changePopupLinksTo(link) {
-    return {
-        type: CHANGE_POPUP_LINK,
-        link: link,
-    }
-}
+
 

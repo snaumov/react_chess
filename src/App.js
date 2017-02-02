@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux'
 import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 import { Game, GameNewGameView } from './Game/containers/Game';
 import GameWithEngine from './Game/containers/GameWithEngine';
@@ -64,10 +65,10 @@ class AppNewGameView extends React.Component {
     }
 }
 
-class App extends React.Component {
+class AppComponent extends React.Component {
     render() {
         return (
-            <div className="App">
+            <div className={this.props.ui.lightBackground ? "App lightBackground" : "App darkBackground"}>
                 <Header />
                 <Router history = {hashHistory}>
                     <Route path="/" component={AppMainView} />
@@ -79,5 +80,13 @@ class App extends React.Component {
         )
     };
 }
+
+const mapStateToProps = (state) => {
+  return {
+    ui: state.ui,
+  }
+}
+
+const App = connect(mapStateToProps)(AppComponent)
 
 export default App;

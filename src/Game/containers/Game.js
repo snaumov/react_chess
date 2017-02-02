@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { updateStartSquare, makeMove, jumpTo, startNewGame, resetUI, changePopupLinksTo } from '../actions'
+import { updateStartSquare, makeMove, jumpTo, startNewGame } from '../actions'
+import { resetUI, changePopupLinksTo } from '../../UI/actions'
 import Chess from 'chess.js';
 import Board from '../components/chessBoard.js'
 import MovesList from '../components/movesList.js'

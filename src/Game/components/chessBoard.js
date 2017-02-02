@@ -60,7 +60,7 @@ function Square (props) {
   if (props.picture !== undefined) {
       return (
       <div className={props.color + "Square"}>
-        <Piece coordinate={props.coordinate} picture={props.picture} onClick={props.onClick} onMouseUp={props.onMouseUp} pieceColor={props.picture[9]} whiteIsNext={props.whiteIsNext} availableMoves={props.availableMoves} whiteAtBottom={props.whiteAtBottom} resigned={props.resigned} analysisMode={props.analysisMode}/>
+        <Piece coordinate={props.coordinate} picture={props.picture} onClick={props.onClick} onMouseUp={props.onMouseUp} pieceColor={props.picture[8]} whiteIsNext={props.whiteIsNext} availableMoves={props.availableMoves} whiteAtBottom={props.whiteAtBottom} resigned={props.resigned} analysisMode={props.analysisMode}/>
       </div>
     );
   } else {

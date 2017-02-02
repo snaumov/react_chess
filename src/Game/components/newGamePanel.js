@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
 import { connect } from 'react-redux'
-import { showResignPanel, hideResignPanel, resign, startNewGame } from '../actions'
+import { resign, startNewGame } from '../actions'
+import { showResignPanel, hideResignPanel } from '../../UI/actions'
 
 function CheckMatePanel (props) {
     return (

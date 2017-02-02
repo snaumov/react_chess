@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { MAKE_MOVE, UPDATE_START_SQUARE, JUMP_TO, START_NEW_GAME, SHOW_RESIGN_PANEL, HIDE_RESIGN_PANEL, RESIGN, RESET_UI, CHANGE_POPUP_LINK } from '../actions'
+import { MAKE_MOVE, UPDATE_START_SQUARE, JUMP_TO, START_NEW_GAME, RESIGN } from '../actions'
 import Chess from 'chess.js'
 
 const initialState = {
@@ -47,12 +47,6 @@ const initialState = {
     whiteAtBottom: true,
     resigned: false,
     checkMate: false,
-}
-
-const initialUIState = {
-    showResignPanel: false,
-    newGamePopupLinksTo: 'engine',
-    analysisMode: false,
 }
 
 
@@ -128,30 +122,4 @@ function position(state=initialState, action) {
     }
 }
 
-function ui(state=initialUIState, action) {
-    switch(action.type){
-        case RESET_UI:
-            return Object.assign({}, state, initialUIState)
-        case SHOW_RESIGN_PANEL:
-            return Object.assign({}, state, {
-                showResignPanel: true,
-            })
-        case HIDE_RESIGN_PANEL:
-            return Object.assign({}, state, {
-                showResignPanel: false,
-            })
-        case CHANGE_POPUP_LINK:
-            return Object.assign({}, state, {
-                newGamePopupLinksTo: action.link,
-            })
-        default: 
-            return state
-    }
-}
-
-const rootReducer = combineReducers({
-    position,
-    ui
-})
-
-export default rootReducer
+export default position

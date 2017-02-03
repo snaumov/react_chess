@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { updateStartSquare, makeMove, jumpTo, startNewGame } from '../actions'
-import { resetUI, changePopupLinksTo } from '../../UI/actions'
+import { resetUI, changePopupLinksTo, hideResignPanel } from '../../UI/actions'
 import Chess from 'chess.js';
 import Board from '../components/chessBoard.js'
 import MovesList from '../components/movesList.js'
-import NewGamePopup from '../components/newGamePopup'
+import NewGamePopup from '../../UI/components/newGamePopup'
 import GetMoveFromServer from '../../Engine/engine.js'
 
 class GameComponent extends Component {
@@ -15,11 +15,12 @@ class GameComponent extends Component {
     this.onMouseDown = this.onMouseDown.bind(this)
     this.onMouseUp = this.onMouseUp.bind(this)
     this.jumpTo = this.jumpTo.bind(this)
+    this.onClickNewGame = this.onClickNewGame.bind(this)
+    this.handlePopupChange = this.handlePopupChange.bind(this)
   }
 
   onMouseDown(startSquare){
     console.log(startSquare);
-    //this.setState({availableMoves: this.chess.moves({square: startSquare})})
     this.props.dispatch(updateStartSquare(startSquare))
   }
 
@@ -32,6 +33,15 @@ class GameComponent extends Component {
     this.props.dispatch(jumpTo(move))
   }
 
+  onClickNewGame(color){
+    this.props.dispatch(startNewGame(color))
+    this.props.dispatch(resetUI());
+  }
+
+  handlePopupChange(link){
+    this.props.dispatch(changePopupLinksTo(link));
+  }
+
 
   render() {
     const { position, whiteIsNext, availableMoves, history, whiteAtBottom, resigned } = this.props.position
@@ -40,6 +50,7 @@ class GameComponent extends Component {
         <div className="chessBoard">
           <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)} whiteAtBottom={whiteAtBottom} resigned={resigned}/>
         </div>
+        {this.props.ui.showNewGamePanel ? <NewGamePopup onClick={this.onClickNewGame} onChange={this.handlePopupChange} newGamePopupLinksTo={this.props.ui.newGamePopupLinksTo} /> : undefined}
         <MovesList history={history} onClick={this.jumpTo}/>
       </div>
     )

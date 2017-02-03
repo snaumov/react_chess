@@ -16,9 +16,11 @@ class Picker extends Component {
 class NewGamePopup extends React.Component {
 
     render() {
+        console.log(this.props.onBlur)
         return(
             <div className="NewGamePopup">
                 <h2>Create a game</h2>
+                <i className="closeNewGamePopup"></i>
                 <Picker onChange={e => this.props.onChange(e)} />
                 <div className="SidePicker">
                     <Link to={this.props.newGamePopupLinksTo} className="black" onClick={() => this.props.onClick('black')}></Link>

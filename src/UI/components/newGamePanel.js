@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
 import { connect } from 'react-redux'
-import { resign, startNewGame } from '../actions'
-import { showResignPanel, hideResignPanel } from '../../UI/actions'
+import { resign, startNewGame } from '../../Game/actions'
+import { showResignPanel, hideResignPanel, showNewGamePanel, hideNewGamePanel } from '../../UI/actions'
 
 function CheckMatePanel (props) {
     return (
@@ -21,8 +21,8 @@ function ResignPanel(props) {
                 (
                     <div><p> Are you sure you want to resign? </p>
                         <div className="resignButtons">
-                            <button onClick={() => props.onResignClick()}>Yes</button>
-                            <button onClick={() => props.onCancelResignClick()}>No</button>
+                            <button className="resignButton" onClick={() => props.onResignClick()}>Yes</button>
+                            <button className="resignButton" onClick={() => props.onCancelResignClick()}>No</button>
                         </div>
                     </div>
                 ) : (
@@ -41,8 +41,8 @@ class NewGamePanelComponent extends React.Component {
 
     render() {
         return (
-            <div className="NewGamePanel">
-                <Link to="/newgame" className="newGameButton">New Game</Link>
+            <div className="newGamePanel">
+                <button className="newGameButton" onClick={() => this.props.dispatch(showNewGamePanel())}>New Game</button>
             </div>
         )
     }
@@ -66,7 +66,7 @@ class NewGamePanelInGameViewComponent extends NewGamePanelComponent {
 
     render() {
         return (
-            <div className="NewGamePanel">
+            <div className="newGamePanel">
                 {(!this.props.position.checkMate && !this.props.position.resigned) ?
                 (
                     <button className="newGameButton" onClick={() => this.props.dispatch(showResignPanel())}>Resign</button>

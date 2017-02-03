@@ -5,7 +5,7 @@ import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 import { Game, GameNewGameView } from './Game/containers/Game';
 import GameWithEngine from './Game/containers/GameWithEngine';
 import GameAnalysis from './Game/containers/GameAnalysis';
-import { NewGamePanel, NewGamePanelInGameView } from './Game/components/newGamePanel';
+import { NewGamePanel, NewGamePanelInGameView } from './UI/components/newGamePanel';
 import Header from './UI/components/header'
 import './App.sass';
 
@@ -13,9 +13,7 @@ class AppMainView extends React.Component {
     render() {
         return (
             <div className="middleRow">
-                <div className="newGamePanelWrapper">
-                    <NewGamePanel />
-                </div>
+                <NewGamePanel />
                 <Game />
             </div>
         )
@@ -26,9 +24,7 @@ class AppInGameView extends React.Component {
     render() {
         return (
             <div className="middleRow">
-                <div className="newGamePanelWrapper">
-                    <NewGamePanelInGameView />
-                </div>
+                <NewGamePanelInGameView />
                 <GameWithEngine />
             </div>
         )
@@ -39,9 +35,7 @@ class AppAnalysisView extends React.Component {
     render() {
         return (
             <div className="middleRow">
-                <div className="newGamePanelWrapper">
-                    <NewGamePanelInGameView />
-                </div>
+                <NewGamePanelInGameView />
                 <GameAnalysis />
             </div>
         )
@@ -52,10 +46,8 @@ class AppNewGameView extends React.Component {
     render() {
         return (
             <div className="middleRow">
-                <div className="newGamePanelWrapper">
-                    <NewGamePanel />
-                </div>
-                <GameNewGameView />
+                <NewGamePanel />
+                <Game />
             </div>
         )
     }

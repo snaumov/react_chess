@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { changeBackground, showUsernameInput, updateUsername } from '../actions'
+import { changeBackground, showUsernameInput, updateUsername, hideUsernameInput } from '../actions'
 
 class UserNameInput extends React.Component{
     constructor(props) {
         super(props);
         console.log(this.props)
-        this.handleChange = this.handleChange.bind(this);
+        //this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }   
 
@@ -16,14 +16,11 @@ class UserNameInput extends React.Component{
         event.preventDefault();
     }
 
-    handleChange(event) {
-        this.props.onChange(event.target.value)
-    }
 
     render(){
         return(
-            <textarea onChange={this.handleChange} value={this.props.inputValue}></textarea>
-    )
+            <textarea tabIndex="0" onBlur={ this.props.onBlur } defaultValue={this.props.inputValue}></textarea>
+        )
     }
 }
 
@@ -37,8 +34,8 @@ class HeaderComponent extends React.Component {
                     <p className="siteHeader">ReactChess</p>
                 </div>
                 <div className="headerControlElements">
+                    {this.props.ui.showUsernameInput ? <UserNameInput inputValue={this.props.ui.username} onBlur={(e) => {this.props.dispatch(updateUsername(e.target.value));this.props.dispatch(hideUsernameInput())}}/> : <p onClick={() => this.props.dispatch(showUsernameInput())}>{this.props.ui.username}</p> }
                     <span className={this.props.ui.lightBackground ? "darkbulb" : "lightbulb"} onClick={() => this.props.dispatch(changeBackground())}></span>
-                    {this.props.ui.showUsernameInput ? <UserNameInput onChange={(e) => this.props.dispatch(updateUsername(e))} inputValue={this.props.ui.username}/> : <p onClick={() => this.props.dispatch(showUsernameInput())}>Username</p> }
                 </div>
             </div>
         )

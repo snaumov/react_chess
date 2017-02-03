@@ -1,4 +1,4 @@
-import { SHOW_RESIGN_PANEL, HIDE_RESIGN_PANEL, RESIGN, RESET_UI, CHANGE_POPUP_LINK, CHANGE_BACKGROUND, SHOW_USERNAME_INPUT, UPDATE_USERNAME } from '../actions'
+import { SHOW_RESIGN_PANEL, HIDE_RESIGN_PANEL, RESIGN, RESET_UI, CHANGE_POPUP_LINK, CHANGE_BACKGROUND, SHOW_USERNAME_INPUT, HIDE_USERNAME_INPUT, UPDATE_USERNAME } from '../actions'
 
 const initialUIState = {
     showResignPanel: false,
@@ -33,10 +33,18 @@ function ui(state=initialUIState, action) {
             return Object.assign({}, state, {
                 showUsernameInput: true,
             })
+        case HIDE_USERNAME_INPUT:
+            return Object.assign({}, state, {
+                showUsernameInput: false,
+            })
         case UPDATE_USERNAME:
             console.log(action.username);
+            var username = action.username;
+            if(action.username === ''){
+                username = 'Player 1'
+            }
             return Object.assign({}, state, {
-                username: action.username,
+                username: username,
             })
         default: 
             return state

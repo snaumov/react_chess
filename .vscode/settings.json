@@ -1,5 +1,5 @@
 {
-    "vsicons.presets.angular": true,
+    "vsicons.presets.angular": false,
     "explorer.openEditors.visible": 0,
     "editor.wrappingColumn": -1
 }

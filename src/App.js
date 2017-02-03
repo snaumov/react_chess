@@ -29,9 +29,7 @@ class AppInGameView extends React.Component {
                 <div className="newGamePanelWrapper">
                     <NewGamePanelInGameView />
                 </div>
-                <div className="gameContainer">
-                    <GameWithEngine />
-                </div>
+                <GameWithEngine />
             </div>
         )
     }
@@ -44,9 +42,7 @@ class AppAnalysisView extends React.Component {
                 <div className="newGamePanelWrapper">
                     <NewGamePanelInGameView />
                 </div>
-                <div className="gameContainer">
-                    <GameAnalysis />
-                </div>
+                <GameAnalysis />
             </div>
         )
     }

@@ -42,16 +42,6 @@ class AppAnalysisView extends React.Component {
     }
 }
 
-class AppNewGameView extends React.Component {
-    render() {
-        return (
-            <div className="middleRow">
-                <NewGamePanel />
-                <Game />
-            </div>
-        )
-    }
-}
 
 class AppComponent extends React.Component {
     render() {
@@ -60,7 +50,6 @@ class AppComponent extends React.Component {
                 <Header />
                 <Router history = {hashHistory}>
                     <Route path="/" component={AppMainView} />
-                    <Route path="/newgame" component={AppNewGameView} />
                     <Route path="/engine" component={AppInGameView} />
                     <Route path="/analysis" component={AppAnalysisView} />
                 </Router>

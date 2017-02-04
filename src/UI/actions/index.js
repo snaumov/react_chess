@@ -1,7 +1,7 @@
 export const SHOW_RESIGN_PANEL = 'SHOW_RESIGN_PANEL'
 export const HIDE_RESIGN_PANEL = 'HIDE_RESIGN_PANEL'
-export const SHOW_NEW_GAME_PANEL = 'SHOW_NEW_GAME_PANEL'
-export const HIDE_NEW_GAME_PANEL = 'HIDE_NEW_GAME_PANEL'
+export const SHOW_NEW_GAME_POPUP = 'SHOW_NEW_GAME_POPUP'
+export const HIDE_NEW_GAME_POPUP = 'HIDE_NEW_GAME_POPUP'
 export const RESET_UI = 'RESET_UI'
 export const CHANGE_POPUP_LINK = 'CHANGE_POPUP_LINK'
 export const CHANGE_BACKGROUND = 'CHANGE_BACKGROUND'
@@ -22,15 +22,15 @@ export function showResignPanel() {
     }
 }
 
-export function showNewGamePanel() {
+export function showNewGamePopup() {
     return {
-        type: SHOW_NEW_GAME_PANEL,
+        type: SHOW_NEW_GAME_POPUP,
     }
 }
 
-export function hideNewGamePanel() {
+export function hideNewGamePopup() {
     return {
-        type: HIDE_NEW_GAME_PANEL,
+        type: HIDE_NEW_GAME_POPUP,
     }
 }
 

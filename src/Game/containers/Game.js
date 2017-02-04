@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { updateStartSquare, makeMove, jumpTo, startNewGame } from '../actions'
-import { resetUI, changePopupLinksTo, hideResignPanel } from '../../UI/actions'
+import { resetUI, changePopupLinksTo, hideResignPanel, hideNewGamePopup } from '../../UI/actions'
 import Chess from 'chess.js';
 import Board from '../components/chessBoard.js'
 import MovesList from '../components/movesList.js'
@@ -50,14 +50,14 @@ class GameComponent extends Component {
         <div className="chessBoard">
           <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)} whiteAtBottom={whiteAtBottom} resigned={resigned}/>
         </div>
-        {this.props.ui.showNewGamePanel ? <NewGamePopup onClick={this.onClickNewGame} onChange={this.handlePopupChange} newGamePopupLinksTo={this.props.ui.newGamePopupLinksTo} /> : undefined}
+        {this.props.ui.showNewGamePopup ? <NewGamePopup onClick={this.onClickNewGame} onChange={this.handlePopupChange} onCloseClick={() => this.props.dispatch(hideNewGamePopup())} newGamePopupLinksTo={this.props.ui.newGamePopupLinksTo} /> : undefined}
         <MovesList history={history} onClick={this.jumpTo}/>
       </div>
     )
   }
 }
 
-class GameNewGameViewComponent extends GameComponent {
+/*class GameNewGameViewComponent extends GameComponent {
   constructor(props) {
     super(props);
     this.onClickNewGame = this.onClickNewGame.bind(this)
@@ -86,7 +86,7 @@ class GameNewGameViewComponent extends GameComponent {
       </div>
     )
   }
-}
+}*/
 
 const mapStateToProps = (state) => {
   console.log(state)
@@ -103,6 +103,6 @@ const mapStateToProps = (state) => {
 // }
 
 const Game = connect(mapStateToProps)(GameComponent)
-const GameNewGameView = connect(mapStateToProps)(GameNewGameViewComponent)
+//const GameNewGameView = connect(mapStateToProps)(GameNewGameViewComponent)
 
-export { GameComponent, Game, GameNewGameView };
+export { GameComponent, Game };

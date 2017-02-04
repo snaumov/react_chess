@@ -16,16 +16,26 @@ class Picker extends Component {
 class NewGamePopup extends React.Component {
 
     render() {
-        console.log(this.props.onBlur)
         return(
-            <div className="NewGamePopup">
-                <h2>Create a game</h2>
-                <i className="closeNewGamePopup"></i>
+            <div className="newGamePopup">
+                <div className="newGamePopupHeader">
+                    <h2>Create new game</h2>
+                    <i className="closeNewGamePopup" onClick={this.props.onCloseClick}></i>
+                </div>
                 <Picker onChange={e => this.props.onChange(e)} />
                 <div className="SidePicker">
-                    <Link to={this.props.newGamePopupLinksTo} className="black" onClick={() => this.props.onClick('black')}></Link>
-                    <Link to={this.props.newGamePopupLinksTo} className="random" onClick={() => this.props.onClick(() => ['black', 'white'][Math.floor(Math.random() * 2)])}></Link>
-                    <Link to={this.props.newGamePopupLinksTo} className="white" onClick={() => this.props.onClick('white')}></Link>
+                    <div className="sideToPick">
+                        <Link to={this.props.newGamePopupLinksTo} className="black" onClick={() => this.props.onClick('black')}></Link>
+                        <p>Black side</p>
+                    </div>
+                    <div className="sideToPick">
+                        <Link to={this.props.newGamePopupLinksTo} className="random" onClick={() => this.props.onClick(() => ['black', 'white'][Math.floor(Math.random() * 2)])}></Link>
+                        <p>Random side</p>
+                    </div>
+                    <div className="sideToPick">
+                        <Link to={this.props.newGamePopupLinksTo} className="white" onClick={() => this.props.onClick('white')}></Link>
+                        <p>White side</p>
+                    </div>
                 </div>
             </div>
         )

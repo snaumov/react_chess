@@ -1,8 +1,8 @@
-import { SHOW_RESIGN_PANEL, HIDE_RESIGN_PANEL, SHOW_NEW_GAME_PANEL, HIDE_NEW_GAME_PANEL, RESIGN, RESET_UI, CHANGE_POPUP_LINK, CHANGE_BACKGROUND, SHOW_USERNAME_INPUT, HIDE_USERNAME_INPUT, UPDATE_USERNAME } from '../actions'
+import { SHOW_RESIGN_PANEL, HIDE_RESIGN_PANEL, SHOW_NEW_GAME_POPUP, HIDE_NEW_GAME_POPUP, RESIGN, RESET_UI, CHANGE_POPUP_LINK, CHANGE_BACKGROUND, SHOW_USERNAME_INPUT, HIDE_USERNAME_INPUT, UPDATE_USERNAME } from '../actions'
 
 const initialUIState = {
     showResignPanel: false,
-    showNewGamePanel: false,
+    showNewGamePopup: false,
     newGamePopupLinksTo: 'engine',
     analysisMode: false,
     lightBackground: true,
@@ -22,13 +22,13 @@ function ui(state=initialUIState, action) {
             return Object.assign({}, state, {
                 showResignPanel: false,
             })
-        case SHOW_NEW_GAME_PANEL:
+        case SHOW_NEW_GAME_POPUP:
             return Object.assign({}, state, {
-                showNewGamePanel: true,
+                showNewGamePopup: true,
             })
-        case HIDE_NEW_GAME_PANEL: 
+        case HIDE_NEW_GAME_POPUP: 
             return Object.assign({}, state, {
-                showNewGamePanel: false,
+                showNewGamePopup: false,
             })
         case CHANGE_POPUP_LINK:
             return Object.assign({}, state, {

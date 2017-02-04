@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
 import { connect } from 'react-redux'
 import { resign, startNewGame } from '../../Game/actions'
-import { showResignPanel, hideResignPanel, showNewGamePanel, hideNewGamePanel } from '../../UI/actions'
+import { showResignPanel, hideResignPanel, showNewGamePopup, hideNewGamePopup } from '../../UI/actions'
 
 function CheckMatePanel (props) {
     return (
@@ -42,7 +42,7 @@ class NewGamePanelComponent extends React.Component {
     render() {
         return (
             <div className="newGamePanel">
-                <button className="newGameButton" onClick={() => this.props.dispatch(showNewGamePanel())}>New Game</button>
+                <button className="newGameButton" onClick={() => this.props.dispatch(showNewGamePopup())}>New Game</button>
             </div>
         )
     }
@@ -72,7 +72,7 @@ class NewGamePanelInGameViewComponent extends NewGamePanelComponent {
                     <button className="newGameButton" onClick={() => this.props.dispatch(showResignPanel())}>Resign</button>
                 ) : 
                 (
-                    <Link to="/newgame" className="newGameButton">New Game</Link>
+                     <button className="newGameButton" onClick={() => this.props.dispatch(showNewGamePopup())}>New Game</button>
                 )
                 }
                 {this.props.position.checkMate ? <CheckMatePanel /> : undefined }

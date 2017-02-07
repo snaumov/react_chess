@@ -49,6 +49,7 @@ const initialState = {
     whiteAtBottom: true,
     resigned: false,
     checkMate: false,
+    moveNumber: 0,
 }
 
 function pieceToMoveLetterHelper(pieceName) {
@@ -71,13 +72,13 @@ function position(state=initialState, action) {
                 whiteAtBottom: action.color === "white" ? true : false
             })
         case UPDATE_START_SQUARE:
-            console.log(state);
             return Object.assign({}, state, {
                 startSquare: action.startSquare,
                 pieceToMoveLetter: pieceToMoveLetterHelper(state.position[action.startSquare]),
                 availableMoves: [].concat(state.chess.moves({square: action.startSquare}))
             })
         case MAKE_MOVE:
+            console.log(state)
             //first, check if the side to move has been checkmated
             if (state.chess.in_checkmate()){
                 return Object.assign({}, state, {
@@ -127,16 +128,19 @@ function position(state=initialState, action) {
             }
             
             var newChess = Object.assign({}, state.chess);
-            var newFen = newChess.fen();
+            var fenBeforeMove = newChess.fen();
             newChess.move({from: state.startSquare, to: action.targetSquare});
+            var fenAfterMove = newChess.fen();
+
 
             return Object.assign({}, state, {
                     position: newPosition,    
                     whiteIsNext: !state.whiteIsNext,
-                    history: [...state.history, {endSquare: endSquareForHistory[0] !== 'O' ? state.pieceToMoveLetter + endSquareForHistory : endSquareForHistory, position: newPosition}],
+                    history: [...state.history.slice(0, state.moveNumber), {endSquare: endSquareForHistory[0] !== 'O' ? state.pieceToMoveLetter + endSquareForHistory : endSquareForHistory, position: newPosition, fen: fenAfterMove}],
                     chess: newChess,
-                    fen: newFen,
+                    fen: fenBeforeMove,
                     checkMate: newChess.in_checkmate(),
+                    moveNumber: state.moveNumber + 1,
             })
         case RESIGN:
             return Object.assign({}, state, {
@@ -145,7 +149,9 @@ function position(state=initialState, action) {
         case JUMP_TO:
             console.log(state.history[action.moveNumber], action.moveNumber)
             return Object.assign({}, state, {
-                position: state.history[action.moveNumber]['position']
+                position: state.history[action.moveNumber]['position'],
+                chess: new Chess(state.history[action.moveNumber]['fen']),
+                moveNumber: action.moveNumber,
             })
             
         default:

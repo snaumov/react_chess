@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 function MoveSquare(props){
     return (
         <div className="move">
-            <a href="#" onClick={props.onClick}>{props.endSquare}</a>
+            <span onClick={props.onClick}>{props.endSquare}</span>
         </div>
     );
 }

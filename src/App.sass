@@ -115,7 +115,7 @@ div[class^="board-row"]
   display: inline-block
   background-color: #EEEEEE
 
-  a
+  span
     font-family: Arial Unicode MS, Tahoma
     font-size: 15px
     color: #555
@@ -125,7 +125,7 @@ div[class^="board-row"]
   background-color: #3893e8
   cursor: pointer
 
-.move:hover a
+.move:hover span
   color: white
 
 
@@ -134,8 +134,10 @@ div[class^="board-row"]
 .moves
   display: flex
   justify-content: flex-start
-  width: 250px
+  width: 239px
   flex-wrap: wrap
+  max-height: 549px
+  overflow: auto
 
 .movesList
   width: 225px

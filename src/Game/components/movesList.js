@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 function MoveSquare(props){
     return (
-        <div className="move">
-            <span onClick={props.onClick}>{props.endSquare}</span>
+        <div onClick={props.onClick} className={props.highlightMoveSquare ? "move highlightedSquare" : "move"} >
+            <span>{props.endSquare}</span>
         </div>
     );
 }
@@ -20,11 +20,12 @@ class MovesList extends Component {
     }
     render() {
         const moves = this.props.history.map((positionState, moveNumber) => {
+            console.log(moveNumber, this.props.currentMoveNumber)
             if(moveNumber % 2 === 0){
                 return (
                     <div className="moveWithIndex">
                         <IndexSquare index={moveNumber/2 + 1} />
-                        <MoveSquare onClick={() => this.clickHandler(moveNumber)} endSquare={positionState['endSquare']} />
+                        <MoveSquare onClick={() => this.clickHandler(moveNumber)} endSquare={positionState['endSquare']} highlightMoveSquare={moveNumber === this.props.currentMoveNumber - 1} />
                     </div>
 
                 );
@@ -32,7 +33,7 @@ class MovesList extends Component {
             }else{
 
                 return (
-                    <MoveSquare onClick={() => this.clickHandler(moveNumber)} endSquare={positionState['endSquare']} />
+                    <MoveSquare onClick={() => this.clickHandler(moveNumber)} endSquare={positionState['endSquare']} highlightMoveSquare={moveNumber === this.props.currentMoveNumber - 1} />
                 );
             }
                 

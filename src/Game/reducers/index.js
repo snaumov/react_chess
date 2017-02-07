@@ -151,7 +151,7 @@ function position(state=initialState, action) {
             return Object.assign({}, state, {
                 position: state.history[action.moveNumber]['position'],
                 chess: new Chess(state.history[action.moveNumber]['fen']),
-                moveNumber: action.moveNumber,
+                moveNumber: action.moveNumber + 1,
             })
             
         default:

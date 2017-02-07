@@ -51,7 +51,7 @@ class GameComponent extends Component {
           <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)} whiteAtBottom={whiteAtBottom} resigned={resigned}/>
         </div>
         {this.props.ui.showNewGamePopup ? <NewGamePopup onClick={this.onClickNewGame} onChange={this.handlePopupChange} onCloseClick={() => this.props.dispatch(hideNewGamePopup())} newGamePopupLinksTo={this.props.ui.newGamePopupLinksTo} /> : undefined}
-        <MovesList history={history} onClick={this.jumpTo}/>
+        <MovesList history={history} onClick={this.jumpTo} currentMoveNumber={this.props.position.moveNumber}/>
       </div>
     )
   }

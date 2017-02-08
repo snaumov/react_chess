@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import { resign, startNewGame } from '../../Game/actions'
 import { showResignPanel, hideResignPanel, showNewGamePopup, hideNewGamePopup } from '../../UI/actions'
 
+import ArenaPanel from '../../Arena/containers/arenaPanelContainer'
+
 function CheckMatePanel (props) {
     return (
         <div className="checkMatePanel">
@@ -77,6 +79,7 @@ class NewGamePanelInGameViewComponent extends NewGamePanelComponent {
                 }
                 {this.props.position.checkMate ? <CheckMatePanel /> : undefined }
                 {this.props.ui.showResignPanel ? <ResignPanel onResignClick={this.onResignClick.bind(this)} onCancelResignClick={this.onCancelResignClick.bind(this)} whiteAtBottom={this.props.position.whiteAtBottom} resigned={this.props.position.resigned}/> : undefined}
+                <ArenaPanel />
             </div>
         )
     }

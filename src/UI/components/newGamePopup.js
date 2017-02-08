@@ -13,7 +13,7 @@ class Picker extends Component {
     }
 }
 
-class NewGamePopup extends React.Component {
+class NewGamePopup extends Component {
 
     render() {
         return(

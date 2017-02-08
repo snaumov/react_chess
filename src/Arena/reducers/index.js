@@ -1,7 +1,7 @@
 import UPDATE_GAME_LIST from '../actions'
 
 const arenaInitState = {
-    gameList: [],
+    gameList: {},
 }
 
 function arena(state=arenaInitState, action) {

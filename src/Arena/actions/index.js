@@ -1,4 +1,6 @@
 export const UPDATE_GAME_LIST = 'UPDATE_GAME_LIST'
+export const START_NEW_NETWORK_GAME = 'START_NEW_NETWORK_GAME'
+const UPDATE_MY_GAME_ID = 'UPDATE_MY_GAME_ID'
 
 const ARENA_ADDR = 'http://localhost:4000/'
 
@@ -9,10 +11,25 @@ function updateGameList(gameList) {
     }
 }
 
+function updateMyGameID(id) {
+    return {
+        type: UPDATE_MY_GAME_ID,
+        id
+    }
+}
+
 export function fetchGames() {
     return dispatch => {
         return fetch(ARENA_ADDR + 'gamelist')
             .then(response => response.json())
             .then(json => dispatch(updateGameList(json)))
+    }
+}
+
+export function startNewNetworkGame(color, username) {
+    return dispatch => {
+        return fetch(ARENA_ADDR + 'gamelist?create=true&color=' + color + '&username=' + username)
+            .then(response => response.json())
+            .then(json => dispatch(updateMyGameID(json)))
     }
 }

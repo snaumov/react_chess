@@ -32,7 +32,7 @@ function ui(state=initialUIState, action) {
             })
         case CHANGE_POPUP_LINK:
             return Object.assign({}, state, {
-                newGamePopupLinksTo: action.link,
+                newGamePopupLinksTo: action.link !== 'network' ? action.link : '/',
             })
         case CHANGE_BACKGROUND:
             return Object.assign({}, state, {

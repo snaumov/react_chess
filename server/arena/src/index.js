@@ -1,3 +1,5 @@
+const guid = require('guid')
+
 const express = require('express')  
 const app = express()  
 const port = 4000
@@ -13,6 +15,12 @@ var gameList = {
         color: 'random',
     }
 
+}
+
+var createNewGame = (color, username) => {
+    var newGuid = guid.raw();
+    gameList[newGuid] = {user: username, color: color};
+    return newGuid;
 }
 
 app.use(function (req, res, next) {
@@ -39,8 +47,17 @@ app.get('/', (req, res) => {
 })
 
 app.get('/gamelist', (req, res) => {
+    console.log(req.query)
+    if (req.query.create === 'true') {
+        res.json(createNewGame(color=req.query.color, username=req.query.username));
+        return
+    }
     res.json(gameList)
+    return
+
 })
+
+
 
 app.listen(port, (err) => {  
   if (err) {

@@ -8,6 +8,7 @@ class Picker extends Component {
                 <select onChange={e => this.props.onChange(e.target.value)} >
                     <option value="engine">Computer</option>
                     <option value="analysis">Analysis board</option>
+                    <option value="network">Network</option>
                 </select>
         )
     }

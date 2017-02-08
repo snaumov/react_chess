@@ -45,6 +45,7 @@ class NewGamePanelComponent extends React.Component {
         return (
             <div className="newGamePanel">
                 <button className="newGameButton" onClick={() => this.props.dispatch(showNewGamePopup())}>New Game</button>
+                <ArenaPanel />
             </div>
         )
     }

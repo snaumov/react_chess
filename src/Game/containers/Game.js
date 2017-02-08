@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { updateStartSquare, makeMove, jumpTo, startNewGame } from '../actions'
 import { resetUI, changePopupLinksTo, hideResignPanel, hideNewGamePopup } from '../../UI/actions'
+import { startNewNetworkGame } from '../../Arena/actions'
 import Chess from 'chess.js';
 import Board from '../components/chessBoard.js'
 import MovesList from '../components/movesList.js'
@@ -16,6 +17,7 @@ class GameComponent extends Component {
     this.onMouseUp = this.onMouseUp.bind(this)
     this.jumpTo = this.jumpTo.bind(this)
     this.onClickNewGame = this.onClickNewGame.bind(this)
+    this.onClickNewNetworkGame = this.onClickNewNetworkGame.bind(this)
     this.handlePopupChange = this.handlePopupChange.bind(this)
   }
 
@@ -38,6 +40,10 @@ class GameComponent extends Component {
     this.props.dispatch(resetUI());
   }
 
+  onClickNewNetworkGame(color) {
+    this.props.dispatch(startNewNetworkGame(color, this.props.ui.username));
+  }
+
   handlePopupChange(link){
     this.props.dispatch(changePopupLinksTo(link));
   }
@@ -50,7 +56,7 @@ class GameComponent extends Component {
         <div className="chessBoard">
           <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)} whiteAtBottom={whiteAtBottom} resigned={resigned}/>
         </div>
-        {this.props.ui.showNewGamePopup ? <NewGamePopup onClick={this.onClickNewGame} onChange={this.handlePopupChange} onCloseClick={() => this.props.dispatch(hideNewGamePopup())} newGamePopupLinksTo={this.props.ui.newGamePopupLinksTo} /> : undefined}
+        {this.props.ui.showNewGamePopup ? <NewGamePopup onClick={this.props.ui.newGamePopupLinksTo === '/' ? this.onClickNewNetworkGame : this.onClickNewGame} onChange={this.handlePopupChange} onCloseClick={() => this.props.dispatch(hideNewGamePopup())} newGamePopupLinksTo={this.props.ui.newGamePopupLinksTo} /> : undefined}
         <MovesList history={history} onClick={this.jumpTo} currentMoveNumber={this.props.position.moveNumber}/>
       </div>
     )

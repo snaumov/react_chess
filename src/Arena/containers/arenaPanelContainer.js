@@ -6,15 +6,13 @@ import { fetchGames } from '../actions'
 class ArenaPanelContainer extends Component {
     constructor(props){
         super(props);
-        this.fetchGamesWorker = this.fetchGamesWorker.bind(this);
     }
 
-    fetchGamesWorker() {
-        setInterval(() => this.props.dispatch(fetchGames()), 5000)       
+    componentDidMount() {
+        setInterval(() => this.props.dispatch(fetchGames()), 5000);
     }
 
     render() {
-        this.fetchGamesWorker();
         return (
             <ArenaPanelComponent gameList={this.props.arena.gameList}/>
         )

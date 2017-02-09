@@ -5,6 +5,7 @@ import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 import { Game, GameNewGameView } from './Game/containers/Game';
 import GameWithEngine from './Game/containers/GameWithEngine';
 import GameAnalysis from './Game/containers/GameAnalysis';
+import GameArena from './Arena/containers/GameArena';
 import { NewGamePanel, NewGamePanelInGameView } from './UI/components/newGamePanel';
 import Header from './UI/components/header'
 import './App.sass';
@@ -42,6 +43,17 @@ class AppAnalysisView extends React.Component {
     }
 }
 
+class AppArenaView extends React.Component {
+    render() {
+        return (
+            <div className="middleRow">
+                <NewGamePanelInGameView />
+                <GameArena gameID={this.props.params.gameID}/>
+            </div>           
+        )
+    }
+}
+
 
 class AppComponent extends React.Component {
     render() {
@@ -52,6 +64,7 @@ class AppComponent extends React.Component {
                     <Route path="/" component={AppMainView} />
                     <Route path="/engine" component={AppInGameView} />
                     <Route path="/analysis" component={AppAnalysisView} />
+                    <Route path="/arena/:gameID" component={AppArenaView} />
                 </Router>
             </div>
         )

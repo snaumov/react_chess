@@ -17,28 +17,42 @@ var gameList = {
 
 }
 
+var gamesInProcess = {}
+
 var createNewGame = (color, username) => {
     var newGuid = guid.raw();
     gameList[newGuid] = {user: username, color: color};
     return newGuid;
 }
 
+var chooseExistingGame = (gameID, secondPlayer) => {
+    switch (gameList[gameID]['color']) {
+        case 'black':
+            gamesInProcess[gameID] = { 'white': gameList[gameID]['user'], 'black': secondPlayer }
+        case 'white':
+            gamesInProcess[gameID] = { 'white': secondPlayer, 'black': gameList[gameID]['user'] }
+        case 'random':
+            var firstPlayerColor = ['black', 'white'][Math.floor(Math.random() * 2)];
+            var secondPlayerColor = firstPlayerColor === 'white' ? 'black' : 'white';
+            gamesInProcess[gameID] = { firstPlayerColor: gameList[gameID]['user'], secondPlayerColor : secondPlayer };
+        
+    }
+
+    gameList[gameID] = undefined;
+
+    return gamesInProcess[gameID][secondPlayer];
+}
+
 app.use(function (req, res, next) {
 
-    // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 
-    // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
-    // Request headers you wish to allow
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
     res.setHeader('Access-Control-Allow-Credentials', true);
 
-    // Pass to next layer of middleware
     next();
 });
 
@@ -51,9 +65,10 @@ app.get('/gamelist', (req, res) => {
     if (req.query.create === 'true') {
         res.json(createNewGame(color=req.query.color, username=req.query.username));
         return
+    } else if (req.query.choose === 'true') {
+        res.json(chooseExistingGame(req.query.gameID, req.query.username))
     }
     res.json(gameList)
-    return
 
 })
 

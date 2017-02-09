@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
 import { connect } from 'react-redux'
 import { resign, startNewGame } from '../../Game/actions'
-import { showResignPanel, hideResignPanel, showNewGamePopup, hideNewGamePopup } from '../../UI/actions'
+import { showResignPanel, hideResignPanel, showNewGamePopup, hideNewGamePopup } from '../actions'
+import { chooseExistingNetworkGame } from '../../Arena/actions'
 
 import ArenaPanel from '../../Arena/containers/arenaPanelContainer'
 
@@ -39,13 +40,18 @@ function ResignPanel(props) {
 class NewGamePanelComponent extends React.Component {
     constructor(props) {
         super(props);
+        this.onArenaPileClick = this.onArenaPileClick.bind(this);
+    }
+
+    onArenaPileClick(gameID) {
+        this.props.dispatch(chooseExistingNetworkGame(gameID, this.props.ui.username));
     }
 
     render() {
         return (
             <div className="newGamePanel">
                 <button className="newGameButton" onClick={() => this.props.dispatch(showNewGamePopup())}>New Game</button>
-                <ArenaPanel />
+                <ArenaPanel onClick={() => this.onArenaPileClick(gameID)}/>
             </div>
         )
     }

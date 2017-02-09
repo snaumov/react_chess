@@ -63,36 +63,6 @@ class GameComponent extends Component {
   }
 }
 
-/*class GameNewGameViewComponent extends GameComponent {
-  constructor(props) {
-    super(props);
-    this.onClickNewGame = this.onClickNewGame.bind(this)
-    this.handlePopupChange = this.handlePopupChange.bind(this)
-  }
-
-  onClickNewGame(color){
-    this.props.dispatch(startNewGame(color))
-    this.props.dispatch(resetUI());
-  }
-
-  handlePopupChange(link){
-    this.props.dispatch(changePopupLinksTo(link));
-  }
-
-  render() {
-    const { position, whiteIsNext, availableMoves, history, whiteAtBottom, resigned } = this.props.position
-    const { newGamePopupLinksTo } = this.props.ui
-    return (
-      <div className="gameContainer">
-        <div className="chessBoard">
-          <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)} whiteAtBottom={whiteAtBottom} resigned={resigned}/>
-        </div>
-        <NewGamePopup onClick={this.onClickNewGame} onChange={this.handlePopupChange} newGamePopupLinksTo={newGamePopupLinksTo}/>
-        <MovesList history={history} onClick={this.jumpTo}/>
-      </div>
-    )
-  }
-}*/
 
 const mapStateToProps = (state) => {
   console.log(state)
@@ -102,13 +72,7 @@ const mapStateToProps = (state) => {
     ui: state.ui,
   }
 }
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-
-//   }
-// }
 
 const Game = connect(mapStateToProps)(GameComponent)
-//const GameNewGameView = connect(mapStateToProps)(GameNewGameViewComponent)
 
 export { GameComponent, Game };

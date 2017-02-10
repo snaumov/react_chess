@@ -4,16 +4,15 @@ import { Link } from 'react-router'
 function MyGamePile(props) {
     return (
         <div className="myGamePile">
-            <p className="color">{props.colorToPlay}</p>
-            <span>rotator</span>
+            <p className="color">{props.myColor}</p>
+            {!props.myCallAccepted ? <span>rotator</span> : undefined }
         </div>
     )   
 }
 
 function GamePile(props) {
-    return (
-        
-        <Link to={'/arena/' + props.gameId} onClick={() => props.onClick(props.gameID)}>
+    return (       
+        <Link to={'/arena/' + props.gameID} onClick={() => props.onClick(props.gameID)}>
             <div className="gamePile">
                 <p className="opponentName">{props.opponentName}</p>
                 <p className="color">{props.colorToPlay}</p>
@@ -28,10 +27,10 @@ function ArenaPanelComponent(props) {
         <div className="arenaPanel">
             <h2>Arena</h2>
             <div className="gameList">
-                {
-                    Object.keys(props.gameList).map( (key) => (
-                        <GamePile key={key} opponentName={props.gameList[key]['user']} colorToPlay={props.gameList[key]['color']} gameId={key} onClick={this.props.onClick}/>
-                    )
+                { props.myGameID ? <MyGamePile myColor={props.myColor} onClick={props.onClick} myCallAccepted={props.myCallAccepted}/> : undefined }
+                { Object.keys(props.gameList).map( key => 
+                    key !== props.myGameID ? <GamePile key={key} opponentName={props.gameList[key]['user']} colorToPlay={props.gameList[key]['color']} gameID={key} onClick={props.onClick}/> : undefined
+                        
                 )}
             </div>
         </div>

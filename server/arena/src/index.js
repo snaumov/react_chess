@@ -26,21 +26,29 @@ var createNewGame = (color, username) => {
 }
 
 var chooseExistingGame = (gameID, secondPlayer) => {
+    var returnColor = 'white'
     switch (gameList[gameID]['color']) {
         case 'black':
+            console.log('here');
             gamesInProcess[gameID] = { 'white': gameList[gameID]['user'], 'black': secondPlayer }
+            returnColor = 'black'
+            break;
         case 'white':
             gamesInProcess[gameID] = { 'white': secondPlayer, 'black': gameList[gameID]['user'] }
+            returnColor = 'white';
+            break;
         case 'random':
             var firstPlayerColor = ['black', 'white'][Math.floor(Math.random() * 2)];
             var secondPlayerColor = firstPlayerColor === 'white' ? 'black' : 'white';
             gamesInProcess[gameID] = { firstPlayerColor: gameList[gameID]['user'], secondPlayerColor : secondPlayer };
+            returnColor = secondPlayerColor;
+            break;
         
     }
 
     gameList[gameID] = undefined;
-
-    return gamesInProcess[gameID][secondPlayer];
+    console.log(gamesInProcess);
+    return returnColor;
 }
 
 app.use(function (req, res, next) {
@@ -61,12 +69,13 @@ app.get('/', (req, res) => {
 })
 
 app.get('/gamelist', (req, res) => {
-    console.log(req.query)
+    console.log(gameList)
     if (req.query.create === 'true') {
         res.json(createNewGame(color=req.query.color, username=req.query.username));
         return
     } else if (req.query.choose === 'true') {
-        res.json(chooseExistingGame(req.query.gameID, req.query.username))
+        res.json(chooseExistingGame(req.query.gameid, req.query.username))
+        return
     }
     res.json(gameList)
 

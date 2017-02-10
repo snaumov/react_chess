@@ -54,7 +54,7 @@ class GameComponent extends Component {
     return (
       <div className="gameContainer">
         <div className="chessBoard">
-          <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp.bind(this)} whiteAtBottom={whiteAtBottom} resigned={resigned}/>
+          <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp} whiteAtBottom={whiteAtBottom} resigned={resigned}/>
         </div>
         {this.props.ui.showNewGamePopup ? <NewGamePopup onClick={this.props.ui.newGamePopupLinksTo === '/' ? this.onClickNewNetworkGame : this.onClickNewGame} onChange={this.handlePopupChange} onCloseClick={() => this.props.dispatch(hideNewGamePopup())} newGamePopupLinksTo={this.props.ui.newGamePopupLinksTo} /> : undefined}
         <MovesList history={history} onClick={this.jumpTo} currentMoveNumber={this.props.position.moveNumber}/>
@@ -65,7 +65,6 @@ class GameComponent extends Component {
 
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     position: state.position,
     history: state.history,

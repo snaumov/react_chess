@@ -44,14 +44,16 @@ class NewGamePanelComponent extends React.Component {
     }
 
     onArenaPileClick(gameID) {
+        console.log(gameID)
         this.props.dispatch(chooseExistingNetworkGame(gameID, this.props.ui.username));
     }
 
     render() {
+        const { myGameID, myCallAccepted, myColor } = this.props.arena
         return (
             <div className="newGamePanel">
                 <button className="newGameButton" onClick={() => this.props.dispatch(showNewGamePopup())}>New Game</button>
-                <ArenaPanel onClick={() => this.onArenaPileClick(gameID)}/>
+                <ArenaPanel onClick={this.onArenaPileClick} myGameID={myGameID} myCallAccepted={myCallAccepted} myColor={myColor}/>
             </div>
         )
     }
@@ -86,7 +88,7 @@ class NewGamePanelInGameViewComponent extends NewGamePanelComponent {
                 }
                 {this.props.position.checkMate ? <CheckMatePanel /> : undefined }
                 {this.props.ui.showResignPanel ? <ResignPanel onResignClick={this.onResignClick.bind(this)} onCancelResignClick={this.onCancelResignClick.bind(this)} whiteAtBottom={this.props.position.whiteAtBottom} resigned={this.props.position.resigned}/> : undefined}
-                <ArenaPanel />
+                <ArenaPanel onClick={this.onArenaPileClick} />
             </div>
         )
     }
@@ -95,7 +97,8 @@ class NewGamePanelInGameViewComponent extends NewGamePanelComponent {
 const mapStateToProps = (state) => {
   return {
     position: state.position,
-    ui: state.ui
+    ui: state.ui,
+    arena: state.arena,
   }
 }
 

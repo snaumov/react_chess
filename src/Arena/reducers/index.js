@@ -1,10 +1,12 @@
-import { UPDATE_GAME_LIST, UPDATE_MY_GAME_ID } from '../actions'
+import { UPDATE_GAME_LIST, UPDATE_MY_GAME_ID, UPDATE_CURRENT_GAME_ID, UPDATE_CURRENT_MOVE } from '../actions'
 
 const arenaInitState = {
     gameList: {},
     myGameID: '',
     myCallAccepted: false,
     myColor: 'white',
+    currentGameID: '',
+    currentMove: '',
 }
 
 function arena(state=arenaInitState, action) {
@@ -27,6 +29,14 @@ function arena(state=arenaInitState, action) {
         case 'UPDATE_MY_COLOR':
             return Object.assign({}, state, {
                 myColor: action.color,
+            })
+        case 'UPDATE_CURRENT_GAME_ID':
+            return Object.assign({}, state, {
+                currentGameID: action.gameID
+            })
+        case 'UPDATE_CURRENT_MOVE': 
+            return Object.assign({}, state, {
+                currentMove: action.move,
             })
         default:
             return state

@@ -14,7 +14,7 @@ class ArenaPanelContainer extends Component {
 
     render() {
         return (
-            <ArenaPanelComponent gameList={this.props.arena.gameList} onClick={this.props.onClick} myGameID={this.props.myGameID} myColor={this.props.myColor} myCallAccepted={this.props.myCallAccepted}/>
+            <ArenaPanelComponent gameList={this.props.arena.gameList} onClick={this.props.onClick} myGameID={this.props.myGameID} myColor={this.props.myColor} myCallAccepted={this.props.myCallAccepted} onMyGamePileClick={this.props.onMyGamePileClick}/>
         )
     }
 }

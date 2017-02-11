@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux'
 import { resign, startNewGame } from '../../Game/actions'
 import { showResignPanel, hideResignPanel, showNewGamePopup, hideNewGamePopup } from '../actions'
-import { chooseExistingNetworkGame } from '../../Arena/actions'
+import { chooseExistingNetworkGame, chooseMyNetworkGame, updateCurrentGameID, resignNetworkGame } from '../../Arena/actions'
 
 import ArenaPanel from '../../Arena/containers/arenaPanelContainer'
 
@@ -41,6 +41,7 @@ class NewGamePanelComponent extends React.Component {
     constructor(props) {
         super(props);
         this.onArenaPileClick = this.onArenaPileClick.bind(this);
+        this.onMyGamePileClick = this.onMyGamePileClick.bind(this);
     }
 
     onArenaPileClick(gameID) {
@@ -48,12 +49,17 @@ class NewGamePanelComponent extends React.Component {
         this.props.dispatch(chooseExistingNetworkGame(gameID, this.props.ui.username));
     }
 
+    onMyGamePileClick() {
+        this.props.dispatch(startNewGame(this.props.arena.myColor));
+        this.props.dispatch(updateCurrentGameID(this.props.arena.myGameID));
+    }
+
     render() {
         const { myGameID, myCallAccepted, myColor } = this.props.arena
         return (
             <div className="newGamePanel">
                 <button className="newGameButton" onClick={() => this.props.dispatch(showNewGamePopup())}>New Game</button>
-                <ArenaPanel onClick={this.onArenaPileClick} myGameID={myGameID} myCallAccepted={myCallAccepted} myColor={myColor}/>
+                <ArenaPanel onClick={this.onArenaPileClick} myGameID={myGameID} myCallAccepted={myCallAccepted} myColor={myColor} onMyGamePileClick={this.onMyGamePileClick}/>
             </div>
         )
     }
@@ -88,9 +94,18 @@ class NewGamePanelInGameViewComponent extends NewGamePanelComponent {
                 }
                 {this.props.position.checkMate ? <CheckMatePanel /> : undefined }
                 {this.props.ui.showResignPanel ? <ResignPanel onResignClick={this.onResignClick.bind(this)} onCancelResignClick={this.onCancelResignClick.bind(this)} whiteAtBottom={this.props.position.whiteAtBottom} resigned={this.props.position.resigned}/> : undefined}
-                <ArenaPanel onClick={this.onArenaPileClick} />
             </div>
         )
+    }
+}
+
+class NewGamePanelInNetworkGameViewComponent extends NewGamePanelInGameViewComponent {
+    constructor(props) {
+        super(props);
+    }
+
+    onResignClick() {
+        this.props.dispatch(resignNetworkGame(this.props.arena.myColor))
     }
 }
 
@@ -105,5 +120,6 @@ const mapStateToProps = (state) => {
 
 const NewGamePanel = connect(mapStateToProps)(NewGamePanelComponent);
 const NewGamePanelInGameView = connect(mapStateToProps)(NewGamePanelInGameViewComponent);
+const NewGamePanelInNetworkGameView = connect(mapStateToProps)(NewGamePanelInNetworkGameViewComponent);
 
-export { NewGamePanel, NewGamePanelInGameView };
+export { NewGamePanel, NewGamePanelInGameView, NewGamePanelInNetworkGameView };

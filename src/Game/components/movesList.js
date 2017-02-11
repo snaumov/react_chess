@@ -20,7 +20,6 @@ class MovesList extends Component {
     }
     render() {
         const moves = this.props.history.map((positionState, moveNumber) => {
-            console.log(moveNumber, this.props.currentMoveNumber)
             if(moveNumber % 2 === 0){
                 return (
                     <div className="moveWithIndex">

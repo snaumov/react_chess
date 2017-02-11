@@ -3,9 +3,9 @@ import { Link } from 'react-router'
 
 function MyGamePile(props) {
     return (
-        <div className="myGamePile">
+        <div className="myGamePile" >
             <p className="color">{props.myColor}</p>
-            {!props.myCallAccepted ? <span>rotator</span> : undefined }
+            {!props.myCallAccepted ? <span>rotator</span> : <Link to={'/arena/' + props.myGameID} onClick={props.onMyGamePileClick}>Play</Link>}
         </div>
     )   
 }
@@ -27,7 +27,7 @@ function ArenaPanelComponent(props) {
         <div className="arenaPanel">
             <h2>Arena</h2>
             <div className="gameList">
-                { props.myGameID ? <MyGamePile myColor={props.myColor} onClick={props.onClick} myCallAccepted={props.myCallAccepted}/> : undefined }
+                { props.myGameID ? <MyGamePile myColor={props.myColor} onMyGamePileClick={props.onMyGamePileClick} myCallAccepted={props.myCallAccepted} myGameID={props.myGameID}/> : undefined }
                 { Object.keys(props.gameList).map( key => 
                     key !== props.myGameID ? <GamePile key={key} opponentName={props.gameList[key]['user']} colorToPlay={props.gameList[key]['color']} gameID={key} onClick={props.onClick}/> : undefined
                         

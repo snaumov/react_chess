@@ -7,7 +7,7 @@ class GameWithEngineComponent extends GameComponent {
     super(props);
     console.log(this.props)
     if (!this.props.position.whiteAtBottom){
-        this.props.dispatch((engineMakesMove(this.props.position.fen, '')))
+        this.props.dispatch(engineMakesMove(this.props.position.fen, ''))
     }
   }
 

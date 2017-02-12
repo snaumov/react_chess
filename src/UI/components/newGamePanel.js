@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux'
 import { resign, startNewGame } from '../../Game/actions'
 import { showResignPanel, hideResignPanel, showNewGamePopup, hideNewGamePopup } from '../actions'
-import { chooseExistingNetworkGame, chooseMyNetworkGame, updateCurrentGameID, resignNetworkGame } from '../../Arena/actions'
+import { chooseExistingNetworkGame, chooseMyNetworkGame, updateCurrentGameID, updateMyGameID, resignNetworkGame } from '../../Arena/actions'
 
 import ArenaPanel from '../../Arena/containers/arenaPanelContainer'
 
@@ -19,22 +19,31 @@ function CheckMatePanel (props) {
 function ResignPanel(props) {
     return (
         <div className="resignPanel">
-            {!props.resigned ? 
-
-                (
-                    <div><p> Are you sure you want to resign? </p>
-                        <div className="resignButtons">
-                            <button className="resignButton" onClick={() => props.onResignClick()}>Yes</button>
-                            <button className="resignButton" onClick={() => props.onCancelResignClick()}>No</button>
+            {!props.resigned
+                ? (props.networkOpponentResigned
+                    ? <p>Opponent resigned. {props.whiteAtBottom
+                                ? 'White'
+                                : 'Black'} won. Congratulations!</p>
+                    : (
+                        <div>
+                            <p>
+                                Are you sure you want to resign?
+                            </p>
+                            <div className="resignButtons">
+                                <button className="resignButton" onClick={() => props.onResignClick()}>Yes</button>
+                                <button className="resignButton" onClick={() => props.onCancelResignClick()}>No</button>
+                            </div>
                         </div>
-                    </div>
-                ) : (
-                    <p>{props.whiteAtBottom ? 'Black' : 'White'} won. Congratulations!</p> 
-                    )
+                    ))
+                : (
+                    <p>{props.whiteAtBottom
+                            ? 'Black'
+                            : 'White'} won. Congratulations!</p>
+                )
             }
         </div>
     );
-    
+
 }
 
 class NewGamePanelComponent extends React.Component {
@@ -52,6 +61,7 @@ class NewGamePanelComponent extends React.Component {
     onMyGamePileClick() {
         this.props.dispatch(startNewGame(this.props.arena.myColor));
         this.props.dispatch(updateCurrentGameID(this.props.arena.myGameID));
+        this.props.dispatch(updateMyGameID(''));
     }
 
     render() {
@@ -70,7 +80,6 @@ class NewGamePanelComponent extends React.Component {
 class NewGamePanelInGameViewComponent extends NewGamePanelComponent {
     constructor(props) {
         super(props);
-        console.log(props)
     }
 
     onCancelResignClick() {
@@ -105,7 +114,24 @@ class NewGamePanelInNetworkGameViewComponent extends NewGamePanelInGameViewCompo
     }
 
     onResignClick() {
-        this.props.dispatch(resignNetworkGame(this.props.arena.myColor))
+        this.props.dispatch(resignNetworkGame(this.props.arena.currentGameID))
+    }
+
+    render() {
+        return (
+            <div className="newGamePanel">
+                {(!this.props.position.checkMate && !this.props.position.resigned && !this.props.arena.networkOpponentResigned) ?
+                (
+                    <button className="newGameButton" onClick={() => this.props.dispatch(showResignPanel())}>Resign</button>
+                ) : 
+                (
+                     <button className="newGameButton" onClick={() => this.props.dispatch(showNewGamePopup())}>New Game</button>
+                )
+                }
+                {this.props.position.checkMate ? <CheckMatePanel /> : undefined }
+                {this.props.ui.showResignPanel || this.props.arena.networkOpponentResigned ? <ResignPanel onResignClick={this.onResignClick.bind(this)} onCancelResignClick={this.onCancelResignClick.bind(this)} whiteAtBottom={this.props.position.whiteAtBottom} resigned={this.props.position.resigned} networkOpponentResigned={this.props.arena.networkOpponentResigned}/> : undefined}
+            </div>
+        )
     }
 }
 

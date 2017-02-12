@@ -8,6 +8,7 @@ export const CHOOSE_EXISTING_NETWORK_GAME = 'CHOOSE_EXISTING_NETWORK_GAME'
 export const UPDATE_CURRENT_GAME_ID = 'UPDATE_CURRENT_GAME_ID'
 export const UPDATE_CURRENT_MOVE = 'UPDATE_CURRENT_MOVE'
 export const RESIGN_NETWORK_GAME = 'RESIGN_NETWORK_GAME'
+export const NETWORK_OPPONENT_RESIGNED = 'NETWORK_OPPONENT_RESIGNED'
 
 
 const ARENA_ADDR = 'http://localhost:4000/'
@@ -19,7 +20,7 @@ function updateGameList(gameList) {
     }
 }
 
-function updateMyGameID(id) {
+export function updateMyGameID(id) {
     return {
         type: UPDATE_MY_GAME_ID,
         id
@@ -44,6 +45,12 @@ function updateCurrentMove(move) {
     return {
         type: UPDATE_CURRENT_MOVE,
         move
+    }
+}
+
+function networkOpponentResigned() {
+    return {
+        type: NETWORK_OPPONENT_RESIGNED,
     }
 }
 
@@ -91,20 +98,25 @@ export function getMoveFromServer(gameID, currentMove) {
     return dispatch => {
         return fetch(ARENA_ADDR + 'gamelist?getmove=true&gameid=' + gameID)
             .then(response => response.json())
-            .then(move => { 
-                console.log(move, move!== currentMove); 
-                move !== currentMove ? ( 
-                        dispatch(updateStartSquare(move.slice(0, 2))),
-                        dispatch(makeMove(move.slice(2))),
-                        dispatch(updateCurrentMove(move)) 
+            .then((state) => { 
+                if(!state['resigned']){
+                    state['currentMove'] !== currentMove ? ( 
+                        dispatch(updateStartSquare(state['currentMove'].slice(0, 2))),
+                        dispatch(makeMove(state['currentMove'].slice(2))),
+                        dispatch(updateCurrentMove(state['currentMove'])) 
                     ) : undefined 
+                } else {
+                    dispatch(networkOpponentResigned());
+                    //dispatch(resign());
+                }
+
             })
     }
 }
 
-export function resignNetworkGame(color, gameID) {
+export function resignNetworkGame(gameID) {
     return dispatch => {
-        return fetchGames(ARENA_ADDR + 'gamelist?resign=true&gameid=' + gameID + '&color=' + color)
+        return fetch(ARENA_ADDR + 'gamelist?resign=true&gameid=' + gameID)
             .then(response => response.json())
             .then(() => dispatch(resign()));
     }

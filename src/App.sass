@@ -254,7 +254,7 @@ div[class^="board-row"]
     p
       color: #555
 
-.newGameButton, .resignButton
+.newGameButton, .resignButton, .myGamePilePlayButton
 	-moz-box-shadow:inset 0px 1px 0px 0px #a6827e
 	-webkit-box-shadow:inset 0px 1px 0px 0px #a6827e
 	box-shadow:inset 0px 1px 0px 0px #a6827e
@@ -286,7 +286,12 @@ div[class^="board-row"]
 	font-size: 12px
 	padding: 4px 13px
 
-.newGameButton:hover, .resignButton:hover
+.myGamePilePlayButton
+	font-size: 12px
+	padding: 4px 13px
+  height: 10px
+
+.newGameButton:hover, .resignButton:hover, .myGamePilePlayButton:hover
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a3784a), color-stop(1, #9e764d))
 	background: -moz-linear-gradient(top, #a3784a 5%, #9e764d 100%)
 	background: -webkit-linear-gradient(top, #a3784a 5%, #9e764d 100%)
@@ -296,18 +301,83 @@ div[class^="board-row"]
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a3784a', endColorstr='#9e764d',GradientType=0)
 	background-color: #a3784a
 
-.newGameButton:active, .resignButton:active
+.newGameButton:active, .resignButton:active, .myGamePilePlayButton:active
 	position: relative
 	top: 1px
 
 
 //arenaPanel
+.arenaPanel
+  margin-top: 200px
 
-.gamePile
-  height: 60px
-  width: 110px
-  border: 1px solid grey
-  cursor: pointer
-
-  p
+.arenaHeader
+  display: flex
+  flex-flow: row
+  justify-content: space-between
+  margin-bottom: 15px
+  
+  
+  h2
     margin: 0
+
+  .arenaHeaderLogo
+    display: block
+    width: 31px
+    height: 31px
+    background-image: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4Ij4KPHJlY3QgeD0iNDAxLjYyNSIgeT0iMzk1LjY5IiB0cmFuc2Zvcm09Im1hdHJpeCgtMC43MDcxIDAuNzA3MSAtMC43MDcxIC0wLjcwNzEgMTA0OS41MTQ5IDQzNC4wMTYzKSIgc3R5bGU9ImZpbGw6IzU1NDQzMTsiIHdpZHRoPSI2Ni40OSIgaGVpZ2h0PSI3Ny4zNjEiLz4KPHBhdGggc3R5bGU9ImZpbGw6IzVBQUFFNzsiIGQ9Ik00LjU4OCw0LjA5MWMzLjIyMy0zLjIyMyw3LjgxNC00LjY3LDEyLjMwMy0zLjg3OGw5Mi45OTYsMTYuNDE0ICBjMTEuNTE1LDIuMDMzLDIyLjAwOSw3Ljg5LDI5Ljc4MiwxNi42MjZsMjYxLjg5OCwyOTIuODgyYy0xMi44NjEsMTIuODYxLTI1LjcyMSwyNS43MjEtMzguNTgyLDM4LjU4MkwzLjU0Miw1LjI3MiAgQzMuODY3LDQuODYzLDQuMjEzLDQuNDY2LDQuNTg4LDQuMDkxeiIvPgo8cGF0aCBzdHlsZT0iZmlsbDojNzhCOUVCOyIgZD0iTTMzLjc1LDEzOS4xNzRjLTguNzM2LTcuNzczLTE0LjU5NC0xOC4yNjctMTYuNjI2LTI5Ljc4MkwwLjcxLDE2LjM5NCAgQzAuMDA5LDEyLjQyOCwxLjA2NCw4LjM4NSwzLjU0Miw1LjI3MmwzNTkuNDQ0LDM1OS40NDRjLTEyLjI4NywxMi4yODctMjQuNTc0LDI0LjU3NC0zNi44NiwzNi44NkwzMy43NSwxMzkuMTc0eiIvPgo8cGF0aCBzdHlsZT0iZmlsbDojOTU3ODU2OyIgZD0iTTMyNS4zMzgsMzk4LjYyOGw3My43ODctNzMuNzg3YzEyLjU4NS0xMS4yMTYsMzEuODg4LTEwLjc5Myw0My45NjEsMS4yNzggIGMxMi41MTUsMTIuNTE1LDEyLjUxNSwzMi44MDYsMCw0NS4zMjFsLTcxLjE0OSw3MS4xNDljLTYuMjU4LDYuMjU3LTE0LjQ1OCw5LjM4Ni0yMi42NjEsOS4zODZzLTE2LjQwMy0zLjEyOS0yMi42NjEtOS4zODYgIEMzMTQuNTQ0LDQzMC41MTcsMzE0LjEyMSw0MTEuMjEyLDMyNS4zMzgsMzk4LjYyOHoiLz4KPHBhdGggc3R5bGU9ImZpbGw6IzZBNTYzRDsiIGQ9Ik00MzIuODQyLDQ3OC45OTNsNDUuNjUzLTQ1LjY1M2M3Ljc4Ni02Ljk0LDE5LjczMS02LjY3OSwyNy4yLDAuNzkxICBjNy43NDMsNy43NDQsNy43NDMsMjAuMjk3LDAsMjguMDQxbC00NC4wMjEsNDQuMDIxYy0zLjg3MSwzLjg3MS04Ljk0Niw1LjgwNy0xNC4wMjEsNS44MDdjLTUuMDc1LDAtMTAuMTQ5LTEuOTM2LTE0LjAyMS01LjgwNyAgQzQyNi4xNjQsNDk4LjcyNCw0MjUuOTAyLDQ4Ni43NzksNDMyLjg0Miw0NzguOTkzeiIvPgo8cG9seWdvbiBzdHlsZT0iZmlsbDojNUFBQUU3OyIgcG9pbnRzPSIyNzUuNSwzNTYuMDEgMjI0LjU1NywzMTAuMzQ4IDMxMC4xNzMsMjI0LjQ1NCAzNTYuMTEzLDI3NS4zOTcgIi8+CjxyZWN0IHg9IjQzLjg5MSIgeT0iMzk1LjY5MiIgdHJhbnNmb3JtPSJtYXRyaXgoMC43MDcxIDAuNzA3MSAtMC43MDcxIDAuNzA3MSAzMjkuNzQgNzIuNjgxMSkiIHN0eWxlPSJmaWxsOiM1NTQ0MzE7IiB3aWR0aD0iNjYuNDkiIGhlaWdodD0iNzcuMzYxIi8+CjxnPgoJPHBhdGggc3R5bGU9ImZpbGw6IzRBMzcyMTsiIGQ9Ik0xMTMuOTQxLDQ0NC41NzhsMTQuMDU2LTE0LjA1NmwtNDcuMDE1LTQ3LjAxNWwtMTQuMDU2LDE0LjA1NiAgIEM4Mi41OTYsNDEzLjIzNCw5OC4yNjgsNDI4LjkwNiwxMTMuOTQxLDQ0NC41Nzh6Ii8+Cgk8cGF0aCBzdHlsZT0iZmlsbDojNEEzNzIxOyIgZD0iTTM5Ny44OTYsNDQ0LjU3OGwtMTQuMDU2LTE0LjA1Nmw0Ny4wMTUtNDcuMDE1bDE0LjA1NiwxNC4wNTYgICBDNDI5LjI0LDQxMy4yMzQsNDEzLjU2OCw0MjguOTA2LDM5Ny44OTYsNDQ0LjU3OHoiLz4KPC9nPgo8cGF0aCBzdHlsZT0iZmlsbDojQzJERkY2OyIgZD0iTTUwNy40MTIsNC4wOTFjLTMuMjIzLTMuMjIzLTcuODE0LTQuNjctMTIuMzAzLTMuODc4bC05Mi45OTYsMTYuNDE0ICBjLTExLjUxNSwyLjAzMy0yMi4wMDksNy44OS0yOS43ODIsMTYuNjI2TDExMC40MzIsMzI2LjEzNWMxMi44NjEsMTIuODYxLDI1LjcyMSwyNS43MjEsMzguNTgyLDM4LjU4Mkw1MDguNDU5LDUuMjcyICBDNTA4LjEzMiw0Ljg2Myw1MDcuNzg3LDQuNDY2LDUwNy40MTIsNC4wOTF6Ii8+CjxwYXRoIHN0eWxlPSJmaWxsOiNCM0Q4RjQ7IiBkPSJNNDc4LjI1LDEzOS4xNzRjOC43MzYtNy43NzMsMTQuNTk0LTE4LjI2NywxNi42MjYtMjkuNzgybDE2LjQxNC05Mi45OTYgIGMwLjctMy45NjYtMC4zNTQtOC4wMDktMi44MzItMTEuMTIyTDE0OS4wMTQsMzY0LjcxN2MxMi4yODcsMTIuMjg3LDI0LjU3NCwyNC41NzQsMzYuODYsMzYuODZMNDc4LjI1LDEzOS4xNzR6Ii8+CjxwYXRoIHN0eWxlPSJmaWxsOiNCMzlBN0M7IiBkPSJNMTg2LjY2MiwzOTguNjI4bC03My43ODctNzMuNzg3Yy0xMi41ODUtMTEuMjE2LTMxLjg4OC0xMC43OTMtNDMuOTYxLDEuMjc4ICBjLTEyLjUxNSwxMi41MTUtMTIuNTE1LDMyLjgwNiwwLDQ1LjMyMWw3MS4xNDksNzEuMTQ5YzYuMjU4LDYuMjU3LDE0LjQ1OCw5LjM4NiwyMi42NjEsOS4zODZjOC4yMDMsMCwxNi40MDMtMy4xMjksMjIuNjYxLTkuMzg2ICBDMTk3LjQ1Niw0MzAuNTE3LDE5Ny44NzksNDExLjIxMiwxODYuNjYyLDM5OC42Mjh6Ii8+CjxwYXRoIHN0eWxlPSJmaWxsOiM2QTU2M0Q7IiBkPSJNNzkuMTU3LDQ3OC45OTNMMzMuNTA0LDQzMy4zNGMtNy43ODYtNi45NC0xOS43MzEtNi42NzktMjcuMiwwLjc5MSAgYy03Ljc0Myw3Ljc0NC03Ljc0MywyMC4yOTcsMCwyOC4wNDFsNDQuMDIxLDQ0LjAyMWMzLjg3MSwzLjg3MSw4Ljk0Niw1LjgwNywxNC4wMjEsNS44MDdjNS4wNzUsMCwxMC4xNDktMS45MzYsMTQuMDIxLTUuODA3ICBDODUuODM2LDQ5OC43MjQsODYuMDk4LDQ4Ni43NzksNzkuMTU3LDQ3OC45OTN6Ii8+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=)
+    background-repeat: no-repeat
+    background-size: 30px 30px
+
+.gameList
+  a
+    text-decoration: none
+
+  .gamePile, .myGamePile
+    height: 30px
+    width: 100%
+    border: 1px solid grey
+    cursor: pointer
+    display: flex
+    flex-flow: row
+    justify-content: space-between
+    align-items: center
+    background-color: rgba(255, 255, 255, 0.36)
+
+    p
+      font-size: 13px
+      margin: 0
+      padding: 5px 10px 0 10px
+      text-decoration: none
+      color: #555
+      
+
+  .gamePile:hover, .myGamePile:hover
+    background-color: rgba(151, 198, 243, 0.58)
+
+  .myGamePile 
+    .loader 
+        margin: 3px 3px 0 0 
+        border: 2px solid rgba(212, 212, 212, 0)
+        border-top: 2px solid #3498db 
+        border-right: 2px solid #3498db 
+        border-radius: 52%
+        width: 17px
+        height: 17px
+        animation: spin 2s linear infinite
+    @-webkit-keyframes spin 
+        0% 
+          -webkit-transform: rotate(0deg)
+        100% 
+          -webkit-transform: rotate(360deg)
+
+    @keyframes spin
+        0%  
+          transform: rotate(0deg) 
+        100%  
+          transform: rotate(360deg) 
+
+      
+    
+
+
+  

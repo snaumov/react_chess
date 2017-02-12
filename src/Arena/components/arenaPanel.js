@@ -5,7 +5,7 @@ function MyGamePile(props) {
     return (
         <div className="myGamePile" >
             <p className="color">{props.myColor}</p>
-            {!props.myCallAccepted ? <span>rotator</span> : <Link to={'/arena/' + props.myGameID} onClick={props.onMyGamePileClick}>Play</Link>}
+            {!props.myCallAccepted ? <span className="loader"></span> : <Link to={'/arena/' + props.myGameID} className="myGamePilePlayButton" onClick={props.onMyGamePileClick}>Play</Link>}
         </div>
     )   
 }
@@ -25,7 +25,12 @@ function GamePile(props) {
 function ArenaPanelComponent(props) {
     return(
         <div className="arenaPanel">
-            <h2>Arena</h2>
+            <div className="arenaHeader">
+                <span className="arenaHeaderLogo"></span>
+                <h2>Arena</h2>
+                <span className="arenaHeaderLogo"></span>
+            </div>
+
             <div className="gameList">
                 { props.myGameID ? <MyGamePile myColor={props.myColor} onMyGamePileClick={props.onMyGamePileClick} myCallAccepted={props.myCallAccepted} myGameID={props.myGameID}/> : undefined }
                 { Object.keys(props.gameList).map( key => 

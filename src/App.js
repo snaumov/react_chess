@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux'
-import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
+import { Router, Route, IndexRoute, Link, hashHistory, browserHistory } from 'react-router'
 import { Game, GameNewGameView } from './Game/containers/Game';
 import GameWithEngine from './Game/containers/GameWithEngine';
 import GameAnalysis from './Game/containers/GameAnalysis';
@@ -72,7 +72,7 @@ class AppComponent extends React.Component {
     render() {
         return (
             <div className={this.props.ui.lightBackground ? "App lightBackground" : "App darkBackground"}>
-                <Router history = {hashHistory}>
+                <Router history = {browserHistory}>
                     <Route path="/" component={AppMainView} />
                     <Route path="/engine" component={AppInGameView} />
                     <Route path="/analysis" component={AppAnalysisView} />

@@ -29,17 +29,17 @@ var chooseExistingGame = (gameID, secondPlayer) => {
     var returnColor = 'white'
     switch (gameList[gameID]['color']) {
         case 'black':
-            gamesInProcess[gameID] = { 'white': gameList[gameID]['user'], 'black': secondPlayer, currentMove: '' }
+            gamesInProcess[gameID] = { 'white': gameList[gameID]['user'], 'black': secondPlayer, currentState: {currentMove: '', resigned: false} }
             returnColor = 'black'
             break;
         case 'white':
-            gamesInProcess[gameID] = { 'white': secondPlayer, 'black': gameList[gameID]['user'], currentMove: '' }
+            gamesInProcess[gameID] = { 'white': secondPlayer, 'black': gameList[gameID]['user'], currentState: {currentMove: '', resigned: false} }
             returnColor = 'white';
             break;
         case 'random':
             var firstPlayerColor = ['black', 'white'][Math.floor(Math.random() * 2)];
             var secondPlayerColor = firstPlayerColor === 'white' ? 'black' : 'white';
-            gamesInProcess[gameID] = { firstPlayerColor: gameList[gameID]['user'], secondPlayerColor : secondPlayer, currentMove: '' };
+            gamesInProcess[gameID] = { firstPlayerColor: gameList[gameID]['user'], secondPlayerColor : secondPlayer, currentState: {currentMove: '', resigned: false} };
             returnColor = secondPlayerColor;
             break;
         
@@ -50,12 +50,16 @@ var chooseExistingGame = (gameID, secondPlayer) => {
 }
 
 var makeMove = (gameID, move) => {
-    gamesInProcess[gameID]['currentMove'] = move;
+    gamesInProcess[gameID]['currentState']['currentMove'] = move;
 }
 
 var getMove = (gameID) => {
     console.log(gameID, gamesInProcess[gameID])
-    return gamesInProcess[gameID]['currentMove']
+    return gamesInProcess[gameID]['currentState']
+}
+
+var resignGame = (gameID) => {
+    gamesInProcess[gameID]['currentState']['resigned'] = true;
 }
 
 app.use(function (req, res, next) {
@@ -90,7 +94,9 @@ app.get('/gamelist', (req, res) => {
     } else if (req.query.getmove === 'true') {
         res.json(getMove(req.query.gameid));
         return
-    } 
+    } else if (req.query.resign === 'true') {
+        resignGame(req.query.gameid);
+    }
     res.json(gameList)
 
 })

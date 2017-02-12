@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
 
+function MovesHeader(props) {
+    return (
+        <div className="movesHeader">
+            <div className="playerNames">
+                <span className="usernameField">{props.whiteSideUsername}</span> <span className="headerVs">vs</span> <span className="usernameField">{props.blackSideUsername}</span>
+            </div>
+        </div>
+    )
+}
+
 function MoveSquare(props){
     return (
         <div onClick={props.onClick} className={props.highlightMoveSquare ? "move highlightedSquare" : "move"} >
@@ -40,7 +50,7 @@ class MovesList extends Component {
 
         return (
             <div className="movesList">
-                <div className="movesHeader"></div>
+                <MovesHeader whiteSideUsername={this.props.whiteSideUsername} blackSideUsername={this.props.blackSideUsername}/>
                 <div className="moves">{moves}</div>
             </div>
             

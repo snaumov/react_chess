@@ -7,15 +7,7 @@ import { changeBackground, showUsernameInput, updateUsername, hideUsernameInput 
 class UserNameInput extends React.Component{
     constructor(props) {
         super(props);
-        console.log(this.props)
-        //this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }   
-
-    handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.value);
-        event.preventDefault();
-    }
 
 
     render(){

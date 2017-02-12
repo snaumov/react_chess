@@ -9,8 +9,13 @@ class ArenaPanelContainer extends Component {
     }
 
     componentDidMount() {
-        setInterval(() => this.props.dispatch(fetchGames()), 5000);
+        this.gameListFetcher = setInterval(() => this.props.dispatch(fetchGames()), 5000);
     }
+
+    componentWillUnmount() {
+        clearInterval(this.gameListFetcher);
+    }
+
 
     render() {
         return (

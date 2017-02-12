@@ -1,6 +1,6 @@
 //var fetch = require('node-fetch');
 
-const SERVER_ADDRESS = 'http://localhost:5000'
+const SERVER_ADDRESS = 'http://api.underwaterchess.com'
 const STATUS_SUCCESS = 200;
 
 function GetMoveFromServer(fen, move) {

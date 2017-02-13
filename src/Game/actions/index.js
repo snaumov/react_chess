@@ -6,6 +6,7 @@ export const MAKE_MOVE = 'MAKE_MOVE'
 export const JUMP_TO = 'JUMP_TO'
 export const START_NEW_GAME = 'START_NEW_GAME'
 export const RESIGN = 'RESIGN'
+export const UPDATE_SHOULD_GET_MOVE = 'UPDATE_SHOULD_GET_MOVE'
 
 
 // export function onMouseDownGetAvailableMoves(startSquare) {
@@ -65,5 +66,9 @@ export function resign() {
     }
 }
 
-
+export function updateShouldGetMove() {
+    return {
+        type: UPDATE_SHOULD_GET_MOVE,
+    }
+}
 

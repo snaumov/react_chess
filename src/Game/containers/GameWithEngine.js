@@ -3,7 +3,7 @@ import Board from '../components/chessBoard.js'
 import MovesList from '../components/movesList.js'
 import { connect } from 'react-redux'
 import { GameComponent } from './Game'
-import { makeMove, engineMakesMove } from '../actions'
+import { makeMove, engineMakesMove, updateShouldGetMove } from '../actions'
 import NewGamePopup from '../../UI/components/newGamePopup'
 import { hideNewGamePopup } from '../../UI/actions'
 
@@ -18,8 +18,18 @@ class GameWithEngineComponent extends GameComponent {
 
   }
 
+  componentDidMount() {
+    if (this.props.position.shouldGetMoveAsBlack){
+      console.log('insidemount')
+        this.props.dispatch(updateShouldGetMove());
+        this.props.dispatch(engineMakesMove(this.props.position.fen, ''))
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.position.whiteAtBottom && nextProps.position.moveNumber === 0){
+    if (nextProps.position.shouldGetMoveAsBlack ){
+      console.log('insidereceive/update')
+        this.props.dispatch(updateShouldGetMove());
         this.props.dispatch(engineMakesMove(nextProps.position.fen, ''))
     }
   }

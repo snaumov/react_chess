@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { MAKE_MOVE, UPDATE_START_SQUARE, JUMP_TO, START_NEW_GAME, RESIGN } from '../actions'
+import { MAKE_MOVE, UPDATE_START_SQUARE, JUMP_TO, START_NEW_GAME, RESIGN, UPDATE_SHOULD_GET_MOVE } from '../actions'
 import Chess from 'chess.js'
 
 
@@ -50,6 +50,7 @@ const initialState = {
     resigned: false,
     checkMate: false,
     moveNumber: 0,
+    shouldGetMoveAsBlack: false,
 }
 
 function pieceToMoveLetterHelper(pieceName) {
@@ -69,7 +70,8 @@ function position(state=initialState, action) {
         case START_NEW_GAME:
             return Object.assign({}, initialState, {
                 chess: new Chess(),
-                whiteAtBottom: action.color === "white" ? true : false
+                whiteAtBottom: action.color === "white" ? true : false,
+                shouldGetMoveAsBlack: action.color === "white" ? false : true
             })
         case UPDATE_START_SQUARE:
             return Object.assign({}, state, {
@@ -150,6 +152,10 @@ function position(state=initialState, action) {
                 position: state.history[action.moveNumber]['position'],
                 chess: new Chess(state.history[action.moveNumber]['fen']),
                 moveNumber: action.moveNumber + 1,
+            })
+        case UPDATE_SHOULD_GET_MOVE:
+            return Object.assign({}, state, {
+                shouldGetMoveAsBlack: !state.shouldGetMoveAsBlack,
             })
             
         default:

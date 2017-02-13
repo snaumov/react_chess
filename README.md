@@ -6,7 +6,7 @@ Chess game written in React
 
 Chess app, written with React & Redux. 
 
-Contains of 
+Consists of 
 
 1. Frontend JavaScript web-application
 2. Backend Node.JS chess server
@@ -38,7 +38,7 @@ class AppComponent extends React.Component {
 
 Player can play only one game at a time
 
-All three modes mainly contains of these features:
+All three modes mainly consist of these features:
 
 1. Can win by either opponent resignation or checkmate
 2. Can resign (Network game will be resigned if player left the game page)

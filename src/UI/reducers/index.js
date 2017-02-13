@@ -13,7 +13,13 @@ const initialUIState = {
 function ui(state=initialUIState, action) {
     switch(action.type){
         case RESET_UI:
-            return Object.assign({}, state, initialUIState)
+            return Object.assign({}, state, {
+                showResignPanel: false,
+                showNewGamePopup: false,
+                newGamePopupLinksTo: 'engine',
+                analysisMode: false,
+                showUsernameInput: false,
+            })
         case SHOW_RESIGN_PANEL:
             return Object.assign({}, state, {
                 showResignPanel: true,
@@ -47,7 +53,6 @@ function ui(state=initialUIState, action) {
                 showUsernameInput: false,
             })
         case UPDATE_USERNAME:
-            console.log(action.username);
             var username = action.username;
             if(action.username === ''){
                 username = 'Player 1'

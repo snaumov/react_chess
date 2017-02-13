@@ -10,11 +10,9 @@ import { hideNewGamePopup } from '../../UI/actions'
 class GameWithEngineComponent extends GameComponent {
   constructor(props) {
     super(props);
-    console.log(this.props)
   }
 
   onMouseUp(endSquare) {
-    console.log(endSquare);
     this.props.dispatch(makeMove(endSquare));
     this.props.dispatch(engineMakesMove(this.props.position.fen, this.props.position.startSquare + endSquare))
 

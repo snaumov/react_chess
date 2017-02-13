@@ -12,7 +12,6 @@ import GetMoveFromServer from '../../Engine/engine.js'
 class GameComponent extends Component {
   constructor(props) {
     super(props)
-    console.log(props)
     this.onMouseDown = this.onMouseDown.bind(this)
     this.onMouseUp = this.onMouseUp.bind(this)
     this.jumpTo = this.jumpTo.bind(this)
@@ -22,12 +21,10 @@ class GameComponent extends Component {
   }
 
   onMouseDown(startSquare){
-    console.log(startSquare);
     this.props.dispatch(updateStartSquare(startSquare))
   }
 
   onMouseUp(endSquare) {
-    console.log(endSquare);
     this.props.dispatch(makeMove(endSquare))
   }
 

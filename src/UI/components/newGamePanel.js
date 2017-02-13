@@ -53,9 +53,8 @@ class NewGamePanelComponent extends React.Component {
         this.onMyGamePileClick = this.onMyGamePileClick.bind(this);
     }
 
-    onArenaPileClick(gameID) {
-        console.log(gameID)
-        this.props.dispatch(chooseExistingNetworkGame(gameID, this.props.ui.username));
+    onArenaPileClick(gameID, opponentName) {
+        this.props.dispatch(chooseExistingNetworkGame(gameID, opponentName, this.props.ui.username));
     }
 
     onMyGamePileClick() {

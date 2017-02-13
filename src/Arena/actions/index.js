@@ -1,11 +1,14 @@
 import { startNewGame, makeMove, updateStartSquare, resign } from '../../Game/actions'
+import { resetUI } from '../../UI/actions'
 
 export const UPDATE_GAME_LIST = 'UPDATE_GAME_LIST'
+export const RESET_NETWORK_GAME_STATE = 'RESET_NETWORK_GAME_STATE'
 export const START_NEW_NETWORK_GAME = 'START_NEW_NETWORK_GAME'
 export const UPDATE_MY_GAME_ID = 'UPDATE_MY_GAME_ID'
 export const UPDATE_MY_COLOR = 'UPDATE_MY_COLOR'
 export const CHOOSE_EXISTING_NETWORK_GAME = 'CHOOSE_EXISTING_NETWORK_GAME'
 export const UPDATE_CURRENT_GAME_ID = 'UPDATE_CURRENT_GAME_ID'
+export const UPDATE_OPPONENT_NAME = 'UPDATE_OPPONENT_NAME'
 export const UPDATE_CURRENT_MOVE = 'UPDATE_CURRENT_MOVE'
 export const RESIGN_NETWORK_GAME = 'RESIGN_NETWORK_GAME'
 export const NETWORK_OPPONENT_RESIGNED = 'NETWORK_OPPONENT_RESIGNED'
@@ -17,6 +20,12 @@ function updateGameList(gameList) {
     return {
         type: UPDATE_GAME_LIST,
         gameList,
+    }
+}
+
+function resetNetworkGameState() {
+    return {
+        type: RESET_NETWORK_GAME_STATE,
     }
 }
 
@@ -38,6 +47,13 @@ export function updateCurrentGameID(gameID) {
     return {
         type: UPDATE_CURRENT_GAME_ID,
         gameID,
+    }
+}
+
+export function updateOpponentName(opponentName) {
+    return {
+        type: UPDATE_OPPONENT_NAME,
+        opponentName,
     }
 }
 
@@ -67,19 +83,24 @@ export function startNewNetworkGame(color, username) {
         return fetch(ARENA_ADDR + 'gamelist?create=true&color=' + color + '&username=' + username)
             .then(response => response.json())
             .then(json => {
+                dispatch(resetNetworkGameState());
                 dispatch(updateMyGameID(json));
                 dispatch(updateMyColor(color));
+                dispatch(resetUI());
             })
     }
 }
 
-export function chooseExistingNetworkGame(gameID, username) {
+export function chooseExistingNetworkGame(gameID, opponentName, username) {
     return dispatch => {
         return fetch(ARENA_ADDR + 'gamelist?choose=true&gameid=' + gameID + '&username=' + username)
             .then(response => response.json())
             .then(color => { 
+                    dispatch(resetNetworkGameState());
                     dispatch(startNewGame(color));
+                    dispatch(resetUI());
                     dispatch(updateCurrentGameID(gameID));
+                    dispatch(updateOpponentName(opponentName));
             })
     }
 }
@@ -91,6 +112,16 @@ export function sendMoveToServer(gameID, move) {
                 dispatch(makeMove(move.slice(2, 4)));
                 dispatch(updateCurrentMove(move))
             });
+    }
+}
+
+export function getOpponentNameFromServer(gameID, color) {
+    return dispatch => {
+        return fetch(ARENA_ADDR + 'gamelist?getplayername=true&gameid=' + gameID + '&color=' + color)
+            .then(response => response.json())
+            .then(name => {
+                dispatch(updateOpponentName(name));
+            })
     }
 }
 
@@ -118,6 +149,6 @@ export function resignNetworkGame(gameID) {
     return dispatch => {
         return fetch(ARENA_ADDR + 'gamelist?resign=true&gameid=' + gameID)
             .then(response => response.json())
-            .then(() => dispatch(resign()));
+            .then(dispatch(resign()));
     }
 }

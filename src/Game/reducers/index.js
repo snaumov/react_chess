@@ -78,7 +78,6 @@ function position(state=initialState, action) {
                 availableMoves: [].concat(state.chess.moves({square: action.startSquare}))
             })
         case MAKE_MOVE:
-            console.log(state)
             //first, check if the side to move has been checkmated
             if (state.chess.in_checkmate()){
                 return Object.assign({}, state, {
@@ -147,7 +146,6 @@ function position(state=initialState, action) {
                 resigned: true,
             })            
         case JUMP_TO:
-            console.log(state.history[action.moveNumber], action.moveNumber)
             return Object.assign({}, state, {
                 position: state.history[action.moveNumber]['position'],
                 chess: new Chess(state.history[action.moveNumber]['fen']),

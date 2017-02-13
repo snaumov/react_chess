@@ -4,18 +4,7 @@ const express = require('express')
 const app = express()  
 const port = 4000
 
-var gameList = {
-
-    1: {
-        user: 'user1',
-        color: 'black',
-    },
-    2: {
-        user: 'user2',
-        color: 'random',
-    }
-
-}
+var gameList = {}
 
 var gamesInProcess = {}
 
@@ -58,6 +47,10 @@ var getMove = (gameID) => {
     return gamesInProcess[gameID]['currentState']
 }
 
+var getPlayerName = (gameID, color) => {
+    return gamesInProcess[gameID][color];
+}
+
 var resignGame = (gameID) => {
     gamesInProcess[gameID]['currentState']['resigned'] = true;
 }
@@ -96,6 +89,10 @@ app.get('/gamelist', (req, res) => {
         return
     } else if (req.query.resign === 'true') {
         resignGame(req.query.gameid);
+        return
+    } else if (req.query.getplayername === 'true') {
+        res.json(getPlayerName(req.query.gameid, req.query.color));
+        return
     }
     res.json(gameList)
 

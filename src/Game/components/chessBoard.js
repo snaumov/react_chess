@@ -7,7 +7,6 @@ class Piece extends React.Component{
   // onControlledDrag(e, position) {
   //   const {x, y} = position;
   //   this.setState({controlledPosition: {x, y}});
-  //   console.log(this.state)
   // }
 
   onControlledDragStart(e, position) {
@@ -15,7 +14,6 @@ class Piece extends React.Component{
   }
 
   onControlledDragStop(e, position) {
-    console.log(this.props.availableMoves.map((move) => {if (move.slice(-1) === '+') {return move.slice(-3, -1)} else return move.slice(-2)}));
     const {x, y} = position;
     var targetSquare = this.props.whiteAtBottom ? CalculateTargetSquare(this.props.coordinate, x, y) : CalculateTargetSquareBlackAtBottom(this.props.coordinate, x, y);
     if (IsEligibleMove(this.props.availableMoves, targetSquare)) {

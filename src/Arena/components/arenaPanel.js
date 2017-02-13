@@ -12,7 +12,7 @@ function MyGamePile(props) {
 
 function GamePile(props) {
     return (       
-        <Link to={'/arena/' + props.gameID} onClick={() => props.onClick(props.gameID)}>
+        <Link to={'/arena/' + props.gameID} onClick={() => props.onClick(props.gameID, props.opponentName)}>
             <div className="gamePile">
                 <p className="opponentName">{props.opponentName}</p>
                 <p className="color">{props.colorToPlay}</p>

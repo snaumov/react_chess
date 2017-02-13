@@ -1,4 +1,4 @@
-import { UPDATE_GAME_LIST, UPDATE_MY_GAME_ID, UPDATE_CURRENT_GAME_ID, UPDATE_CURRENT_MOVE, NETWORK_OPPONENT_RESIGNED } from '../actions'
+import { UPDATE_GAME_LIST, UPDATE_MY_GAME_ID, UPDATE_CURRENT_GAME_ID, UPDATE_CURRENT_MOVE, NETWORK_OPPONENT_RESIGNED, UPDATE_OPPONENT_NAME } from '../actions'
 
 const arenaInitState = {
     gameList: {},
@@ -6,6 +6,7 @@ const arenaInitState = {
     myCallAccepted: false,
     myColor: 'white',
     currentGameID: '',
+    opponentName: '',
     currentMove: '',
     networkOpponentResigned: false,
 }
@@ -23,6 +24,15 @@ function arena(state=arenaInitState, action) {
                   gameList: action.gameList,
                 })
             }
+        case 'RESET_NETWORK_GAME_STATE':
+            return Object.assign({}, state, {
+                myCallAccepted: false,
+                myColor: 'white',
+                currentGameID: '',
+                opponentName: '',
+                currentMove: '',
+                networkOpponentResigned: false,
+            })
         case 'UPDATE_MY_GAME_ID':
             return Object.assign({}, state, {
                 myGameID: action.id,
@@ -34,6 +44,10 @@ function arena(state=arenaInitState, action) {
         case 'UPDATE_CURRENT_GAME_ID':
             return Object.assign({}, state, {
                 currentGameID: action.gameID
+            })
+        case 'UPDATE_OPPONENT_NAME':
+            return Object.assign({}, state, {
+                opponentName: action.opponentName,
             })
         case 'UPDATE_CURRENT_MOVE': 
             return Object.assign({}, state, {

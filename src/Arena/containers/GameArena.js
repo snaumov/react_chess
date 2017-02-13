@@ -2,12 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { GameComponent } from '../../Game/containers/Game'
-import { sendMoveToServer, getMoveFromServer, resignNetworkGame } from '../actions'
+import { sendMoveToServer, getMoveFromServer, resignNetworkGame, getOpponentNameFromServer } from '../actions'
+import Board from '../../Game/components/chessBoard.js'
+import MovesList from '../../Game/components/movesList.js'
+import NewGamePopup from '../../UI/components/newGamePopup'
+import { hideNewGamePopup } from '../../UI/actions'
 
 class GameArenaComponent extends GameComponent {
     constructor(props) {
         super(props);
-        console.log(this.props, this.props.route)
     }
 
     componentDidMount() {
@@ -15,8 +18,12 @@ class GameArenaComponent extends GameComponent {
             if (!this.props.arena.networkOpponentResigned){
                 return 'Are you sure you want to leave the game? It will be resigned'
             }
-        })    
-        this.moveGetter = setInterval(() => this.props.dispatch(getMoveFromServer(this.props.arena.currentGameID, this.props.arena.currentMove)), 5000);
+        }) 
+        this.moveGetter = setInterval(() => this.props.dispatch(getMoveFromServer(this.props.arena.currentGameID, this.props.arena.currentMove)), 2000);
+        
+        if (this.props.position.moveNumber === 0 && this.props.arena.opponentName === '') {
+            this.props.dispatch(getOpponentNameFromServer(this.props.arena.currentGameID, this.props.position.whiteAtBottom ? 'black' : 'white'))   
+        }
     
     }
 
@@ -27,6 +34,19 @@ class GameArenaComponent extends GameComponent {
 
     onMouseUp(endSquare) {
         this.props.dispatch(sendMoveToServer(this.props.arena.currentGameID, this.props.position.startSquare + endSquare))
+    }
+
+    render() {
+        const { position, whiteIsNext, availableMoves, history, whiteAtBottom, resigned } = this.props.position
+        return (
+        <div className="gameContainer">
+            <div className="chessBoard">
+            <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp} whiteAtBottom={whiteAtBottom} resigned={resigned}/>
+            </div>
+            {this.props.ui.showNewGamePopup ? <NewGamePopup onClick={this.props.ui.newGamePopupLinksTo === '/' ? this.onClickNewNetworkGame : this.onClickNewGame} onChange={this.handlePopupChange} onCloseClick={() => this.props.dispatch(hideNewGamePopup())} newGamePopupLinksTo={this.props.ui.newGamePopupLinksTo} /> : undefined}
+            <MovesList history={history} onClick={this.jumpTo} currentMoveNumber={this.props.position.moveNumber} whiteSideUsername={whiteAtBottom ? this.props.ui.username : this.props.arena.opponentName} blackSideUsername={whiteAtBottom ? this.props.arena.opponentName : this.props.ui.username}/>
+        </div>
+        )
     }
     
 }

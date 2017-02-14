@@ -188,14 +188,11 @@ function position(state=initialState, action) {
                 // chess: new Chess(state.history[action.moveNumber]['fen']),
                 // moveNumber: action.moveNumber + 1,
             })
-<<<<<<< Updated upstream
         case UPDATE_SHOULD_GET_MOVE:
             return Object.assign({}, state, {
                 shouldGetMoveAsBlack: !state.shouldGetMoveAsBlack,
             })
-=======
         case JUMP_TO_ANALYSIS_MODE:
->>>>>>> Stashed changes
             
         default:
             return state

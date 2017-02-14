@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux'
 import { MAKE_MOVE, UPDATE_START_SQUARE, JUMP_TO, START_NEW_GAME, RESIGN, UPDATE_SHOULD_GET_MOVE, JUMP_TO_ANALYSIS_MODE } from '../actions'
 import Chess from 'chess.js'
 
@@ -193,7 +192,12 @@ function position(state=initialState, action) {
                 shouldGetMoveAsBlack: !state.shouldGetMoveAsBlack,
             })
         case JUMP_TO_ANALYSIS_MODE:
-            
+            return Object.assign({},state, {
+                position: state.history[action.moveNumber]['position'],
+                positionToShow: state.history[action.moveNumber]['position'],
+                chess: new Chess(state.history[action.moveNumber]['fen']),
+                moveNumber: action.moveNumber + 1,
+            })
         default:
             return state
     }

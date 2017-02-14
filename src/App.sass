@@ -1,8 +1,10 @@
 .App
   text-align: center
-  height: 100%
+  height: 100vh
   width: 100%
   background-image: linear-gradient(#D8D8D8, #EEEEEE)
+  background-size: cover
+  //background-attachment: fixed
 
 .lightBackground
   background-image: linear-gradient(#D8D8D8, #EEEEEE)
@@ -80,7 +82,7 @@
   border-radius: 8px
   box-shadow: 0px 1px 4px
   display: flex
-  justify-content: row
+  flex-flow: row
   position: relative
 
 .chessBoard
@@ -189,6 +191,7 @@ div[class^="board-row"]
   margin-left: 150px
   border-radius: 8px
   box-shadow: 0px 1px 3px
+  z-index: 1
 
   .newGamePopupHeader
     display: flex
@@ -388,7 +391,104 @@ div[class^="board-row"]
           transform: rotate(360deg) 
 
       
-    
 
-
+//adaptive stuff goes here
+@media (max-width: 1090px)
+  .newGamePanel
+    margin-right: 15px
   
+  .gameContainer
+    width: 800px
+  .chessBoard
+    padding: 70px 0 0 27px
+
+@media (max-width: 940px)
+  .piecePicture
+    background-size: 38px
+    background-repeat: no-repeat
+  
+  .whiteSquare, .blackSquare
+    width: 40px
+    height: 40px
+  
+  .chessBoard
+    width: 320px
+    height: 320px
+  
+  .gameContainer
+    width: 560px
+    height: 450px
+  
+  .moveWithIndex
+    width: 90px
+
+  .move
+    width: 58px
+  
+  .movesList
+    width: 149px
+    height: 380px
+  
+  .newGamePopup
+    margin-left: 32px
+    margin-top: 60px
+  
+  .usernameField
+    font-size: 12px
+
+@media (max-width: 700px)
+  .middleRow
+    flex-flow: column-reverse
+    width: 640px
+  
+  .gameContainer
+    margin: 0 0 20px 15px
+  
+  .newGamePanel
+    display: flex
+    align-items: center
+    justify-content: space-around
+    width: 100%
+  .arenaPanel
+    margin-top: 0
+
+// @media (max-width: 520px)
+//   .gameContainer
+//     flex-flow: column
+//     height: 850px
+//     width: 350px
+
+//   .chessBoard
+//     padding-left: 16px
+
+//   .move
+//     width: 94px
+  
+//   .moveWithIndex
+//     width: 130px
+  
+//   .movesList
+//     width: 225px
+//     margin: auto
+
+@media (max-height: 715px)
+  .piecePicture
+    width: 55px
+    height: 55px
+    background-size: 55px
+    background-repeat: no-repeat
+  
+  .whiteSquare, .blackSquare
+    width: 55px
+    height: 55px
+  
+  .chessBoard
+    width: 440px
+    height: 440px
+    padding-top: 50px
+  
+  .gameContainer
+    height: 550px
+
+  .movesList
+    height: 490px

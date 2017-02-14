@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Link } from 'react-router'
 import { connect } from 'react-redux';
 import { changeBackground, showUsernameInput, updateUsername, hideUsernameInput } from '../actions'

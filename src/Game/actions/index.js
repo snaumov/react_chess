@@ -4,6 +4,7 @@ import GetMoveFromServer from '../../Engine/engine'
 export const UPDATE_START_SQUARE = 'UPDATE_START_SQUARE'
 export const MAKE_MOVE = 'MAKE_MOVE'
 export const JUMP_TO = 'JUMP_TO'
+export const JUMP_TO_ANALYSIS_MODE = 'JUMP_TO_ANALYSIS_MODE'
 export const START_NEW_GAME = 'START_NEW_GAME'
 export const RESIGN = 'RESIGN'
 export const UPDATE_SHOULD_GET_MOVE = 'UPDATE_SHOULD_GET_MOVE'
@@ -27,7 +28,6 @@ export function updateStartSquare(square) {
 export function makeMove(targetSquare, isCastling=false) {
     return {
         type: MAKE_MOVE,
-        targetSquare,
         targetSquare: targetSquare,
         isCastling: isCastling
     }
@@ -36,15 +36,21 @@ export function makeMove(targetSquare, isCastling=false) {
 export function jumpTo(moveNumber) {
     return {
         type: JUMP_TO,
-        moveNumber,
         moveNumber: moveNumber
     }
+}
+
+export function jumpToAnalysisMode(moveNumber) {
+    return {
+        type: JUMP_TO_ANALYSIS_MODE,
+        moveNumber,
+        moveNumber: moveNumber
+    }   
 }
 
 export function startNewGame(color) {
     return {
         type: START_NEW_GAME,
-        color,
         color: color
     }
 }

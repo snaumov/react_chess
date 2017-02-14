@@ -1,10 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Link } from 'react-router';
 import { connect } from 'react-redux'
 import { resign, startNewGame } from '../../Game/actions'
-import { showResignPanel, hideResignPanel, showNewGamePopup, hideNewGamePopup } from '../actions'
-import { chooseExistingNetworkGame, chooseMyNetworkGame, updateCurrentGameID, updateMyGameID, resignNetworkGame } from '../../Arena/actions'
+import { showResignPanel, hideResignPanel, showNewGamePopup } from '../actions'
+import { chooseExistingNetworkGame, updateCurrentGameID, updateMyGameID, resignNetworkGame } from '../../Arena/actions'
 
 import ArenaPanel from '../../Arena/containers/arenaPanelContainer'
 

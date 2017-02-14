@@ -4,7 +4,7 @@ function MovesHeader(props) {
     return (
         <div className="movesHeader">
             <div className="playerNames">
-                <span className="usernameField">{props.whiteSideUsername}</span> <span className="headerVs">vs</span> <span className="usernameField">{props.blackSideUsername}</span>
+                <span className="usernameField">{props.whiteSideUsername}</span> {!props.analysisMode ? <span className="headerVs">vs</span> : <span className="headerVs">Analysis</span> } <span className="usernameField">{props.blackSideUsername}</span>
             </div>
         </div>
     )
@@ -50,7 +50,7 @@ class MovesList extends Component {
 
         return (
             <div className="movesList">
-                <MovesHeader whiteSideUsername={this.props.whiteSideUsername} blackSideUsername={this.props.blackSideUsername}/>
+                <MovesHeader whiteSideUsername={this.props.whiteSideUsername} blackSideUsername={this.props.blackSideUsername} analysisMode={this.props.analysisMode}/>
                 <div className="moves">{moves}</div>
             </div>
             

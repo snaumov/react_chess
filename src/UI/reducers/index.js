@@ -3,7 +3,7 @@ import { SHOW_RESIGN_PANEL, HIDE_RESIGN_PANEL, SHOW_NEW_GAME_POPUP, HIDE_NEW_GAM
 const initialUIState = {
     showResignPanel: false,
     showNewGamePopup: false,
-    newGamePopupLinksTo: 'engine',
+    newGamePopupLinksTo: '/engine',
     analysisMode: false,
     lightBackground: true,
     showUsernameInput: false,
@@ -16,7 +16,7 @@ function ui(state=initialUIState, action) {
             return Object.assign({}, state, {
                 showResignPanel: false,
                 showNewGamePopup: false,
-                newGamePopupLinksTo: 'engine',
+                newGamePopupLinksTo: '/engine',
                 analysisMode: false,
                 showUsernameInput: false,
             })
@@ -38,7 +38,7 @@ function ui(state=initialUIState, action) {
             })
         case CHANGE_POPUP_LINK:
             return Object.assign({}, state, {
-                newGamePopupLinksTo: action.link !== 'network' ? action.link : '/',
+                newGamePopupLinksTo: action.link !== 'network' ? '/' + action.link : '/',
             })
         case CHANGE_BACKGROUND:
             return Object.assign({}, state, {

@@ -37,11 +37,11 @@ class GameArenaComponent extends GameComponent {
     }
 
     render() {
-        const { position, whiteIsNext, availableMoves, history, whiteAtBottom, resigned } = this.props.position
+        const { positionToShow, whiteIsNext, availableMoves, history, whiteAtBottom, resigned } = this.props.position
         return (
         <div className="gameContainer">
             <div className="chessBoard">
-            <Board position={position} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp} whiteAtBottom={whiteAtBottom} resigned={resigned}/>
+            <Board position={positionToShow} whiteIsNext={whiteIsNext} onClick={this.onMouseDown} availableMoves={availableMoves} onMouseUp={this.onMouseUp} whiteAtBottom={whiteAtBottom} resigned={resigned}/>
             </div>
             {this.props.ui.showNewGamePopup ? <NewGamePopup onClick={this.props.ui.newGamePopupLinksTo === '/' ? this.onClickNewNetworkGame : this.onClickNewGame} onChange={this.handlePopupChange} onCloseClick={() => this.props.dispatch(hideNewGamePopup())} newGamePopupLinksTo={this.props.ui.newGamePopupLinksTo} /> : undefined}
             <MovesList history={history} onClick={this.jumpTo} currentMoveNumber={this.props.position.moveNumber} whiteSideUsername={whiteAtBottom ? this.props.ui.username : this.props.arena.opponentName} blackSideUsername={whiteAtBottom ? this.props.arena.opponentName : this.props.ui.username}/>

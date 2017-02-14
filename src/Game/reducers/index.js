@@ -1,11 +1,45 @@
 import { combineReducers } from 'redux'
-import { MAKE_MOVE, UPDATE_START_SQUARE, JUMP_TO, START_NEW_GAME, RESIGN, UPDATE_SHOULD_GET_MOVE } from '../actions'
+import { MAKE_MOVE, UPDATE_START_SQUARE, JUMP_TO, START_NEW_GAME, RESIGN, UPDATE_SHOULD_GET_MOVE, JUMP_TO_ANALYSIS_MODE } from '../actions'
 import Chess from 'chess.js'
 
 
 const initialState = {
     chess: new Chess(),
     position: {
+        a1: 'wRook',
+        b1: 'wKnight',
+        c1: 'wBishop',
+        d1: 'wQueen',
+        e1: 'wKing',
+        f1: 'wBishop',
+        g1: 'wKnight',
+        h1: 'wRook',
+        a2: 'wPawn',
+        b2: 'wPawn',
+        c2: 'wPawn',
+        d2: 'wPawn',
+        e2: 'wPawn',
+        f2: 'wPawn',
+        g2: 'wPawn',
+        h2: 'wPawn',
+        a8: 'bRook',
+        b8: 'bKnight',
+        c8: 'bBishop',
+        d8: 'bQueen',
+        e8: 'bKing',
+        f8: 'bBishop',
+        g8: 'bKnight',
+        h8: 'bRook',
+        a7: 'bPawn',
+        b7: 'bPawn',
+        c7: 'bPawn',
+        d7: 'bPawn',
+        e7: 'bPawn',
+        f7: 'bPawn',
+        g7: 'bPawn',
+        h7: 'bPawn',      
+    },
+    positionToShow: {
         a1: 'wRook',
         b1: 'wKnight',
         c1: 'wBishop',
@@ -135,7 +169,8 @@ function position(state=initialState, action) {
 
 
             return Object.assign({}, state, {
-                    position: newPosition,    
+                    position: newPosition,
+                    positionToShow: newPosition,  
                     whiteIsNext: !state.whiteIsNext,
                     history: [...state.history.slice(0, state.moveNumber), {endSquare: endSquareForHistory[0] !== 'O' ? state.pieceToMoveLetter + endSquareForHistory : endSquareForHistory, position: newPosition, fen: fenAfterMove}],
                     chess: newChess,
@@ -149,14 +184,18 @@ function position(state=initialState, action) {
             })            
         case JUMP_TO:
             return Object.assign({}, state, {
-                position: state.history[action.moveNumber]['position'],
-                chess: new Chess(state.history[action.moveNumber]['fen']),
-                moveNumber: action.moveNumber + 1,
+                positionToShow: state.history[action.moveNumber]['position'],
+                // chess: new Chess(state.history[action.moveNumber]['fen']),
+                // moveNumber: action.moveNumber + 1,
             })
+<<<<<<< Updated upstream
         case UPDATE_SHOULD_GET_MOVE:
             return Object.assign({}, state, {
                 shouldGetMoveAsBlack: !state.shouldGetMoveAsBlack,
             })
+=======
+        case JUMP_TO_ANALYSIS_MODE:
+>>>>>>> Stashed changes
             
         default:
             return state

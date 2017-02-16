@@ -1,5 +1,7 @@
 import { UPDATE_GAME_LIST, UPDATE_MY_GAME_ID, UPDATE_CURRENT_GAME_ID, UPDATE_CURRENT_MOVE, NETWORK_OPPONENT_RESIGNED, UPDATE_OPPONENT_NAME } from '../actions'
 
+const ARENA_ADDR_WS = 'http://localhost:4000/ws/gamelist/'
+
 const arenaInitState = {
     gameList: {},
     myGameID: '',
@@ -9,6 +11,7 @@ const arenaInitState = {
     opponentName: '',
     currentMove: '',
     networkOpponentResigned: false,
+    webSocket: '',
 }
 
 function arena(state=arenaInitState, action) {
@@ -32,6 +35,7 @@ function arena(state=arenaInitState, action) {
                 opponentName: '',
                 currentMove: '',
                 networkOpponentResigned: false,
+                webSocket: '',
             })
         case 'UPDATE_MY_GAME_ID':
             return Object.assign({}, state, {
@@ -43,7 +47,8 @@ function arena(state=arenaInitState, action) {
             })
         case 'UPDATE_CURRENT_GAME_ID':
             return Object.assign({}, state, {
-                currentGameID: action.gameID
+                currentGameID: action.gameID,
+                webSocket: new WebSocket(ARENA_ADDR_WS + action.gameID),
             })
         case 'UPDATE_OPPONENT_NAME':
             return Object.assign({}, state, {

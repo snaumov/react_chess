@@ -14,7 +14,8 @@ export const RESIGN_NETWORK_GAME = 'RESIGN_NETWORK_GAME'
 export const NETWORK_OPPONENT_RESIGNED = 'NETWORK_OPPONENT_RESIGNED'
 
 
-const ARENA_ADDR = 'http://localhost:4000/'
+const ARENA_ADDR = 'http://localhost:4000/';
+const ARENA_ADDR_WS = 'ws://localhost:4000/';
 
 function updateGameList(gameList) {
     return {
@@ -142,6 +143,30 @@ export function getMoveFromServer(gameID, currentMove) {
                 }
 
             })
+    }
+}
+
+// export function sendMoveToServerWS(socket, move) {
+//     return dispatch => {
+//         return fetch(ARENA_ADDR + 'gamelist?makemove=true&gameid=' + gameID + '&move=' + move)
+//             .then(() => {
+//                 dispatch(makeMove(move.slice(2, 4)));
+//                 dispatch(updateCurrentMove(move))
+//             });
+//     }
+// }
+
+export function getMoveFromServerWS(socket, currentMove) {
+    return dispatch => {
+        //var socket = new WebSocket(ARENA_ADDR_WS + 'ws/gamelist/?gameid=' + gameID);
+        socket.onmessage = function(event) {
+            console.log(event.data);
+        }
+        socket.onopen = function() {
+            socket.send('test from client');
+        }
+
+        return 
     }
 }
 

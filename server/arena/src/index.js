@@ -1,7 +1,8 @@
 const guid = require('guid')
-
 const express = require('express')  
 const app = express()  
+var expressWs = require('express-ws')(app);
+
 const port = 4000
 
 var gameList = {}
@@ -97,6 +98,24 @@ app.get('/gamelist', (req, res) => {
     res.json(gameList)
 
 })
+
+app.ws('/ws/gamelist/:gameid', (ws, req) => {
+    ws.on('message', msg => {
+        //console.log(msg, req.query);
+        if(req.query.makemove === 'true'){
+            makeMove(req.params['gameid'], req.query.move);
+            ws.send(gamesInProcess[req.params['gameid']]['currentState']['currentMove']);
+        }
+    })
+})
+
+app.get('/gamelist/:gameid', (req, res) => {
+    res.json(req.params);
+})
+
+// app.param('gameid', function(req, res, next, value){
+//     res.json(value);
+// })
 
 
 

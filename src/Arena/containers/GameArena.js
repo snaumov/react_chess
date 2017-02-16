@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { GameComponent } from '../../Game/containers/Game'
-import { sendMoveToServer, getMoveFromServer, resignNetworkGame, getOpponentNameFromServer } from '../actions'
+import { sendMoveToServer, getMoveFromServer, getMoveFromServerWS, resignNetworkGame, getOpponentNameFromServer } from '../actions'
 import Board from '../../Game/components/chessBoard.js'
 import MovesList from '../../Game/components/movesList.js'
 import NewGamePopup from '../../UI/components/newGamePopup'
@@ -19,8 +19,10 @@ class GameArenaComponent extends GameComponent {
                 return 'Are you sure you want to leave the game? It will be resigned'
             }
         }) 
-        this.moveGetter = setInterval(() => this.props.dispatch(getMoveFromServer(this.props.arena.currentGameID, this.props.arena.currentMove)), 2000);
-        
+        //this.moveGetter = setInterval(() => this.props.dispatch(getMoveFromServer(this.props.arena.currentGameID, this.props.arena.currentMove)), 2000);
+        console.log(this.props.arena.currentGameID);
+        this.props.dispatch(getMoveFromServerWS(this.props.arena.webSocket, this.props.arena.currentMove));
+
         if (this.props.position.moveNumber === 0 && this.props.arena.opponentName === '') {
             this.props.dispatch(getOpponentNameFromServer(this.props.arena.currentGameID, this.props.position.whiteAtBottom ? 'black' : 'white'))   
         }
@@ -28,7 +30,7 @@ class GameArenaComponent extends GameComponent {
     }
 
     componentWillUnmount() {
-        clearInterval(this.moveGetter);
+        //clearInterval(this.moveGetter);
         this.props.dispatch(resignNetworkGame(this.props.arena.currentGameID));
     }
 

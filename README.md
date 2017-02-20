@@ -73,6 +73,10 @@ The backend up will run on http://localhost:4000, if needed, change the address 
 3. [React-router](https://github.com/ReactTraining/react-router)
 4. [chess.js] (https://github.com/jhlywa/chess.js)
 5. [chess-api](https://github.com/ncksllvn/chess-api)
+6. [express-js](http://expressjs.com/)
+7. [webSockets](https://github.com/websockets/ws)
+
+and other.
 
 ##Author
 

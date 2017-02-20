@@ -106,42 +106,12 @@ export function chooseExistingNetworkGame(gameID, opponentName, username) {
     }
 }
 
-export function sendMoveToServer(gameID, move) {
-    return dispatch => {
-        return fetch(ARENA_ADDR + 'gamelist?makemove=true&gameid=' + gameID + '&move=' + move)
-            .then(() => {
-                dispatch(makeMove(move.slice(2, 4)));
-                dispatch(updateCurrentMove(move))
-            });
-    }
-}
-
 export function getOpponentNameFromServer(gameID, color) {
     return dispatch => {
         return fetch(ARENA_ADDR + 'gamelist?getplayername=true&gameid=' + gameID + '&color=' + color)
             .then(response => response.json())
             .then(name => {
                 dispatch(updateOpponentName(name));
-            })
-    }
-}
-
-export function getMoveFromServer(gameID, currentMove) {
-    return dispatch => {
-        return fetch(ARENA_ADDR + 'gamelist?getmove=true&gameid=' + gameID)
-            .then(response => response.json())
-            .then((state) => { 
-                if(!state['resigned']){
-                    state['currentMove'] !== currentMove ? ( 
-                        dispatch(updateStartSquare(state['currentMove'].slice(0, 2))),
-                        dispatch(makeMove(state['currentMove'].slice(2))),
-                        dispatch(updateCurrentMove(state['currentMove'])) 
-                    ) : undefined 
-                } else {
-                    dispatch(networkOpponentResigned());
-                    //dispatch(resign());
-                }
-
             })
     }
 }
@@ -183,10 +153,9 @@ export function getGameStateFromServerWS(socket) {
     }
 }
 
-export function resignNetworkGame(gameID) {
+export function resignNetworkGameWS(socket) {
     return dispatch => {
-        return fetch(ARENA_ADDR + 'gamelist?resign=true&gameid=' + gameID)
-            .then(response => response.json())
-            .then(dispatch(resign()));
+        socket.send('resign');
+        dispatch(resign());
     }
 }

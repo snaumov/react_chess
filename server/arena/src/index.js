@@ -1,7 +1,14 @@
 const guid = require('guid')
-const express = require('express')  
-const app = express()  
-var expressWs = require('express-ws')(app);
+const express = require('express')  ;
+const http = require('http');
+const WebSocket = require('ws');
+const url = require('url');
+const app = express();
+
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ 
+    server, 
+});
 
 const port = 4000
 
@@ -76,22 +83,12 @@ app.get('/', (req, res) => {
 })
 
 app.get('/gamelist', (req, res) => {
-    console.log(gamesInProcess);
+    //console.log(gamesInProcess);
     if (req.query.create === 'true') {
         res.json(createNewGame(color=req.query.color, username=req.query.username));
         return
     } else if (req.query.choose === 'true') {
         res.json(chooseExistingGame(req.query.gameid, req.query.username))
-        return
-    } else if (req.query.makemove === 'true') {
-        makeMove(req.query.gameid, req.query.move);
-        res.sendStatus(200);
-        return
-    } else if (req.query.getmove === 'true') {
-        res.json(getMove(req.query.gameid));
-        return
-    } else if (req.query.resign === 'true') {
-        resignGame(req.query.gameid);
         return
     } else if (req.query.getplayername === 'true') {
         res.json(getPlayerName(req.query.gameid, req.query.color));
@@ -101,50 +98,48 @@ app.get('/gamelist', (req, res) => {
 
 })
 
+wss.on('connection', (ws) => {
+    console.log('upgrade_req', ws.upgradeReq.url);
+    const gameId = ws.upgradeReq.url.slice(1);
+    if (!activeWSConnections[gameId]) {
+       activeWSConnections[gameId] = {};
+    } 
+    var id = Math.random();
+    activeWSConnections[gameId][id] = ws;
+    console.log('activeWSConnections', activeWSConnections)
 
-
-app.ws('/ws/gamelist/:gameid', (ws, req) => {
-    // ws.broadcast = function broadcast(data) {
-    //     ws.clients.forEach(function each(client) {
-    //         //if (client.readyState === WebSocket.OPEN) {
-    //         client.send(data);
-    //         //}
-    //     });
-    // };
-
-    ws.on('connection', function(webSocket) {
-        var id = Math.random();
-        activeWSConnections[req.params['gameid']][id] = webSocket;
-    })
 
     ws.on('message', msg => {
         console.log(msg, msg.length);
         if(msg.length === 4){
-            makeMove(req.params['gameid'], msg);
-            console.log(gamesInProcess[req.params['gameid']]['currentState']);
+            makeMove(gameId, msg);
 
-            for (var key in activeWSConnections[req.params['gameid']]){
-                 setInterval(() => ws.send(JSON.stringify(gamesInProcess[req.params['gameid']]['currentState'])), 2000);
+            for (var userId in activeWSConnections[gameId]){
+                console.log(userId);
+                activeWSConnections[gameId][userId].send(JSON.stringify(gamesInProcess[gameId]['currentState']));
+                console.log('sentTo:', userId);
             }
-            // ws.clients.forEach(function each(client) {
-            //     setInterval(() => ws.send(JSON.stringify(gamesInProcess[req.params['gameid']]['currentState'])), 2000);
-            // })
-            
+        } else if (msg === 'resign') {
+            console.log('resigned');
+            resignGame(gameId);
+            for (var userId in activeWSConnections[gameId]){
+                console.log(userId);
+                activeWSConnections[gameId][userId].send(JSON.stringify(gamesInProcess[gameId]['currentState']));
+                console.log('sentTo:', userId);
+            }
         }
-    })
 })
+})
+
 
 app.get('/gamelist/:gameid', (req, res) => {
     res.json(req.params);
 })
 
-// app.param('gameid', function(req, res, next, value){
-//     res.json(value);
-// })
 
 
 
-app.listen(port, (err) => {  
+server.listen(port, (err) => {  
   if (err) {
     return console.log('something bad happened', err)
   }

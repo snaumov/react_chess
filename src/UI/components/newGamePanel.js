@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { resign, startNewGame } from '../../Game/actions'
 import { showResignPanel, hideResignPanel, showNewGamePopup } from '../actions'
-import { chooseExistingNetworkGame, updateCurrentGameID, updateMyGameID, resignNetworkGame } from '../../Arena/actions'
+import { chooseExistingNetworkGame, updateCurrentGameID, updateMyGameID, resignNetworkGameWS } from '../../Arena/actions'
 
 import ArenaPanel from '../../Arena/containers/arenaPanelContainer'
 
@@ -111,7 +111,7 @@ class NewGamePanelInNetworkGameViewComponent extends NewGamePanelInGameViewCompo
     }
 
     onResignClick() {
-        this.props.dispatch(resignNetworkGame(this.props.arena.currentGameID))
+        this.props.dispatch(resignNetworkGameWS(this.props.arena.webSocket))
     }
 
     render() {

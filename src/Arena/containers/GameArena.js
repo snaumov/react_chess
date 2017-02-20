@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { GameComponent } from '../../Game/containers/Game'
-import { sendMoveToServer, getMoveFromServer, getMoveFromServerWS, resignNetworkGame, getOpponentNameFromServer } from '../actions'
+import { sendMoveToServer, getMoveFromServer, getGameStateFromServerWS, sendMoveToServerWS, resignNetworkGame, getOpponentNameFromServer } from '../actions'
 import Board from '../../Game/components/chessBoard.js'
 import MovesList from '../../Game/components/movesList.js'
 import NewGamePopup from '../../UI/components/newGamePopup'
@@ -20,13 +20,19 @@ class GameArenaComponent extends GameComponent {
             }
         }) 
         //this.moveGetter = setInterval(() => this.props.dispatch(getMoveFromServer(this.props.arena.currentGameID, this.props.arena.currentMove)), 2000);
-        console.log(this.props.arena.currentGameID);
-        this.props.dispatch(getMoveFromServerWS(this.props.arena.webSocket, this.props.arena.currentMove));
-
+        //this.props.dispatch(getGameStateFromServerWS(this.props.arena.webSocket, this.props.arena.currentMove));
         if (this.props.position.moveNumber === 0 && this.props.arena.opponentName === '') {
             this.props.dispatch(getOpponentNameFromServer(this.props.arena.currentGameID, this.props.position.whiteAtBottom ? 'black' : 'white'))   
         }
     
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log(this.props.arena.webSocket.onmessage, nextProps.arena.webSocket.onmessage);
+        if(!this.props.arena.webSocket.onmessage && nextProps.arena.webSocket !== '') {
+            this.props.dispatch(getGameStateFromServerWS(nextProps.arena.webSocket));
+        }
+
     }
 
     componentWillUnmount() {
@@ -35,7 +41,7 @@ class GameArenaComponent extends GameComponent {
     }
 
     onMouseUp(endSquare) {
-        this.props.dispatch(sendMoveToServer(this.props.arena.currentGameID, this.props.position.startSquare + endSquare))
+        this.props.dispatch(sendMoveToServerWS(this.props.arena.webSocket, this.props.position.startSquare + endSquare))
     }
 
     render() {

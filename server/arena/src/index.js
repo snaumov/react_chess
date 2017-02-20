@@ -9,6 +9,8 @@ var gameList = {}
 
 var gamesInProcess = {}
 
+var activeWSConnections = {}
+
 var createNewGame = (color, username) => {
     var newGuid = guid.raw();
     gameList[newGuid] = {user: username, color: color === 'white' ? 'black' : 'white'};
@@ -99,12 +101,35 @@ app.get('/gamelist', (req, res) => {
 
 })
 
+
+
 app.ws('/ws/gamelist/:gameid', (ws, req) => {
+    // ws.broadcast = function broadcast(data) {
+    //     ws.clients.forEach(function each(client) {
+    //         //if (client.readyState === WebSocket.OPEN) {
+    //         client.send(data);
+    //         //}
+    //     });
+    // };
+
+    ws.on('connection', function(webSocket) {
+        var id = Math.random();
+        activeWSConnections[req.params['gameid']][id] = webSocket;
+    })
+
     ws.on('message', msg => {
-        //console.log(msg, req.query);
-        if(req.query.makemove === 'true'){
-            makeMove(req.params['gameid'], req.query.move);
-            ws.send(gamesInProcess[req.params['gameid']]['currentState']['currentMove']);
+        console.log(msg, msg.length);
+        if(msg.length === 4){
+            makeMove(req.params['gameid'], msg);
+            console.log(gamesInProcess[req.params['gameid']]['currentState']);
+
+            for (var key in activeWSConnections[req.params['gameid']]){
+                 setInterval(() => ws.send(JSON.stringify(gamesInProcess[req.params['gameid']]['currentState'])), 2000);
+            }
+            // ws.clients.forEach(function each(client) {
+            //     setInterval(() => ws.send(JSON.stringify(gamesInProcess[req.params['gameid']]['currentState'])), 2000);
+            // })
+            
         }
     })
 })

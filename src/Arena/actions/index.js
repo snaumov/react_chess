@@ -146,27 +146,40 @@ export function getMoveFromServer(gameID, currentMove) {
     }
 }
 
-// export function sendMoveToServerWS(socket, move) {
-//     return dispatch => {
-//         return fetch(ARENA_ADDR + 'gamelist?makemove=true&gameid=' + gameID + '&move=' + move)
-//             .then(() => {
-//                 dispatch(makeMove(move.slice(2, 4)));
-//                 dispatch(updateCurrentMove(move))
-//             });
-//     }
-// }
+var currentMoveCached = '';
 
-export function getMoveFromServerWS(socket, currentMove) {
+export function sendMoveToServerWS(socket, move) {
+    return dispatch => {
+        socket.send(move);
+        dispatch(makeMove(move.slice(2, 4)));
+        dispatch(updateCurrentMove(move));
+        currentMoveCached = move;
+    }
+}
+
+export function getGameStateFromServerWS(socket) {
     return dispatch => {
         //var socket = new WebSocket(ARENA_ADDR_WS + 'ws/gamelist/?gameid=' + gameID);
-        socket.onmessage = function(event) {
-            console.log(event.data);
-        }
-        socket.onopen = function() {
-            socket.send('test from client');
-        }
+        socket.onmessage = msg => {
+            console.log(msg.data);
+            var parsedMsg = JSON.parse(msg.data);
+            console.log(JSON.parse(msg.data));
+            if(!parsedMsg['resigned']) {
+                if (parsedMsg['currentMove'] !== currentMoveCached ){
+                    dispatch(updateStartSquare(parsedMsg['currentMove'].slice(0, 2)));
+                    dispatch(makeMove(parsedMsg['currentMove'].slice(2)));
+                    dispatch(updateCurrentMove(parsedMsg['currentMove'])) 
+                    currentMoveCached = parsedMsg['currentMove'];
+                }
 
-        return 
+            } else {
+                dispatch(networkOpponentResigned());                
+            }
+
+        }
+        // socket.onopen = function() {
+        //     socket.send('test from client');
+        // }
     }
 }
 

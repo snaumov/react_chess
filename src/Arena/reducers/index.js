@@ -1,6 +1,6 @@
 import { UPDATE_GAME_LIST, UPDATE_MY_GAME_ID, UPDATE_CURRENT_GAME_ID, UPDATE_CURRENT_MOVE, NETWORK_OPPONENT_RESIGNED, UPDATE_OPPONENT_NAME } from '../actions'
 
-const ARENA_ADDR_WS = 'http://localhost:4000/ws/gamelist/'
+const ARENA_ADDR_WS = 'ws://localhost:4000/ws/gamelist/'
 
 const arenaInitState = {
     gameList: {},

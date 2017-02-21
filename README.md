@@ -53,8 +53,10 @@ UI features:
 
 Download archive, then
 
-`npm install`
-`npm start`
+```
+npm install
+npm start
+```
 
 to install frontend application
 
@@ -62,7 +64,6 @@ to install frontend application
 cd server/arena
 npm install 
 node src/index.js
-
 ```
 
 to install backend app

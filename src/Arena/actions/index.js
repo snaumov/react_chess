@@ -14,8 +14,8 @@ export const RESIGN_NETWORK_GAME = 'RESIGN_NETWORK_GAME'
 export const NETWORK_OPPONENT_RESIGNED = 'NETWORK_OPPONENT_RESIGNED'
 
 
-const ARENA_ADDR = 'http://localhost:4000/';
-const ARENA_ADDR_WS = 'ws://localhost:4000/';
+const ARENA_ADDR = 'https://boiling-meadow-54174.herokuapp.com/';
+const ARENA_ADDR_WS = 'wss://boiling-meadow-54174.herokuapp.com/';
 
 function updateGameList(gameList) {
     return {

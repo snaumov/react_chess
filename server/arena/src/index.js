@@ -66,9 +66,11 @@ var resignGame = (gameID) => {
 }
 
 app.use(function (req, res, next) {
-
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-
+    var allowedOrigins = ['http://localhost:3000', 'https://snaumov.github.io'];
+    var origin = req.headers.origin;
+    if(allowedOrigins.indexOf(origin) > -1){
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
@@ -139,7 +141,7 @@ app.get('/gamelist/:gameid', (req, res) => {
 
 
 
-server.listen(port, (err) => {  
+server.listen((process.env.PORT || port), (err) => {  
   if (err) {
     return console.log('something bad happened', err)
   }

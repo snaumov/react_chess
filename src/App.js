@@ -7,7 +7,7 @@ import GameAnalysis from './Game/containers/GameAnalysis';
 import GameArena from './Arena/containers/GameArena';
 import { NewGamePanel, NewGamePanelInGameView, NewGamePanelInNetworkGameView } from './UI/components/newGamePanel';
 import Header from './UI/components/header'
-import './App.sass';
+import './App.css';
 
 class AppMainView extends React.Component {
     render() {
@@ -71,7 +71,7 @@ class AppComponent extends React.Component {
     render() {
         return (
             <div className={this.props.ui.lightBackground ? "App lightBackground" : "App darkBackground"}>
-                <Router history={browserHistory}>
+                <Router history={hashHistory}>
                     <Route path="/" component={AppMainView} />
                     <Route path="/engine" component={AppInGameView} />
                     <Route path="/analysis" component={AppAnalysisView} />

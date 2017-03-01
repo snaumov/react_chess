@@ -2,6 +2,10 @@
 
 Chess game written in React
 
+## Demo
+
+https://snaumov.github.io/react_chess
+
 ##Description (a.k.a "ТЗ")
 
 Chess app, written with React & Redux. 

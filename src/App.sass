@@ -269,55 +269,55 @@ div[class^="board-row"]
       color: #555
 
 .newGameButton, .resignButton, .myGamePilePlayButton
-	-moz-box-shadow:inset 0px 1px 0px 0px #a6827e
-	-webkit-box-shadow:inset 0px 1px 0px 0px #a6827e
-	box-shadow:inset 0px 1px 0px 0px #a6827e
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #9e764d), color-stop(1, #a3784a))
-	background:-moz-linear-gradient(top, #9e764d 5%, #a3784a 100%)
-	background:-webkit-linear-gradient(top, #9e764d 5%, #a3784a 100%)
-	background:-o-linear-gradient(top, #9e764d 5%, #a3784a 100%)
-	background:-ms-linear-gradient(top, #9e764d 5%, #a3784a 100%)
-	background:linear-gradient(to bottom, #9e764d 5%, #a3784a 100%)
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9e764d', endColorstr='#a3784a',GradientType=0)
-	background-color: #9e764d
-	-moz-border-radius: 3px
-	-webkit-border-radius: 3px
-	border-radius: 3px
-	border: 1px solid #54381e
-	display: inline-block
-	cursor:pointer
-	color:#ffffff
-	font-family:Arial
-	font-weight:bold
-	text-decoration: none
-	text-shadow: 0px 1px 0px #4d3534
+  -moz-box-shadow: inset 0px 1px 0px 0px #a6827e
+  -webkit-box-shadow: inset 0px 1px 0px 0px #a6827e
+  box-shadow: inset 0px 1px 0px 0px #a6827e
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #9e764d), color-stop(1, #a3784a))
+  background: -moz-linear-gradient(top, #9e764d 5%, #a3784a 100%)
+  background: -webkit-linear-gradient(top, #9e764d 5%, #a3784a 100%)
+  background: -o-linear-gradient(top, #9e764d 5%, #a3784a 100%)
+  background: -ms-linear-gradient(top, #9e764d 5%, #a3784a 100%)
+  background: linear-gradient(to bottom, #9e764d 5%, #a3784a 100%)
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9e764d', endColorstr='#a3784a',GradientType=0)
+  background-color: #9e764d
+  -moz-border-radius: 3px
+  -webkit-border-radius: 3px
+  border-radius: 3px
+  border: 1px solid #54381e
+  display: inline-block
+  cursor:pointer
+  color: #ffffff
+  font-family: Arial
+  font-weight: bold
+  text-decoration: none
+  text-shadow: 0px 1px 0px #4d3534
 
 .newGameButton
-	font-size: 16px
-	padding: 8px 26px
+  font-size: 16px
+  padding: 8px 26px
 
 .resignButton
-	font-size: 12px
-	padding: 4px 13px
+  font-size: 12px
+  padding: 4px 13px
 
 .myGamePilePlayButton
-	font-size: 12px
-	padding: 4px 13px
+  font-size: 12px
+  padding: 4px 13px
   height: 10px
 
 .newGameButton:hover, .resignButton:hover, .myGamePilePlayButton:hover
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a3784a), color-stop(1, #9e764d))
-	background: -moz-linear-gradient(top, #a3784a 5%, #9e764d 100%)
-	background: -webkit-linear-gradient(top, #a3784a 5%, #9e764d 100%)
-	background: -o-linear-gradient(top, #a3784a 5%, #9e764d 100%)
-	background: -ms-linear-gradient(top, #a3784a 5%, #9e764d 100%)
-	background: linear-gradient(to bottom, #a3784a 5%, #9e764d 100%)
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a3784a', endColorstr='#9e764d',GradientType=0)
-	background-color: #a3784a
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a3784a), color-stop(1, #9e764d))
+  background: -moz-linear-gradient(top, #a3784a 5%, #9e764d 100%)
+  background: -webkit-linear-gradient(top, #a3784a 5%, #9e764d 100%)
+  background: -o-linear-gradient(top, #a3784a 5%, #9e764d 100%)
+  background: -ms-linear-gradient(top, #a3784a 5%, #9e764d 100%)
+  background: linear-gradient(to bottom, #a3784a 5%, #9e764d 100%)
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a3784a', endColorstr='#9e764d',GradientType=0)
+  background-color: #a3784a
 
 .newGameButton:active, .resignButton:active, .myGamePilePlayButton:active
-	position: relative
-	top: 1px
+  position: relative
+  top: 1px
 
 
 //arenaPanel
@@ -370,25 +370,25 @@ div[class^="board-row"]
 
   .myGamePile 
     .loader 
-        margin: 3px 3px 0 0 
-        border: 2px solid rgba(212, 212, 212, 0)
-        border-top: 2px solid #3498db 
-        border-right: 2px solid #3498db 
-        border-radius: 52%
-        width: 17px
-        height: 17px
-        animation: spin 2s linear infinite
+      margin: 3px 3px 0 0 
+      border: 2px solid rgba(212, 212, 212, 0)
+      border-top: 2px solid #3498db 
+      border-right: 2px solid #3498db 
+      border-radius: 52%
+      width: 17px
+      height: 17px
+      animation: spin 2s linear infinite
     @-webkit-keyframes spin 
-        0% 
-          -webkit-transform: rotate(0deg)
-        100% 
-          -webkit-transform: rotate(360deg)
+      0% 
+        -webkit-transform: rotate(0deg)
+      100% 
+        -webkit-transform: rotate(360deg)
 
     @keyframes spin
-        0%  
-          transform: rotate(0deg) 
-        100%  
-          transform: rotate(360deg) 
+      0%  
+        transform: rotate(0deg) 
+      100%  
+        transform: rotate(360deg) 
 
       
 
@@ -396,7 +396,7 @@ div[class^="board-row"]
 @media (max-width: 1090px)
   .newGamePanel
     margin-right: 15px
-  
+
   .gameContainer
     width: 800px
   .chessBoard

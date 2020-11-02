@@ -6,7 +6,7 @@ Chess game written in React
 
 https://snaumov.github.io/react_chess
 
-##Description (a.k.a "ТЗ")
+## Description (a.k.a "ТЗ")
 
 Chess app, written with React & Redux. 
 
@@ -53,7 +53,7 @@ UI features:
 1. Can see game history and navigate back and forth in time
 2. Can change username
 
-##Install instructions
+## Install instructions
 
 Download archive, then
 
@@ -74,7 +74,7 @@ to install backend app
 
 The backend up will run on http://localhost:4000, if needed, change the address for web-app at *src/Arena/actions/index.js: const ARENA_ADDR*
 
-##Used Open source applications and libraries
+## Used Open source applications and libraries
 
 1. [React](https://facebook.github.io/react/)
 2. [Redux](http://redux.js.org)
@@ -86,6 +86,6 @@ The backend up will run on http://localhost:4000, if needed, change the address 
 
 and other.
 
-##Author
+## Author
 
 Stepan Naumov
